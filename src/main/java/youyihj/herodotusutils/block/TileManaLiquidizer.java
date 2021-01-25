@@ -7,6 +7,8 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
+import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.fluids.capability.IFluidTankProperties;
 import vazkii.botania.api.mana.IManaReceiver;
 import youyihj.herodotusutils.fluid.FluidMana;
 
@@ -43,8 +45,9 @@ public class TileManaLiquidizer extends TileEntity implements IManaReceiver {
 
     @Override
     public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing) {
-        if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY)
+        if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
             return true;
+        }
         return super.hasCapability(capability, facing);
     }
 
@@ -52,7 +55,33 @@ public class TileManaLiquidizer extends TileEntity implements IManaReceiver {
     @Override
     public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing) {
         if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
-            return CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.cast(fluidHandler);
+            if (facing == null) {
+                return CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.cast(fluidHandler);
+            } else {
+                return CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.cast(new IFluidHandler() {
+                    @Override
+                    public IFluidTankProperties[] getTankProperties() {
+                        return fluidHandler.getTankProperties();
+                    }
+
+                    @Override
+                    public int fill(FluidStack resource, boolean doFill) {
+                        return 0;
+                    }
+
+                    @Nullable
+                    @Override
+                    public FluidStack drain(FluidStack resource, boolean doDrain) {
+                        return fluidHandler.drain(resource, doDrain);
+                    }
+
+                    @Nullable
+                    @Override
+                    public FluidStack drain(int maxDrain, boolean doDrain) {
+                        return fluidHandler.drain(maxDrain, doDrain);
+                    }
+                });
+            }
         }
         return super.getCapability(capability, facing);
     }
