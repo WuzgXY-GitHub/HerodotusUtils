@@ -1,0 +1,19 @@
+[
+  {
+    "modid": "herodotusutils",
+    "name": "HerodotusUtils",
+    "description": "A mod for modpack Herodotus ",
+    "version": "${version}",
+    "mcversion": "${mcversion}",
+    "url": "",
+    "updateUrl": "",
+    "authorList": [
+      "youyihj",
+      "Gary"
+    ],
+    "credits": "",
+    "logoFile": "",
+    "screenshots": [],
+    "dependencies": []
+  }
+]
