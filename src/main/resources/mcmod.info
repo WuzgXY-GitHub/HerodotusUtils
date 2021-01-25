@@ -1,6 +1,6 @@
 [
   {
-    "modid": "herodotusutils",
+    "modid": "hdsutils",
     "name": "HerodotusUtils",
     "description": "A mod for modpack Herodotus ",
     "version": "${version}",
@@ -8,10 +8,9 @@
     "url": "",
     "updateUrl": "",
     "authorList": [
-      "youyihj",
-      "Gary"
+      "youyihj"
     ],
-    "credits": "",
+    "credits": "GBL Jr.",
     "logoFile": "",
     "screenshots": [],
     "dependencies": []

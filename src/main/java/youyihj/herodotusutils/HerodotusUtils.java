@@ -16,7 +16,7 @@ import youyihj.herodotusutils.fluid.FluidMana;
 )
 public class HerodotusUtils {
 
-    public static final String MOD_ID = "herodotusutils";
+    public static final String MOD_ID = "hdsutils";
     public static final String MOD_NAME = "HerodotusUtils";
     public static final String VERSION = "1.0";
 

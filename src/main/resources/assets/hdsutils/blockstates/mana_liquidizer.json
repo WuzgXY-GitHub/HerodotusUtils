@@ -2,8 +2,8 @@
   "forge_marker": 1,
   "defaults": {
     "textures": {
-      "all": "herodotusutils:blocks/mana_liquidizer",
-      "particle": "herodotusutils:blocks/mana_liquidizer"
+      "all": "hdsutils:blocks/mana_liquidizer",
+      "particle": "hdsutils:blocks/mana_liquidizer"
     },
     "model": "minecraft:cube_all",
     "uvlock": true
