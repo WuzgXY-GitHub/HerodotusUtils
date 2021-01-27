@@ -1,2 +1,5 @@
 fluid.fluid_mana=液态魔力
+fluid.mercury=水银
 tile.hdsutils.mana_liquidizer.name=魔力液化器
+item.hdsutils.refined_bottle.name=强化玻璃瓶（%s）
+hdsutils.empty=空

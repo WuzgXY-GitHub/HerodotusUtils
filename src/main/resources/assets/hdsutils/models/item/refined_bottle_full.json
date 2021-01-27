@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "hdsutils:items/refined_bottle",
+    "layer1": "hdsutils:items/refined_bottle_fluid"
+  }
+}

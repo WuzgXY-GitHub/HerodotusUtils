@@ -1,0 +1,17 @@
+{
+  "parent": "minecraft:builtin/generated",
+  "textures": {
+    "layer0": "hdsutils:items/refined_bottle"
+  },
+  "overrides": [
+    { "predicate": { "hdsutils:refined_bottle_predicate": 0.0 }, "model": "hdsutils:item/refined_bottle_empty" },
+    { "predicate": { "hdsutils:refined_bottle_predicate": 1.0 }, "model": "hdsutils:item/refined_bottle_full" }
+  ],
+  "variants": {
+    "inventory": [
+      {
+        "transform": "forge:default-item"
+      }
+    ]
+  }
+}

@@ -8,6 +8,7 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import youyihj.herodotusutils.fluid.FluidMana;
+import youyihj.herodotusutils.fluid.FluidMercury;
 
 @Mod(
         modid = HerodotusUtils.MOD_ID,
@@ -42,6 +43,7 @@ public class HerodotusUtils {
     @Mod.EventHandler
     public void preinit(FMLPreInitializationEvent event) {
         FluidRegistry.registerFluid(FluidMana.INSTANCE);
+        FluidRegistry.registerFluid(FluidMercury.INSTANCE);
         FluidRegistry.addBucketForFluid(FluidMana.INSTANCE);
     }
 

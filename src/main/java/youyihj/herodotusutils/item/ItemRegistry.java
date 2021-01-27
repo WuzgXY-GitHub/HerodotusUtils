@@ -14,5 +14,6 @@ public class ItemRegistry {
     @SubscribeEvent
     public static void register(RegistryEvent.Register<Item> event) {
         event.getRegistry().register(BlockManaLiquidizer.ITEM_BLOCK);
+        event.getRegistry().register(RefinedBottle.INSTANCE);
     }
 }
