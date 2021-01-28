@@ -40,11 +40,21 @@ repositories {
         name = "thiakil"
         url = "http://maven.thiakil.com"
     }
+    maven {
+        name = 'blamejared'
+        url = 'https://maven.blamejared.com'
+    }
+    maven {
+        name = "cofh"
+        url = "https://maven.covers1624.net"
+    }
 }
 
 dependencies {
     deobfCompile "vazkii.botania:Botania:r1.10-363.148"
     deobfCompile "com.azanor.baubles:Baubles:1.12-1.5.2"
+    deobfCompile "CraftTweaker2:CraftTweaker2-MC1120-Main:1.12-4.1.20.614"
+    deobfCompile "cofh:RedstoneFlux:1.12-2.1.0.+:universal"
 }
 
 processResources {

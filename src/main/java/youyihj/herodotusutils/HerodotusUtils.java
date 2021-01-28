@@ -45,6 +45,7 @@ public class HerodotusUtils {
         FluidRegistry.registerFluid(FluidMana.INSTANCE);
         FluidRegistry.registerFluid(FluidMercury.INSTANCE);
         FluidRegistry.addBucketForFluid(FluidMana.INSTANCE);
+        FluidRegistry.addBucketForFluid(FluidMercury.INSTANCE);
     }
 
     /**
