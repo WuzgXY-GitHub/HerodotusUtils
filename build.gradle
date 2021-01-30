@@ -52,6 +52,10 @@ repositories {
         name 'tterrag maven'
         url "http://maven.tterrag.com/"
     }
+    maven {
+        name = 'youyihj'
+        url  "https://dl.bintray.com/youyihj/maven"
+    }
 }
 
 dependencies {
@@ -60,6 +64,7 @@ dependencies {
     deobfCompile "CraftTweaker2:CraftTweaker2-MC1120-Main:1.12-4.1.20.614"
     deobfCompile "cofh:RedstoneFlux:1.12-2.1.0.+:universal"
     deobfCompile "mcjty.theoneprobe:TheOneProbe-1.12:1.12-1.4.28-17"
+    deobfCompile "youyihj:zenutils:1.6.3"
 }
 
 processResources {
