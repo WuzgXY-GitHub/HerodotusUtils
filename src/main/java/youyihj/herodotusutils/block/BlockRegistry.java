@@ -7,6 +7,7 @@ import net.minecraftforge.fluids.BlockFluidClassic;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.registries.IForgeRegistry;
 import youyihj.herodotusutils.HerodotusUtils;
 import youyihj.herodotusutils.fluid.FluidMana;
 
@@ -19,9 +20,19 @@ public class BlockRegistry {
 
     @SubscribeEvent
     public static void register(RegistryEvent.Register<Block> event) {
-        event.getRegistry().register(FLUID_MANA_BLOCK);
-        event.getRegistry().register(BlockMercury.INSTANCE);
-        event.getRegistry().register(BlockManaLiquidizer.INSTANCE);
+        IForgeRegistry<Block> registry = event.getRegistry();
+        registry.register(FLUID_MANA_BLOCK);
+        registry.register(BlockMercury.INSTANCE);
+        registry.register(BlockManaLiquidizer.INSTANCE);
+        registry.register(PlainBlock.STRUCTURE_BLOCK_1);
+        registry.register(PlainBlock.STRUCTURE_BLOCK_2);
+        registry.register(PlainBlock.STRUCTURE_BLOCK_3);
+        registry.register(BlockCalculatorController.CONTROLLER_1);
+        registry.register(BlockCalculatorController.CONTROLLER_2);
+        registry.register(BlockCalculatorController.CONTROLLER_3);
+        registry.register(BlockComputingModule.INSTANCE);
         GameRegistry.registerTileEntity(TileManaLiquidizer.class, HerodotusUtils.rl("mana_liquidizer"));
+        GameRegistry.registerTileEntity(TileCalculatorController.class, HerodotusUtils.rl("calculator_controller"));
+        GameRegistry.registerTileEntity(TileComputingModule.class, HerodotusUtils.rl("computing_module"));
     }
 }

@@ -3,10 +3,8 @@ package youyihj.herodotusutils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.event.FMLConstructionEvent;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.*;
+import youyihj.herodotusutils.computing.ComputingUnitHandler;
 import youyihj.herodotusutils.fluid.FluidMana;
 import youyihj.herodotusutils.fluid.FluidMercury;
 
@@ -46,6 +44,8 @@ public class HerodotusUtils {
         FluidRegistry.registerFluid(FluidMercury.INSTANCE);
         FluidRegistry.addBucketForFluid(FluidMana.INSTANCE);
         FluidRegistry.addBucketForFluid(FluidMercury.INSTANCE);
+        ComputingUnitHandler.register();
+        FMLInterModComms.sendFunctionMessage("theoneprobe", "getTheOneProbe", "youyihj.herodotusutils.theoneprobe.TOPHandler");
     }
 
     /**

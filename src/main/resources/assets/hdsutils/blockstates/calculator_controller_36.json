@@ -1,0 +1,18 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "textures": {
+      "all": "hdsutils:blocks/calculator_controller_36",
+      "particle": "hdsutils:blocks/calculator_controller_36"
+    },
+    "model": "minecraft:cube_all"
+  },
+  "variants": {
+    "normal": [
+      {}
+    ],
+    "inventory": [
+      {}
+    ]
+  }
+}

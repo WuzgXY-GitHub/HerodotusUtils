@@ -48,6 +48,10 @@ repositories {
         name = "cofh"
         url = "https://maven.covers1624.net"
     }
+    maven {
+        name 'tterrag maven'
+        url "http://maven.tterrag.com/"
+    }
 }
 
 dependencies {
@@ -55,6 +59,7 @@ dependencies {
     deobfCompile "com.azanor.baubles:Baubles:1.12-1.5.2"
     deobfCompile "CraftTweaker2:CraftTweaker2-MC1120-Main:1.12-4.1.20.614"
     deobfCompile "cofh:RedstoneFlux:1.12-2.1.0.+:universal"
+    deobfCompile "mcjty.theoneprobe:TheOneProbe-1.12:1.12-1.4.28-17"
 }
 
 processResources {

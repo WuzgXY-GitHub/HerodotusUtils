@@ -1,5 +1,15 @@
 fluid.fluid_mana=Fluid Mana
 fluid.mercury=Mercury
 tile.hdsutils.mana_liquidizer.name=Mana Liquidizer
+tile.hdsutils.structure_block_1.name=Calculator Structure Block One
+tile.hdsutils.structure_block_2.name=Calculator Structure Block Two
+tile.hdsutils.structure_block_3.name=Calculator Structure Block Three
+tile.hdsutils.calculator_controller_4.name=Calculator Controller (Lv.1)
+tile.hdsutils.calculator_controller_36.name=Calculator Controller (Lv.2)
+tile.hdsutils.calculator_controller_240.name=Calculator Controller (Lv.3)
+tile.hdsutils.computing_module.name=Computing Module
 item.hdsutils.refined_bottle.name=Refined Glass Bottle (%s)
 hdsutils.empty=Empty
+hdsutils.computing_unit.bar=Computing Unit: %s / %s
+hdsutils.computing_unit.generate=Generating %s Computing Unit
+hdsutils.computing_unit.consume=Consuming %s Computing Unit

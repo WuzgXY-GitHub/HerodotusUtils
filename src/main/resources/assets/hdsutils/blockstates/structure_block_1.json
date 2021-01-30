@@ -1,0 +1,19 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "textures": {
+      "all": "hdsutils:blocks/structure_block_1",
+      "particle": "hdsutils:blocks/structure_block_1"
+    },
+    "model": "minecraft:cube_all",
+    "uvlock": true
+  },
+  "variants": {
+    "normal": [
+      {}
+    ],
+    "inventory": [
+      {}
+    ]
+  }
+}
