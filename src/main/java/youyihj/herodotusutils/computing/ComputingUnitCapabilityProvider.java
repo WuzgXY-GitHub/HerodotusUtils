@@ -11,7 +11,7 @@ import javax.annotation.Nullable;
  * @author youyihj
  */
 public class ComputingUnitCapabilityProvider implements ICapabilityProvider {
-    private IComputingUnit computingUnit = new IComputingUnit.Impl();
+    private final IComputingUnit computingUnit = new IComputingUnit.Impl();
 
     @Override
     public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {

@@ -117,7 +117,7 @@ public class TileCalculatorController extends TileEntity implements ITickable, I
 
     @Override
     public void update() {
-        if (world.getTotalWorldTime() % 20 != 0)
+        if (world.getTotalWorldTime() % 20 != 8)
             return;
         generateToChunk(world, pos);
     }
