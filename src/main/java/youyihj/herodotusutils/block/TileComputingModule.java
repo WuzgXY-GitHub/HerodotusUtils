@@ -30,6 +30,11 @@ public class TileComputingModule extends TileEntity implements ITickable {
             TileComputingModule.this.markDirty();
             TileComputingModule.this.needRecalc = true;
         }
+
+        @Override
+        public int getSlotLimit(int slot) {
+            return 1;
+        }
     };
 
     @Override
@@ -75,7 +80,9 @@ public class TileComputingModule extends TileEntity implements ITickable {
                 .filter(info -> info.getClip().isItemEqual(stack))
                 .findFirst()
                 .orElse(null);
-        world.notifyBlockUpdate(pos, world.getBlockState(pos), world.getBlockState(pos), Constants.BlockFlags.SEND_TO_CLIENTS);
+        if (world != null) {
+            world.notifyBlockUpdate(pos, world.getBlockState(pos), world.getBlockState(pos), Constants.BlockFlags.SEND_TO_CLIENTS);
+        }
     }
 
     @Nullable

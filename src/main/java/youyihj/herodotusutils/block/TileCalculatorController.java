@@ -99,6 +99,9 @@ public class TileCalculatorController extends TileEntity implements ITickable, I
 
     private int capacity;
 
+    public TileCalculatorController() {
+    }
+
     public TileCalculatorController(int capacity) {
         this.capacity = capacity;
     }

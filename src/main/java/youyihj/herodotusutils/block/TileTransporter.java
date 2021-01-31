@@ -15,6 +15,9 @@ public class TileTransporter extends TileEntity implements ITickable, IComputing
         this.capacity = capacity;
     }
 
+    public TileTransporter() {
+    }
+
     private int capacity;
     private boolean working;
 
@@ -22,7 +25,6 @@ public class TileTransporter extends TileEntity implements ITickable, IComputing
     public void readFromNBT(NBTTagCompound compound) {
         this.capacity = compound.getInteger("capacity");
         super.readFromNBT(compound);
-        update0();
     }
 
     @Override
@@ -34,11 +36,8 @@ public class TileTransporter extends TileEntity implements ITickable, IComputing
     private void update0() {
         this.consumeToChunk(world, pos);
         IComputingUnit computingUnit = world.getChunkFromBlockCoords(pos).getCapability(ComputingUnitHandler.COMPUTING_UNIT_CAPABILITY, null);
-
-        if (computingUnit.canWork() != working) {
-            this.working = computingUnit.canWork();
-            world.setBlockState(pos, BlockTransporter.getBlockMap().get(capacity).getDefaultState().withProperty(BlockTransporter.ACTIVATED, working));
-        }
+        this.working = computingUnit.canWork();
+        world.setBlockState(pos, BlockTransporter.getBlockMap().get(capacity).getDefaultState().withProperty(BlockTransporter.ACTIVATED, working));
     }
 
     @Override
