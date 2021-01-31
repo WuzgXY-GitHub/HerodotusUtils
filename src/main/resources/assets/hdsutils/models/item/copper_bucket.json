@@ -1,20 +1,20 @@
 {
   "parent": "minecraft:builtin/generated",
   "textures": {
-    "layer0": "hdsutils:items/refined_bottle"
+    "layer0": "hdsutils:items/copper_bucket"
   },
   "overrides": [
     {
       "predicate": {
         "hdsutils:has_fluid": 0.0
       },
-      "model": "hdsutils:item/refined_bottle_empty"
+      "model": "hdsutils:item/copper_bucket_empty"
     },
     {
       "predicate": {
         "hdsutils:has_fluid": 1.0
       },
-      "model": "hdsutils:item/refined_bottle_full"
+      "model": "hdsutils:item/copper_bucket_full"
     }
   ],
   "variants": {

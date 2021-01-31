@@ -15,6 +15,7 @@ tile.hdsutils.transporter_20.name=Transporting Module (Lv.4)
 tile.hdsutils.transporter_50.name=Transporting Module (Lv.5)
 tile.hdsutils.transporter_100.name=Transporting Module (Lv.6)
 item.hdsutils.refined_bottle.name=Refined Glass Bottle (%s)
+item.hdsutils.copper_bucket.name=%s Copper Bucket
 hdsutils.empty=Empty
 hdsutils.computing_unit.bar=Computing Unit: %s / %s
 hdsutils.computing_unit.generate=Generating %s Computing Unit

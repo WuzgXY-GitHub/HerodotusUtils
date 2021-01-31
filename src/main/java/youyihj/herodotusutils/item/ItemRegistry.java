@@ -17,6 +17,7 @@ public class ItemRegistry {
         IForgeRegistry<Item> registry = event.getRegistry();
         registry.register(BlockManaLiquidizer.ITEM_BLOCK);
         registry.register(RefinedBottle.INSTANCE);
+        registry.register(ItemCopperBucket.INSTANCE);
         registry.register(PlainBlock.STRUCTURE_BLOCK_1_ITEM);
         registry.register(PlainBlock.STRUCTURE_BLOCK_2_ITEM);
         registry.register(PlainBlock.STRUCTURE_BLOCK_3_ITEM);

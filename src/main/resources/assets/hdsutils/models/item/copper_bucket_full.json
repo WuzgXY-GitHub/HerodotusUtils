@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "hdsutils:items/copper_bucket",
+    "layer1": "forge:items/bucket_fluid"
+  }
+}
