@@ -22,7 +22,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import youyihj.herodotusutils.block.BlockMercury;
-import youyihj.herodotusutils.computing.ComputingUnitHandler;
+import youyihj.herodotusutils.computing.event.ComputingUnitChangeEvent;
 import youyihj.herodotusutils.item.RefinedBottle;
 import youyihj.zenutils.capability.ZenWorldCapabilityHandler;
 import youyihj.zenutils.world.ZenUtilsWorld;
@@ -69,10 +69,12 @@ public class EventHandler {
                             new DataMap(Maps.asMap(Sets.newHashSet(BlockMercury.TAG_POLLUTION), (s) -> new DataInt(0)), true)
                     );
                 }
-                if (world.getTotalWorldTime() % 40 == 0) {
-                    chunk.getCapability(ComputingUnitHandler.COMPUTING_UNIT_CAPABILITY, null).removeInvalidEntry(world);
-                }
             }
         }
+    }
+
+    @SubscribeEvent
+    public static void onComputingUnitChange(ComputingUnitChangeEvent event) {
+        event.getComputingUnit().removeInvalidEntry(event.getWorld());
     }
 }

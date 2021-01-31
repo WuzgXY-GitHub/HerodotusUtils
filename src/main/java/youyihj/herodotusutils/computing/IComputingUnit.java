@@ -2,6 +2,8 @@ package youyihj.herodotusutils.computing;
 
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.chunk.Chunk;
+import youyihj.herodotusutils.computing.event.ComputingUnitChangeEvent;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,15 +16,15 @@ public interface IComputingUnit {
 
     int totalConsumePower();
 
-    void generatePower(int value, BlockPos pos);
+    void generatePower(int value, BlockPos pos, Chunk chunk);
 
-    void consumePower(int value, BlockPos pos);
+    void consumePower(int value, BlockPos pos, Chunk chunk);
 
     boolean canWork();
 
     void removeInvalidEntry(IBlockAccess world);
 
-    final class Impl implements IComputingUnit {
+    class Impl implements IComputingUnit {
         private Map<BlockPos, Integer> generateDevices = new HashMap<>();
         private Map<BlockPos, Integer> consumeDevices = new HashMap<>();
 
@@ -37,32 +39,26 @@ public interface IComputingUnit {
         }
 
         @Override
-        public void generatePower(int value, BlockPos pos) {
+        public void generatePower(int value, BlockPos pos, Chunk chunk) {
             generateDevices.put(pos, value);
+            new ComputingUnitChangeEvent(this, chunk).post();
         }
 
         @Override
-        public void consumePower(int value, BlockPos pos) {
+        public void consumePower(int value, BlockPos pos, Chunk chunk) {
             consumeDevices.put(pos, value);
+            new ComputingUnitChangeEvent(this, chunk).post();
         }
 
         @Override
         public boolean canWork() {
-            return this.totalGeneratePower() > this.totalConsumePower();
+            return this.totalGeneratePower() >= this.totalConsumePower();
         }
 
         @Override
         public void removeInvalidEntry(IBlockAccess world) {
-            for (BlockPos pos : generateDevices.keySet()) {
-                if (!(world.getTileEntity(pos) instanceof IComputingUnitGenerator)) {
-                    generateDevices.remove(pos);
-                }
-            }
-            for (BlockPos pos : consumeDevices.keySet()) {
-                if (!((world.getTileEntity(pos)) instanceof IComputingUnitConsumer)) {
-                    consumeDevices.remove(pos);
-                }
-            }
+            generateDevices.keySet().removeIf(pos -> !(world.getTileEntity(pos) instanceof IComputingUnitGenerator));
+            consumeDevices.keySet().removeIf(pos -> !(world.getTileEntity(pos) instanceof IComputingUnitConsumer));
         }
     }
 }
