@@ -43,8 +43,14 @@ public class ItemCopperBucket extends ItemFluidContainer {
             }
         }
         RayTraceResult rayTraceResult = this.rayTrace(worldIn, player, this.isEmpty(stack));
+        if (rayTraceResult == null) {
+            return ActionResult.newResult(EnumActionResult.FAIL, stack);
+        }
         BlockPos pos = rayTraceResult.getBlockPos();
         EnumFacing facing = rayTraceResult.sideHit;
+        if (pos == null || facing == null) {
+            return ActionResult.newResult(EnumActionResult.FAIL, stack);
+        }
         FluidActionResult fluidActionResult = this.isEmpty(stack)
                 ? FluidUtil.tryPickUpFluid(stack, player, worldIn, pos, facing)
                 : FluidUtil.tryPlaceFluid(player, worldIn, pos.offset(facing), stack, FluidUtil.getFluidContained(stack));
