@@ -4,9 +4,9 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.Vec3i;
+import youyihj.collision.multiblock.SimpleMultiblock;
+import youyihj.collision.util.IBlockMatcher;
 import youyihj.herodotusutils.computing.IComputingUnitGenerator;
-import youyihj.herodotusutils.multiblock.IBlockMatcher;
-import youyihj.herodotusutils.multiblock.SimpleMultiblock;
 
 import java.util.ArrayList;
 import java.util.List;
