@@ -1,5 +1,6 @@
 package youyihj.herodotusutils.block;
 
+import net.minecraft.block.material.EnumPushReaction;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
@@ -30,4 +31,9 @@ public class BlockComputingModule extends PlainBlock {
 
     public static final BlockComputingModule INSTANCE = new BlockComputingModule();
     public static final Item ITEM_BLOCK = new ItemBlock(INSTANCE).setRegistryName("computing_module");
+
+    @Override
+    public EnumPushReaction getMobilityFlag(IBlockState state) {
+        return EnumPushReaction.BLOCK;
+    }
 }

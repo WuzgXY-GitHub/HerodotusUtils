@@ -31,8 +31,10 @@ public class BlockRegistry {
         registry.register(BlockCalculatorController.CONTROLLER_2);
         registry.register(BlockCalculatorController.CONTROLLER_3);
         registry.register(BlockComputingModule.INSTANCE);
+        BlockTransporter.getBlockMap().values().forEach(registry::register);
         GameRegistry.registerTileEntity(TileManaLiquidizer.class, HerodotusUtils.rl("mana_liquidizer"));
         GameRegistry.registerTileEntity(TileCalculatorController.class, HerodotusUtils.rl("calculator_controller"));
         GameRegistry.registerTileEntity(TileComputingModule.class, HerodotusUtils.rl("computing_module"));
+        GameRegistry.registerTileEntity(TileTransporter.class, HerodotusUtils.rl("transporter"));
     }
 }

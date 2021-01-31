@@ -27,7 +27,7 @@ public class ComputingUnitChangeEvent extends Event {
     }
 
     public World getWorld() {
-        return chunk.getWorld();
+        return getChunk().getWorld();
     }
 
     public void post() {

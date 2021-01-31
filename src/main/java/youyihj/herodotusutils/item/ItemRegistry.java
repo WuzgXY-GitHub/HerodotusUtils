@@ -5,10 +5,7 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.registries.IForgeRegistry;
-import youyihj.herodotusutils.block.BlockCalculatorController;
-import youyihj.herodotusutils.block.BlockComputingModule;
-import youyihj.herodotusutils.block.BlockManaLiquidizer;
-import youyihj.herodotusutils.block.PlainBlock;
+import youyihj.herodotusutils.block.*;
 
 /**
  * @author youyihj
@@ -26,6 +23,7 @@ public class ItemRegistry {
         registry.register(BlockCalculatorController.ITEM_BLOCK_1);
         registry.register(BlockCalculatorController.ITEM_BLOCK_2);
         registry.register(BlockCalculatorController.ITEM_BLOCK_3);
+        BlockTransporter.getItemBlockMap().values().forEach(registry::register);
         registry.register(BlockComputingModule.ITEM_BLOCK);
     }
 }

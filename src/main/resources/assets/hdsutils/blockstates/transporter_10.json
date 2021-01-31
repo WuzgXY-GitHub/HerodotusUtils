@@ -1,0 +1,30 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "textures": {
+      "all": "hdsutils:blocks/transporter_10",
+      "particle": "hdsutils:blocks/transporter_10"
+    },
+    "model": "minecraft:cube_all"
+  },
+  "variants": {
+    "normal": [
+      {}
+    ],
+    "inventory": [
+      {}
+    ],
+    "activated=true": [
+      {}
+    ],
+    "activated=false": [
+      {
+        "textures": {
+          "all": "hdsutils:blocks/transporter_empty_10",
+          "particle": "hdsutils:blocks/transporter_empty_10"
+        },
+        "model": "minecraft:cube_all"
+      }
+    ]
+  }
+}

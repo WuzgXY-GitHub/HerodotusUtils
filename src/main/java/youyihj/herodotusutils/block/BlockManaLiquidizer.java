@@ -1,6 +1,7 @@
 package youyihj.herodotusutils.block;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.material.EnumPushReaction;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
@@ -40,5 +41,10 @@ public class BlockManaLiquidizer extends Block {
     @Override
     public TileEntity createTileEntity(World world, IBlockState state) {
         return new TileManaLiquidizer();
+    }
+
+    @Override
+    public EnumPushReaction getMobilityFlag(IBlockState state) {
+        return EnumPushReaction.BLOCK;
     }
 }

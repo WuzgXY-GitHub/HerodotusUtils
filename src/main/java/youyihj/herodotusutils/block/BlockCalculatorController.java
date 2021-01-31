@@ -1,6 +1,7 @@
 package youyihj.herodotusutils.block;
 
 
+import net.minecraft.block.material.EnumPushReaction;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
@@ -37,5 +38,10 @@ public class BlockCalculatorController extends PlainBlock {
     @Override
     public TileEntity createTileEntity(World world, IBlockState state) {
         return new TileCalculatorController(this.capacity);
+    }
+
+    @Override
+    public EnumPushReaction getMobilityFlag(IBlockState state) {
+        return EnumPushReaction.BLOCK;
     }
 }

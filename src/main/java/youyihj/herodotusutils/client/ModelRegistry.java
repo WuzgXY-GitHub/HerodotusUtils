@@ -13,10 +13,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import youyihj.herodotusutils.HerodotusUtils;
-import youyihj.herodotusutils.block.BlockCalculatorController;
-import youyihj.herodotusutils.block.BlockComputingModule;
-import youyihj.herodotusutils.block.BlockManaLiquidizer;
-import youyihj.herodotusutils.block.PlainBlock;
+import youyihj.herodotusutils.block.*;
 import youyihj.herodotusutils.fluid.FluidMana;
 import youyihj.herodotusutils.fluid.FluidMercury;
 import youyihj.herodotusutils.item.RefinedBottle;
@@ -53,6 +50,7 @@ public class ModelRegistry {
         registerItemModel(BlockCalculatorController.ITEM_BLOCK_2);
         registerItemModel(BlockCalculatorController.ITEM_BLOCK_3);
         registerItemModel(BlockComputingModule.ITEM_BLOCK);
+        BlockTransporter.getItemBlockMap().values().forEach(ModelRegistry::registerItemModel);
     }
 
     @SubscribeEvent
