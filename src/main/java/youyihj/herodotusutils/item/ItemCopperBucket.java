@@ -9,7 +9,6 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.FluidActionResult;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
@@ -21,7 +20,6 @@ public class ItemCopperBucket extends ItemFluidContainer {
     private ItemCopperBucket() {
         super(NAME);
         this.setMaxStackSize(1);
-        MinecraftForge.EVENT_BUS.register(this.getClass());
     }
 
     public static final String NAME = "copper_bucket";
