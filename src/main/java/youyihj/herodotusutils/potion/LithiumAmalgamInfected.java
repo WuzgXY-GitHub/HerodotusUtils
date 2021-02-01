@@ -43,7 +43,12 @@ public class LithiumAmalgamInfected extends Potion {
 
     @Override
     public boolean isReady(int duration, int amplifier) {
-        return duration % (amplifier * 20) == 0;
+        int k = 30 >> amplifier;
+        if (k > 0) {
+            return duration % k == 0;
+        } else {
+            return true;
+        }
     }
 
     @Mod.EventBusSubscriber
