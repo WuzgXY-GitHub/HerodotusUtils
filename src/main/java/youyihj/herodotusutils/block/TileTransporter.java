@@ -3,8 +3,6 @@ package youyihj.herodotusutils.block;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
-import youyihj.herodotusutils.computing.ComputingUnitHandler;
-import youyihj.herodotusutils.computing.IComputingUnit;
 import youyihj.herodotusutils.computing.IComputingUnitConsumer;
 
 /**
@@ -19,7 +17,6 @@ public class TileTransporter extends TileEntity implements ITickable, IComputing
     }
 
     private int capacity;
-    private boolean working;
 
     @Override
     public void readFromNBT(NBTTagCompound compound) {
@@ -34,10 +31,10 @@ public class TileTransporter extends TileEntity implements ITickable, IComputing
     }
 
     private void update0() {
-        this.consumeToChunk(world, pos);
-        IComputingUnit computingUnit = world.getChunkFromBlockCoords(pos).getCapability(ComputingUnitHandler.COMPUTING_UNIT_CAPABILITY, null);
-        this.working = computingUnit.canWork();
-        world.setBlockState(pos, BlockTransporter.getBlockMap().get(capacity).getDefaultState().withProperty(BlockTransporter.ACTIVATED, working));
+        boolean working = this.consumeToChunk(world, pos);
+        if (working != world.getBlockState(pos).getValue(BlockTransporter.ACTIVATED)) {
+            world.setBlockState(pos, BlockTransporter.getBlockMap().get(capacity).getDefaultState().withProperty(BlockTransporter.ACTIVATED, working));
+        }
     }
 
     @Override
