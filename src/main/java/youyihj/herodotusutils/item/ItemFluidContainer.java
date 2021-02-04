@@ -46,6 +46,19 @@ public abstract class ItemFluidContainer extends Item {
     }
 
     @Override
+    public boolean hasContainerItem(ItemStack stack) {
+        return !isEmpty(stack);
+    }
+
+    @Override
+    public ItemStack getContainerItem(ItemStack itemStack) {
+        if (this.hasContainerItem(itemStack)) {
+            return ItemStack.EMPTY;
+        }
+        return new ItemStack(this);
+    }
+
+    @Override
     @SuppressWarnings("deprecation")
     public String getItemStackDisplayName(ItemStack stack) {
         String unlocalizedName = this.getUnlocalizedName(stack) + ".name";
