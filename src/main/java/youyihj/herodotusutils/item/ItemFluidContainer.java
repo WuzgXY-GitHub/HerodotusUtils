@@ -52,7 +52,7 @@ public abstract class ItemFluidContainer extends Item {
 
     @Override
     public ItemStack getContainerItem(ItemStack itemStack) {
-        if (this.hasContainerItem(itemStack)) {
+        if (!this.hasContainerItem(itemStack)) {
             return ItemStack.EMPTY;
         }
         return new ItemStack(this);
