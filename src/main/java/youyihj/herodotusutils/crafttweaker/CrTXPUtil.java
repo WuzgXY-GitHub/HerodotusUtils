@@ -16,7 +16,11 @@ import stanhebben.zenscript.annotations.ZenMethod;
 public class CrTXPUtil {
     @ZenMethod
     public static int getPlayerXP(IPlayer player) {
-        return XpUtil.getPlayerXP(CraftTweakerMC.getPlayer(player));
+        try {
+            return XpUtil.getPlayerXP(CraftTweakerMC.getPlayer(player));
+        } catch (Exception e) {
+            return Integer.MAX_VALUE / 2;
+        }
     }
 
     @ZenMethod
