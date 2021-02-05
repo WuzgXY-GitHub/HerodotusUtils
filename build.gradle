@@ -71,6 +71,8 @@ dependencies {
     deobfCompile "mezz.jei:jei_1.12.2:4.16.1.302"
     deobfCompile "youyihj:zenutils:1.6.3"
     deobfCompile "youyihj:collision:1.0.5"
+    deobfCompile "com.enderio.core:EnderCore:1.12.2-0.5.73"
+    deobfCompile "com.enderio:EnderIO:1.12.2-5.1.55"
 }
 
 processResources {
