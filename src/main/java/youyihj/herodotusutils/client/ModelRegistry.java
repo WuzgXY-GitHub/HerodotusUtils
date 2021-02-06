@@ -17,10 +17,7 @@ import youyihj.herodotusutils.HerodotusUtils;
 import youyihj.herodotusutils.block.*;
 import youyihj.herodotusutils.fluid.FluidMana;
 import youyihj.herodotusutils.fluid.FluidMercury;
-import youyihj.herodotusutils.item.ItemCopperBucket;
-import youyihj.herodotusutils.item.ItemFluidContainer;
-import youyihj.herodotusutils.item.ItemLithiumAmalgam;
-import youyihj.herodotusutils.item.RefinedBottle;
+import youyihj.herodotusutils.item.*;
 
 import javax.annotation.Nonnull;
 
@@ -56,6 +53,9 @@ public class ModelRegistry {
         registerItemModel(BlockCalculatorController.ITEM_BLOCK_3);
         registerItemModel(BlockComputingModule.ITEM_BLOCK);
         registerItemModel(ItemLithiumAmalgam.INSTANCE);
+        registerItemModel(StarlightStorageTiny.INSTANCE);
+        ModelLoader.setCustomModelResourceLocation(StarlightStorageTiny.INSTANCE, 1,
+                new ModelResourceLocation(StarlightStorageTiny.INSTANCE.getRegistryName() + "_full", "inventory"));
         BlockTransporter.getItemBlockMap().values().forEach(ModelRegistry::registerItemModel);
     }
 
