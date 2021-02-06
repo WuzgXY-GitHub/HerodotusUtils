@@ -27,6 +27,6 @@ public class MaterialPartOreExpansion {
                 return item;
             }
         }
-        return oreDictEntry.getFirstItem();
+        return items.get(0);
     }
 }
