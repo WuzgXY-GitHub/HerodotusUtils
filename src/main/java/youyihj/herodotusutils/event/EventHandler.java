@@ -7,6 +7,7 @@ import crafttweaker.api.data.DataMap;
 import crafttweaker.api.data.IData;
 import crafttweaker.api.minecraft.CraftTweakerMC;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.init.MobEffects;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
@@ -47,13 +48,15 @@ public class EventHandler {
                     });
 
             IItemHandler itemHandler = entity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
-            for (int i = 0; i < itemHandler.getSlots(); i++) {
-                ItemStack itemStack = itemHandler.getStackInSlot(i);
-                if (itemStack.getItem() == RefinedBottle.INSTANCE)
-                    continue;
-                FluidStack fluidStack = FluidUtil.getFluidContained(itemStack);
-                if (fluidStack != null && fluidStack.getFluid().getName().equals("mercury")) {
-                    entity.addPotionEffect(new PotionEffect(Potion.getPotionById(19), 100, 3));
+            if (world.getTotalWorldTime() % 40 == 0) {
+                for (int i = 0; i < itemHandler.getSlots(); i++) {
+                    ItemStack itemStack = itemHandler.getStackInSlot(i);
+                    if (itemStack.getItem() == RefinedBottle.INSTANCE)
+                        continue;
+                    FluidStack fluidStack = FluidUtil.getFluidContained(itemStack);
+                    if (fluidStack != null && fluidStack.getFluid().getName().equals("mercury")) {
+                        entity.addPotionEffect(new PotionEffect(MobEffects.POISON, 100, 3));
+                    }
                 }
             }
         }
