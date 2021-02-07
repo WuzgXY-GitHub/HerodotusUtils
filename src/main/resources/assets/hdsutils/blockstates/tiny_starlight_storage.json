@@ -3,7 +3,8 @@
   "defaults": {
     "model": "minecraft:builtin/generated",
     "textures": {
-      "layer0": "hdsutils:items/tiny_starlight_storage"
+      "layer0": "hdsutils:items/tiny_starlight_storage",
+      "layer1": "hdsutils:items/tiny_starlight_storage_content"
     }
   },
   "variants": {

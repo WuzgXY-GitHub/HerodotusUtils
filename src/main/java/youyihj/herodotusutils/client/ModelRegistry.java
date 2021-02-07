@@ -20,6 +20,7 @@ import youyihj.herodotusutils.fluid.FluidMercury;
 import youyihj.herodotusutils.item.*;
 
 import javax.annotation.Nonnull;
+import java.util.Optional;
 
 /**
  * @author youyihj
@@ -71,6 +72,19 @@ public class ModelRegistry {
                 return 0xC94309;
             } else return fluidStack.getFluid().getColor();
         }, ItemFluidContainer.getContainers());
+        event.getItemColors().registerItemColorHandler((stack, tintIndex) -> {
+            if (stack.getMetadata() != 1 && tintIndex == 1) {
+                int starlight = Optional.ofNullable(stack.getTagCompound())
+                        .map(nbt -> nbt.getInteger(StarlightStorageTiny.TAG_STARLIGHT))
+                        .orElse(0);
+                double percent = starlight / (double) StarlightStorageTiny.CAPACITY;
+                int red = (int) (0xff * percent);
+                int green = (int) (0xff - percent * (0xff - 0x95));
+                int blue = (int) ((1.0 - percent) * 0xd0);
+                return red << 16 | green << 8 | blue;
+            }
+            return -1;
+        }, StarlightStorageTiny.INSTANCE);
     }
 
     private static void registerItemModel(Item item) {

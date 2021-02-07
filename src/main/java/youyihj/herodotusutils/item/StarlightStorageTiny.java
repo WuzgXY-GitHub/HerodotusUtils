@@ -1,5 +1,7 @@
 package youyihj.herodotusutils.item;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.item.EntityItem;
@@ -8,10 +10,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import youyihj.herodotusutils.HerodotusUtils;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author youyihj
@@ -25,8 +30,9 @@ public class StarlightStorageTiny extends Item {
         this.hasSubtypes = true;
     }
 
-    private static final String TAG_STARLIGHT = "star_light";
+    public static final String TAG_STARLIGHT = "star_light";
     public static final StarlightStorageTiny INSTANCE = new StarlightStorageTiny();
+    public static final int CAPACITY = 2000;
 
     @Override
     public boolean onEntityItemUpdate(EntityItem entityItem) {
@@ -40,7 +46,7 @@ public class StarlightStorageTiny extends Item {
             if (!entityItem.world.isDaytime()) {
                 nbt.setInteger(TAG_STARLIGHT, ++starlight);
             }
-            if (starlight > 2000) {
+            if (starlight > CAPACITY) {
                 entityItem.setItem(new ItemStack(this, 1, 1));
             }
         }
@@ -58,6 +64,18 @@ public class StarlightStorageTiny extends Item {
     @Override
     public int getEntityLifespan(ItemStack itemStack, World world) {
         return Integer.MAX_VALUE;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
+        if (stack.getMetadata() == 1)
+            return;
+        tooltip.add(I18n.format("hdsutils.star_light_collect"));
+        int starlight = Optional.ofNullable(stack.getTagCompound())
+                .map(nbt -> nbt.getInteger(StarlightStorageTiny.TAG_STARLIGHT))
+                .orElse(0);
+        tooltip.add(I18n.format("hdsutils.star_light_progress", starlight, CAPACITY));
     }
 
     @Override
