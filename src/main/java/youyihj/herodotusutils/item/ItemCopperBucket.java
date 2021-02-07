@@ -13,6 +13,8 @@ import net.minecraftforge.fluids.FluidActionResult;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
 
+import java.util.Optional;
+
 /**
  * @author youyihj
  */
@@ -49,9 +51,16 @@ public class ItemCopperBucket extends ItemFluidContainer {
         if (pos == null || facing == null) {
             return ActionResult.newResult(EnumActionResult.FAIL, stack);
         }
-        FluidActionResult fluidActionResult = this.isEmpty(stack)
-                ? FluidUtil.tryPickUpFluid(stack, player, worldIn, pos, facing)
-                : FluidUtil.tryPlaceFluid(player, worldIn, pos.offset(facing), stack, FluidUtil.getFluidContained(stack));
+        FluidActionResult fluidActionResult;
+        if (this.isEmpty(stack)) {
+            fluidActionResult = Optional.ofNullable(FluidUtil.getFluidHandler(worldIn, pos, facing))
+                    .map(fluidHandler -> fluidHandler.drain(1000, false))
+                    .filter(fluidStack -> fluidStack.amount >= 1000)
+                    .map(fluidStack -> FluidUtil.tryPickUpFluid(stack, player, worldIn, pos, facing))
+                    .orElse(FluidActionResult.FAILURE);
+        } else {
+            fluidActionResult = FluidUtil.tryPlaceFluid(player, worldIn, pos, stack, FluidUtil.getFluidContained(stack));
+        }
         if (fluidActionResult.success) {
             if (!worldIn.isRemote) {
                 player.setHeldItem(hand, fluidActionResult.result);

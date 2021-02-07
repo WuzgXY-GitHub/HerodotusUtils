@@ -40,7 +40,7 @@ public class StarlightStorageTiny extends Item {
             if (!entityItem.world.isDaytime()) {
                 nbt.setInteger(TAG_STARLIGHT, ++starlight);
             }
-            if (starlight > 3000) {
+            if (starlight > 2000) {
                 entityItem.setItem(new ItemStack(this, 1, 1));
             }
         }

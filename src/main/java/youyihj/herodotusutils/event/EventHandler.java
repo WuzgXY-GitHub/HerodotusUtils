@@ -40,15 +40,15 @@ public class EventHandler {
         EntityLivingBase entity = event.getEntityLiving();
         World world = entity.world;
         if (!world.isRemote) {
-            IData data = ZenUtilsWorld.getCustomChunkData(CraftTweakerMC.getIWorld(world), CraftTweakerMC.getIBlockPos(entity.getPosition()));
-            Optional.ofNullable(data.memberGet(BlockMercury.TAG_POLLUTION))
-                    .filter(IData::asBool)
-                    .ifPresent(bool -> {
-                        entity.addPotionEffect(new PotionEffect(Potion.getPotionById(19), 200, 1));
-                    });
-
             IItemHandler itemHandler = entity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
             if (world.getTotalWorldTime() % 40 == 0) {
+                IData data = ZenUtilsWorld.getCustomChunkData(CraftTweakerMC.getIWorld(world), CraftTweakerMC.getIBlockPos(entity.getPosition()));
+                Optional.ofNullable(data.memberGet(BlockMercury.TAG_POLLUTION))
+                        .filter(IData::asBool)
+                        .ifPresent(bool -> {
+                            entity.addPotionEffect(new PotionEffect(MobEffects.POISON, 200, 1));
+                        });
+
                 for (int i = 0; i < itemHandler.getSlots(); i++) {
                     ItemStack itemStack = itemHandler.getStackInSlot(i);
                     if (itemStack.getItem() == RefinedBottle.INSTANCE)
