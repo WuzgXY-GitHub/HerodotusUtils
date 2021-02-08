@@ -12,7 +12,6 @@ import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import youyihj.herodotusutils.HerodotusUtils;
 import youyihj.herodotusutils.block.*;
 import youyihj.herodotusutils.fluid.FluidMana;
@@ -25,8 +24,7 @@ import java.util.Optional;
 /**
  * @author youyihj
  */
-@SideOnly(Side.CLIENT)
-@Mod.EventBusSubscriber
+@Mod.EventBusSubscriber(Side.CLIENT)
 public class ModelRegistry {
     @SubscribeEvent
     public static void register(ModelRegistryEvent event) {
