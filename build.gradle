@@ -58,7 +58,7 @@ repositories {
     }
     maven {
         name = 'youyihj'
-        url  "https://dl.bintray.com/youyihj/maven"
+        url  "https://friendlyhj.github.io/maven"
     }
 }
 
@@ -69,8 +69,8 @@ dependencies {
     deobfCompile "cofh:RedstoneFlux:1.12-2.1.0.+:universal"
     deobfCompile "mcjty.theoneprobe:TheOneProbe-1.12:1.12-1.4.28-17"
     deobfCompile "mezz.jei:jei_1.12.2:4.16.1.302"
-    deobfCompile "youyihj:zenutils:1.6.3"
-    deobfCompile "youyihj:collision:1.0.5"
+    deobfCompile "youyihj:zenutils:1.6.4"
+    deobfCompile "youyihj:collision:1.0.6"
 }
 
 processResources {
