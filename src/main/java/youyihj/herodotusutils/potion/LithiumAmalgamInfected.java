@@ -1,13 +1,8 @@
 package youyihj.herodotusutils.potion;
 
-import crafttweaker.api.minecraft.CraftTweakerMC;
-import crafttweaker.mc1120.brackets.BracketHandlerOre;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.DamageSource;
-import net.minecraft.world.World;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -24,21 +19,11 @@ public class LithiumAmalgamInfected extends Potion {
 
     private static final String NAME = "lithium_amalgam_infected";
     public static final LithiumAmalgamInfected INSTANCE = new LithiumAmalgamInfected();
-    private static final DamageSource DAMAGE_SOURCE = new DamageSource(NAME).setMagicDamage();
+    public static final DamageSource DAMAGE_SOURCE = new DamageSource(NAME).setMagicDamage();
 
     @Override
     public void performEffect(EntityLivingBase entityLivingBaseIn, int amplifier) {
         entityLivingBaseIn.attackEntityFrom(DAMAGE_SOURCE, amplifier);
-        if (entityLivingBaseIn.isDead) {
-            World world = entityLivingBaseIn.world;
-            if (!world.isRemote) {
-                ItemStack stack = CraftTweakerMC.getItemStack(BracketHandlerOre.getOre("crystalLithium").getFirstItem());
-                if (stack.isEmpty()) return;
-                entityLivingBaseIn.world.spawnEntity(
-                        new EntityItem(entityLivingBaseIn.world, entityLivingBaseIn.posX, entityLivingBaseIn.posY + 0.5f, entityLivingBaseIn.posZ, stack)
-                );
-            }
-        }
     }
 
     @Override

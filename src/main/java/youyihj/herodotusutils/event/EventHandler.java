@@ -7,13 +7,14 @@ import crafttweaker.api.data.DataMap;
 import crafttweaker.api.data.IData;
 import crafttweaker.api.minecraft.CraftTweakerMC;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.MobEffects;
 import net.minecraft.item.ItemStack;
-import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.chunk.Chunk;
+import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
@@ -22,9 +23,11 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.oredict.OreDictionary;
 import youyihj.herodotusutils.block.BlockMercury;
 import youyihj.herodotusutils.computing.event.ComputingUnitChangeEvent;
 import youyihj.herodotusutils.item.RefinedBottle;
+import youyihj.herodotusutils.potion.LithiumAmalgamInfected;
 import youyihj.zenutils.capability.ZenWorldCapabilityHandler;
 import youyihj.zenutils.world.ZenUtilsWorld;
 
@@ -73,6 +76,14 @@ public class EventHandler {
                     );
                 }
             }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onLivingDrops(LivingDropsEvent event) {
+        EntityLivingBase entity = event.getEntityLiving();
+        if (event.getSource() == LithiumAmalgamInfected.DAMAGE_SOURCE) {
+            event.getDrops().add(new EntityItem(entity.world, entity.posX, entity.posY + 0.5d, entity.posZ, OreDictionary.getOres("crystalLithium").get(0)));
         }
     }
 
