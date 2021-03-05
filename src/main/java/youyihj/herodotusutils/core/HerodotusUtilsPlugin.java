@@ -3,10 +3,8 @@ package youyihj.herodotusutils.core;
 import net.minecraft.launchwrapper.Launch;
 import net.minecraftforge.fml.relauncher.CoreModManager;
 import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;
-import org.apache.commons.lang3.reflect.MethodUtils;
 import org.apache.logging.log4j.LogManager;
 import org.spongepowered.asm.launch.MixinBootstrap;
-import org.spongepowered.asm.mixin.Mixins;
 
 import javax.annotation.Nullable;
 import java.io.File;
@@ -16,8 +14,12 @@ import java.security.CodeSource;
 import java.util.Map;
 
 @IFMLLoadingPlugin.Name("hdsutilscore")
+@IFMLLoadingPlugin.MCVersion("1.12.2")
 public class HerodotusUtilsPlugin implements IFMLLoadingPlugin {
     public HerodotusUtilsPlugin() {
+        if (Launch.blackboard.get("fml.deobfuscatedEnvironment") != Boolean.FALSE) {
+            MixinBootstrap.init();
+        }
         CodeSource codeSource = this.getClass().getProtectionDomain().getCodeSource();
         if (codeSource != null) {
             URL location = codeSource.getLocation();
@@ -33,11 +35,6 @@ public class HerodotusUtilsPlugin implements IFMLLoadingPlugin {
             LogManager.getLogger().warn("No CodeSource, if this is not a development environment we might run into problems!");
             LogManager.getLogger().warn(this.getClass().getProtectionDomain());
         }
-    }
-
-    public static void initMixin() {
-        MixinBootstrap.init();
-        Mixins.addConfiguration("mixins.hdsutils.json");
     }
 
     @Override
@@ -58,13 +55,6 @@ public class HerodotusUtilsPlugin implements IFMLLoadingPlugin {
 
     @Override
     public void injectData(Map<String, Object> data) {
-        try {
-            ClassLoader appClassLoader = Launch.class.getClassLoader();
-            MethodUtils.invokeMethod(appClassLoader, true, "addURL", this.getClass().getProtectionDomain().getCodeSource().getLocation());
-            MethodUtils.invokeStaticMethod(appClassLoader.loadClass(this.getClass().getName()), "initMixin");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     @Override

@@ -4,6 +4,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.*;
+import org.spongepowered.asm.mixin.Mixins;
 import youyihj.collision.Collision;
 import youyihj.herodotusutils.computing.ComputingUnitHandler;
 import youyihj.herodotusutils.fluid.FluidMana;
@@ -32,6 +33,7 @@ public class HerodotusUtils {
 
     @Mod.EventHandler
     public void construct(FMLConstructionEvent event) {
+        Mixins.addConfiguration("mixins.hdsutils.json");
         FluidRegistry.enableUniversalBucket();
         Collision.disableModelGenerator();
     }
