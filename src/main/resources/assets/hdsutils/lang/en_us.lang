@@ -8,6 +8,7 @@ tile.hdsutils.calculator_controller_4.name=Calculator Controller (Lv.1)
 tile.hdsutils.calculator_controller_36.name=Calculator Controller (Lv.2)
 tile.hdsutils.calculator_controller_240.name=Calculator Controller (Lv.3)
 tile.hdsutils.computing_module.name=Computing Module
+tile.hdsutils.mm_controller.name=Simple Modular Controller
 tile.hdsutils.transporter_1.name=Transporting Module (Lv.1)
 tile.hdsutils.transporter_5.name=Transporting Module (Lv.2)
 tile.hdsutils.transporter_10.name=Transporting Module (Lv.3)

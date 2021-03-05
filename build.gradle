@@ -5,13 +5,19 @@ buildscript {
             name = "forge"
             url = "https://files.minecraftforge.net/maven"
         }
+        maven {
+            name = "sponge"
+            url = "https://repo.spongepowered.org/maven"
+        }
     }
     dependencies {
         classpath "net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT"
+        classpath 'org.spongepowered:mixingradle:0.6-SNAPSHOT'
     }
 }
 
 apply plugin: "net.minecraftforge.gradle.forge"
+apply plugin: 'org.spongepowered.mixin'
 
 group = 'youyihj'
 version = '1.0'
@@ -28,6 +34,9 @@ minecraft {
     // simply re-run your setup task after changing the mappings to update your workspace.
     mappings = project.mcpVersion
     // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
+
+    clientJvmArgs += "-Dfml.coreMods.load=youyihj.herodotusutils.core.HerodotusUtilsPlugin"
+    serverJvmArgs += "-Dfml.coreMods.load=youyihj.herodotusutils.core.HerodotusUtilsPlugin"
 }
 
 repositories {
@@ -60,6 +69,14 @@ repositories {
         name = 'youyihj'
         url  "https://friendlyhj.github.io/maven"
     }
+    maven {
+        name = 'hellfirepvp'
+        url = 'https://maven.hellfiredev.net/'
+    }
+    maven {
+        name = "sponge"
+        url = "https://repo.spongepowered.org/maven"
+    }
 }
 
 dependencies {
@@ -71,6 +88,16 @@ dependencies {
     deobfCompile "mezz.jei:jei_1.12.2:4.16.1.302"
     deobfCompile "youyihj:zenutils:1.6.4"
     deobfCompile "youyihj:collision:1.0.6"
+    deobfCompile "hellfirepvp.modularmachinery:modularmachinery:1.12.2-1.10.0-v44"
+    compile('org.spongepowered:mixin:0.7.11-SNAPSHOT') {
+        exclude module: 'guava'
+        exclude module: 'commons-io'
+        exclude module: 'gson'
+    }
+}
+
+mixin {
+    add sourceSets.main, "mixins.hdsutils.refmap.json"
 }
 
 processResources {
@@ -89,5 +116,15 @@ processResources {
     // copy everything else, thats not the mcmod.info
     from(sourceSets.main.resources.srcDirs) {
         exclude "mcmod.info"
+    }
+}
+
+jar {
+    manifest {
+        attributes([
+                'TweakClass': 'org.spongepowered.asm.launch.MixinTweaker',
+                "FMLCorePlugin": "youyihj.herodotusutils.core.HerodotusUtilsPlugin",
+                "FMLCorePluginContainsFMLMod": true
+        ])
     }
 }

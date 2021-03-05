@@ -1,0 +1,16 @@
+{
+  "required": true,
+  "compatibilityLevel": "JAVA_8",
+  "package": "youyihj.herodotusutils.mixins",
+  "refmap": "hdsutils.refmap.json",
+  "setSourceFile": true,
+  "mixins": [
+    "MixinBlockArray",
+    "MixinMachineDeserializer",
+    "MixinTileMachineController"
+  ],
+  "client": [
+    "MixinGuiScreenBlueprint",
+    "MixinStructurePreviewWrapper"
+  ]
+}

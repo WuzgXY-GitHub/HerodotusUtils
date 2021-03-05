@@ -52,6 +52,7 @@ public class ModelRegistry {
         registerItemModel(BlockCalculatorController.ITEM_BLOCK_3);
         registerItemModel(BlockComputingModule.ITEM_BLOCK);
         registerItemModel(ItemLithiumAmalgam.INSTANCE);
+        registerItemModel(BlockRegistry.MM_CONTROLLER_ITEM);
         registerItemModel(StarlightStorageTiny.INSTANCE);
         ModelLoader.setCustomModelResourceLocation(StarlightStorageTiny.INSTANCE, 1,
                 new ModelResourceLocation(StarlightStorageTiny.INSTANCE.getRegistryName() + "_full", "inventory"));
@@ -83,6 +84,11 @@ public class ModelRegistry {
             }
             return -1;
         }, StarlightStorageTiny.INSTANCE);
+    }
+
+    @SubscribeEvent
+    public static void blockColor(ColorHandlerEvent.Block event) {
+        // event.getBlockColors().registerBlockColorHandler(BlockRegistry.MM_CONTROLLER::getColorMultiplier, BlockRegistry.MM_CONTROLLER);
     }
 
     private static void registerItemModel(Item item) {

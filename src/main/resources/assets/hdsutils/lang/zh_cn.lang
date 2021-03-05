@@ -14,6 +14,7 @@ tile.hdsutils.transporter_10.name=传输模块 (Lv.3)
 tile.hdsutils.transporter_20.name=传输模块 (Lv.4)
 tile.hdsutils.transporter_50.name=传输模块 (Lv.5)
 tile.hdsutils.transporter_100.name=传输模块 (Lv.6)
+tile.hdsutils.mm_controller.name=简易模块机械控制器
 item.hdsutils.refined_bottle.name=强化玻璃瓶（%s）
 item.hdsutils.copper_bucket.name=%s铜桶
 item.hdsutils.lithium_amalgam.name=锂汞齐

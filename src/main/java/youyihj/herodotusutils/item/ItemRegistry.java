@@ -26,6 +26,7 @@ public class ItemRegistry {
         registry.register(BlockCalculatorController.ITEM_BLOCK_3);
         BlockTransporter.getItemBlockMap().values().forEach(registry::register);
         registry.register(BlockComputingModule.ITEM_BLOCK);
+        registry.register(BlockRegistry.MM_CONTROLLER_ITEM);
         registry.register(ItemLithiumAmalgam.INSTANCE);
         registry.register(StarlightStorageTiny.INSTANCE);
     }
