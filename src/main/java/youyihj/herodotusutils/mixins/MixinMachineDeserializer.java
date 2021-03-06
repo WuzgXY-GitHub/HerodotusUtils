@@ -2,6 +2,7 @@ package youyihj.herodotusutils.mixins;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonElement;
+import hellfirepvp.modularmachinery.ModularMachinery;
 import hellfirepvp.modularmachinery.common.block.BlockController;
 import hellfirepvp.modularmachinery.common.lib.BlocksMM;
 import hellfirepvp.modularmachinery.common.machine.DynamicMachine;
@@ -24,11 +25,12 @@ public abstract class MixinMachineDeserializer {
     public void injectDeserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context, CallbackInfoReturnable<DynamicMachine> cir) {
         String controllerID = JsonUtils.getString(json.getAsJsonObject(), "controller", BlocksMM.blockController.getRegistryName().toString());
         Block block = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(controllerID));
+        DynamicMachine dynamicMachine = cir.getReturnValue();
         if (block instanceof BlockController) {
-            DynamicMachine dynamicMachine = cir.getReturnValue();
             ((ModularMachineryPatches.IDynamicMachinePatch) dynamicMachine).setController(((BlockController) block));
         } else {
-            throw new IllegalArgumentException(controllerID + "is not a MM controller!");
+            throw new IllegalArgumentException(controllerID + " is not a MM controller!");
         }
+        ModularMachinery.log.info("Successfully loaded MM " + dynamicMachine.getRegistryName());
     }
 }

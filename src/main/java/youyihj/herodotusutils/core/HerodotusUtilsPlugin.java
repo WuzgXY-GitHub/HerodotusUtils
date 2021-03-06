@@ -1,10 +1,10 @@
 package youyihj.herodotusutils.core;
 
-import net.minecraft.launchwrapper.Launch;
 import net.minecraftforge.fml.relauncher.CoreModManager;
 import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;
 import org.apache.logging.log4j.LogManager;
 import org.spongepowered.asm.launch.MixinBootstrap;
+import org.spongepowered.asm.mixin.Mixins;
 
 import javax.annotation.Nullable;
 import java.io.File;
@@ -17,9 +17,9 @@ import java.util.Map;
 @IFMLLoadingPlugin.MCVersion("1.12.2")
 public class HerodotusUtilsPlugin implements IFMLLoadingPlugin {
     public HerodotusUtilsPlugin() {
-        if (Launch.blackboard.get("fml.deobfuscatedEnvironment") != Boolean.FALSE) {
-            MixinBootstrap.init();
-        }
+        MixinBootstrap.init();
+        Mixins.addConfiguration("mixins.hdsutils.init.json");
+        LogManager.getLogger("hdsutils mixins").info("init mixins");
         CodeSource codeSource = this.getClass().getProtectionDomain().getCodeSource();
         if (codeSource != null) {
             URL location = codeSource.getLocation();
