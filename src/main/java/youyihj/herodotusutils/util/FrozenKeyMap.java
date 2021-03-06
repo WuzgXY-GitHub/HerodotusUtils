@@ -68,7 +68,11 @@ public class FrozenKeyMap<K, V> implements Map<K, V> {
 
     @Override
     public void putAll(Map<? extends K, ? extends V> m) {
-        delegate.putAll(m);
+        for (Entry<? extends K, ? extends V> entry : m.entrySet()) {
+            if (!frozenKeys.contains(entry.getKey())) {
+                delegate.put(entry.getKey(), entry.getValue());
+            }
+        }
     }
 
     @Override

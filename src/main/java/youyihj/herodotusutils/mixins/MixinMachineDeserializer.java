@@ -1,39 +1,34 @@
 package youyihj.herodotusutils.mixins;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonElement;
 import hellfirepvp.modularmachinery.common.block.BlockController;
+import hellfirepvp.modularmachinery.common.lib.BlocksMM;
 import hellfirepvp.modularmachinery.common.machine.DynamicMachine;
-import hellfirepvp.modularmachinery.common.machine.TaggedPositionBlockArray;
-import hellfirepvp.modularmachinery.common.util.BlockArray;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.block.Block;
+import net.minecraft.util.JsonUtils;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import youyihj.herodotusutils.core.ModularMachineryPatches;
 
-import java.util.List;
+import java.lang.reflect.Type;
 
 @Mixin(value = DynamicMachine.MachineDeserializer.class, remap = false)
 public abstract class MixinMachineDeserializer {
 
-    @Shadow
-    protected abstract List<BlockPos> buildPermutations(List<Integer> avX, List<Integer> avY, List<Integer> avZ);
-
-    @Inject(method = "addDescriptorWithPattern", at = @At("RETURN"), locals = LocalCapture.CAPTURE_FAILHARD)
-    private void injectAddDescriptorWithPattern(TaggedPositionBlockArray pattern, BlockArray.BlockInformation information, JsonObject part, CallbackInfo ci, List<Integer> avX, List<Integer> avY, List<Integer> avZ) throws JsonParseException {
-        buildPermutations(avX, avY, avZ).stream()
-                .filter(pos -> pos.equals(BlockPos.ORIGIN))
-                .findFirst()
-                .ifPresent(pos -> {
-                    IBlockState state = information.getSampleState();
-                    if (state.getBlock() instanceof BlockController) {
-                        ModularMachineryPatches.setControllerBlock(pattern, ((BlockController) state.getBlock()));
-                    }
-                });
+    @Inject(method = "deserialize", at = @At("RETURN"))
+    public void injectDeserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context, CallbackInfoReturnable<DynamicMachine> cir) {
+        String controllerID = JsonUtils.getString(json.getAsJsonObject(), "controller", BlocksMM.blockController.getRegistryName().toString());
+        Block block = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(controllerID));
+        if (block instanceof BlockController) {
+            DynamicMachine dynamicMachine = cir.getReturnValue();
+            ((ModularMachineryPatches.IDynamicMachinePatch) dynamicMachine).setController(((BlockController) block));
+        } else {
+            throw new IllegalArgumentException(controllerID + "is not a MM controller!");
+        }
     }
 }

@@ -1,36 +1,51 @@
 package youyihj.herodotusutils.core;
 
+import hellfirepvp.modularmachinery.client.util.BlockArrayRenderHelper;
 import hellfirepvp.modularmachinery.common.block.BlockController;
 import hellfirepvp.modularmachinery.common.tiles.TileMachineController;
 import hellfirepvp.modularmachinery.common.util.BlockArray;
-import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import youyihj.zenutils.util.ReflectUtils;
 
-import java.lang.reflect.Field;
-import java.util.Collections;
-import java.util.Map;
+import java.lang.reflect.Constructor;
 
 public class ModularMachineryPatches {
     public static TileMachineController.CraftingStatus MISSING_STRUCTURE;
-    public static Field arrayPatternField;
 
     static {
         try {
             MISSING_STRUCTURE = ((TileMachineController.CraftingStatus) ReflectUtils.removePrivateFinal(TileMachineController.CraftingStatus.class, "MISSING_STRUCTURE").get(null));
-            arrayPatternField = BlockArray.class.getDeclaredField("pattern");
-            arrayPatternField.setAccessible(true);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    @SuppressWarnings("unchecked")
-    public static void setControllerBlock(BlockArray blockArray, BlockController controller) {
-        try {
-            Map<BlockPos, BlockArray.BlockInformation> pattern = ((Map<BlockPos, BlockArray.BlockInformation>) arrayPatternField.get(blockArray));
-            pattern.put(BlockPos.ORIGIN, new BlockArray.BlockInformation(Collections.singletonList(new BlockArray.IBlockStateDescriptor(controller.getDefaultState()))));
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
+    public interface IDynamicMachinePatch {
+        void setController(BlockController controller);
+
+        BlockController getController();
+    }
+
+    @SideOnly(Side.CLIENT)
+    public static class ClientStuff {
+        private static Constructor<BlockArrayRenderHelper> renderHelperConstructor;
+
+        static {
+            try {
+                renderHelperConstructor = BlockArrayRenderHelper.class.getDeclaredConstructor(BlockArray.class);
+                renderHelperConstructor.setAccessible(true);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        public static BlockArrayRenderHelper createRenderHelper(BlockArray blockArray) {
+            try {
+                return renderHelperConstructor.newInstance(blockArray);
+            } catch (Exception e) {
+                throw new RuntimeException("failed to create such a render helper instance", e);
+            }
         }
     }
 }

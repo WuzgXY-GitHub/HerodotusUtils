@@ -6,11 +6,12 @@
   "setSourceFile": true,
   "priority": 0,
   "mixins": [
-    "MixinBlockArray",
+    "MixinDynamicMachine",
     "MixinMachineDeserializer",
     "MixinTileMachineController"
   ],
   "client": [
+    "MixinDynamicMachineRenderContext",
     "MixinGuiScreenBlueprint",
     "MixinStructurePreviewWrapper"
   ]

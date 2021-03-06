@@ -92,7 +92,7 @@ dependencies {
     deobfCompile "mezz.jei:jei_1.12.2:4.16.1.302"
     deobfCompile "youyihj:zenutils:1.6.4"
     deobfCompile "youyihj:collision:1.0.6"
-    deobfCompile "curse.maven:modular-machinery-270790:2713714"
+    deobfCompile "hellfirepvp.modularmachinery:modularmachinery:1.12.2-1.10.0-v44"
     compile('org.spongepowered:mixin:0.7.11-SNAPSHOT') {
         exclude module: 'guava'
         exclude module: 'commons-io'
