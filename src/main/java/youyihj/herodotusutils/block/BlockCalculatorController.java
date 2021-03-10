@@ -20,7 +20,7 @@ public class BlockCalculatorController extends PlainBlock {
         this.capacity = capacity;
     }
 
-    private int capacity;
+    private final int capacity;
 
     public static final BlockCalculatorController CONTROLLER_1 = new BlockCalculatorController(4);
     public static final BlockCalculatorController CONTROLLER_2 = new BlockCalculatorController(36);

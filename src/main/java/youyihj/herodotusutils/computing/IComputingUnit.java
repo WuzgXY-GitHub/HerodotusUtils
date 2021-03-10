@@ -25,8 +25,8 @@ public interface IComputingUnit {
     void removeInvalidEntry(IBlockAccess world);
 
     class Impl implements IComputingUnit {
-        private Map<BlockPos, Integer> generateDevices = new HashMap<>();
-        private Map<BlockPos, Integer> consumeDevices = new HashMap<>();
+        private final Map<BlockPos, Integer> generateDevices = new HashMap<>();
+        private final Map<BlockPos, Integer> consumeDevices = new HashMap<>();
 
         @Override
         public int totalGeneratePower() {
