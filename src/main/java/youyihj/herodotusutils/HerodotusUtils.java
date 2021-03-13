@@ -5,7 +5,6 @@ import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.*;
 import org.apache.logging.log4j.LogManager;
-import youyihj.collision.Collision;
 import youyihj.herodotusutils.computing.ComputingUnitHandler;
 import youyihj.herodotusutils.fluid.FluidMana;
 import youyihj.herodotusutils.fluid.FluidMercury;
@@ -35,7 +34,6 @@ public class HerodotusUtils {
     public void construct(FMLConstructionEvent event) {
         LogManager.getLogger().info("Welcome to Herodotus Modpack!");
         FluidRegistry.enableUniversalBucket();
-        Collision.disableModelGenerator();
     }
 
     /**
