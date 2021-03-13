@@ -30,9 +30,9 @@ public class BlockRegistry {
         registry.register(FLUID_MANA_BLOCK);
         registry.register(BlockMercury.INSTANCE);
         registry.register(BlockManaLiquidizer.INSTANCE);
-        registry.register(PlainBlock.STRUCTURE_BLOCK_1);
-        registry.register(PlainBlock.STRUCTURE_BLOCK_2);
-        registry.register(PlainBlock.STRUCTURE_BLOCK_3);
+        registry.register(BlockCalculatorStructure.STRUCTURE_BLOCK_1);
+        registry.register(BlockCalculatorStructure.STRUCTURE_BLOCK_2);
+        registry.register(BlockCalculatorStructure.STRUCTURE_BLOCK_3);
         registry.register(BlockCalculatorController.CONTROLLER_1);
         registry.register(BlockCalculatorController.CONTROLLER_2);
         registry.register(BlockCalculatorController.CONTROLLER_3);

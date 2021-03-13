@@ -18,9 +18,9 @@ public class ItemRegistry {
         registry.register(BlockManaLiquidizer.ITEM_BLOCK);
         registry.register(RefinedBottle.INSTANCE);
         registry.register(ItemCopperBucket.INSTANCE);
-        registry.register(PlainBlock.STRUCTURE_BLOCK_1_ITEM);
-        registry.register(PlainBlock.STRUCTURE_BLOCK_2_ITEM);
-        registry.register(PlainBlock.STRUCTURE_BLOCK_3_ITEM);
+        registry.register(BlockCalculatorStructure.STRUCTURE_BLOCK_1_ITEM);
+        registry.register(BlockCalculatorStructure.STRUCTURE_BLOCK_2_ITEM);
+        registry.register(BlockCalculatorStructure.STRUCTURE_BLOCK_3_ITEM);
         registry.register(BlockCalculatorController.ITEM_BLOCK_1);
         registry.register(BlockCalculatorController.ITEM_BLOCK_2);
         registry.register(BlockCalculatorController.ITEM_BLOCK_3);

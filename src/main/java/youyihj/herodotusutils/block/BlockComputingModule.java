@@ -1,7 +1,6 @@
 package youyihj.herodotusutils.block;
 
 import net.minecraft.block.material.EnumPushReaction;
-import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -13,9 +12,9 @@ import javax.annotation.Nullable;
 /**
  * @author youyihj
  */
-public class BlockComputingModule extends PlainBlock {
+public class BlockComputingModule extends BlockCalculatorStructure {
     public BlockComputingModule() {
-        super(Material.IRON, "computing_module");
+        super("computing_module");
     }
 
     @Override

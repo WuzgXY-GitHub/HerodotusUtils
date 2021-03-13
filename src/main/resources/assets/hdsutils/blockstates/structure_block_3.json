@@ -14,6 +14,12 @@
     ],
     "inventory": [
       {}
+    ],
+    "activated=true": [
+      {}
+    ],
+    "activated=false": [
+      {}
     ]
   }
 }

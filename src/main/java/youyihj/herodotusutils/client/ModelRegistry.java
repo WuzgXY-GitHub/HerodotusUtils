@@ -44,9 +44,9 @@ public class ModelRegistry {
         registerItemModel(BlockManaLiquidizer.ITEM_BLOCK);
         registerItemModel(RefinedBottle.INSTANCE);
         registerItemModel(ItemCopperBucket.INSTANCE);
-        registerItemModel(PlainBlock.STRUCTURE_BLOCK_1_ITEM);
-        registerItemModel(PlainBlock.STRUCTURE_BLOCK_2_ITEM);
-        registerItemModel(PlainBlock.STRUCTURE_BLOCK_3_ITEM);
+        registerItemModel(BlockCalculatorStructure.STRUCTURE_BLOCK_1_ITEM);
+        registerItemModel(BlockCalculatorStructure.STRUCTURE_BLOCK_2_ITEM);
+        registerItemModel(BlockCalculatorStructure.STRUCTURE_BLOCK_3_ITEM);
         registerItemModel(BlockCalculatorController.ITEM_BLOCK_1);
         registerItemModel(BlockCalculatorController.ITEM_BLOCK_2);
         registerItemModel(BlockCalculatorController.ITEM_BLOCK_3);

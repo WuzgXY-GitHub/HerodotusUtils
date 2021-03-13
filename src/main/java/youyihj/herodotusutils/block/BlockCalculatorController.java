@@ -2,11 +2,11 @@ package youyihj.herodotusutils.block;
 
 
 import net.minecraft.block.material.EnumPushReaction;
-import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
@@ -14,9 +14,9 @@ import javax.annotation.Nullable;
 /**
  * @author youyihj
  */
-public class BlockCalculatorController extends PlainBlock {
+public class BlockCalculatorController extends BlockCalculatorStructure {
     private BlockCalculatorController(int capacity) {
-        super(Material.IRON, "calculator_controller_" + capacity);
+        super("calculator_controller_" + capacity);
         this.capacity = capacity;
     }
 
@@ -43,5 +43,14 @@ public class BlockCalculatorController extends PlainBlock {
     @Override
     public EnumPushReaction getMobilityFlag(IBlockState state) {
         return EnumPushReaction.BLOCK;
+    }
+
+    @Override
+    public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
+        TileCalculatorController controller = ((TileCalculatorController) worldIn.getTileEntity(pos));
+        if (controller != null) {
+            controller.setStructureInactivated();
+        }
+        super.breakBlock(worldIn, pos, state);
     }
 }
