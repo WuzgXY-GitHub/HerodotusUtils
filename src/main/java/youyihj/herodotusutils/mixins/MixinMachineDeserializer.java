@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import youyihj.herodotusutils.core.ModularMachineryPatches;
+import youyihj.herodotusutils.modsupport.modularmachinery.IDynamicMachinePatch;
 
 import java.lang.reflect.Type;
 
@@ -27,7 +27,7 @@ public abstract class MixinMachineDeserializer {
         Block block = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(controllerID));
         DynamicMachine dynamicMachine = cir.getReturnValue();
         if (block instanceof BlockController) {
-            ((ModularMachineryPatches.IDynamicMachinePatch) dynamicMachine).setController(((BlockController) block));
+            ((IDynamicMachinePatch) dynamicMachine).setController(((BlockController) block));
         } else {
             throw new IllegalArgumentException(controllerID + " is not a MM controller!");
         }

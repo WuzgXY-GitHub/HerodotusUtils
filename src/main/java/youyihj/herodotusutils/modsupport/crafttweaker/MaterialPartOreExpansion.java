@@ -1,4 +1,4 @@
-package youyihj.herodotusutils.crafttweaker;
+package youyihj.herodotusutils.modsupport.crafttweaker;
 
 import crafttweaker.annotations.ZenRegister;
 import crafttweaker.api.item.IItemStack;

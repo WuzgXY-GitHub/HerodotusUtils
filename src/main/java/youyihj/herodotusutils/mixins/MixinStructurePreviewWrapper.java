@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
-import youyihj.herodotusutils.core.ModularMachineryPatches;
+import youyihj.herodotusutils.modsupport.modularmachinery.IDynamicMachinePatch;
 
 import java.util.List;
 
@@ -24,7 +24,7 @@ public abstract class MixinStructurePreviewWrapper {
 
     @ModifyArg(method = "drawButtons", at = @At(value = "INVOKE", target = "Lhellfirepvp/modularmachinery/client/util/RenderingUtils;renderBlueStackTooltip(IILjava/util/List;Lnet/minecraft/client/gui/FontRenderer;Lnet/minecraft/client/renderer/RenderItem;)V"))
     private List<Tuple<ItemStack, String>> modifyArgRenderBlueStackTooltip(List<Tuple<ItemStack, String>> list) {
-        ItemStack ctrl = new ItemStack(((ModularMachineryPatches.IDynamicMachinePatch) machine).getController());
+        ItemStack ctrl = new ItemStack(((IDynamicMachinePatch) machine).getController());
         list.set(0, new Tuple<>(ctrl, "1x " + Iterables.getFirst(ctrl.getTooltip(Minecraft.getMinecraft().player,
                 Minecraft.getMinecraft().gameSettings.advancedItemTooltips ? ITooltipFlag.TooltipFlags.ADVANCED : ITooltipFlag.TooltipFlags.NORMAL), "")));
         return list;

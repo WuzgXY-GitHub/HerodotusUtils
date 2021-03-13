@@ -2,14 +2,13 @@ package youyihj.herodotusutils.computing.event;
 
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.eventhandler.Event;
 import youyihj.herodotusutils.computing.IComputingUnit;
+import youyihj.herodotusutils.event.BaseEvent;
 
 /**
  * @author youyihj
  */
-public class ComputingUnitChangeEvent extends Event {
+public class ComputingUnitChangeEvent extends BaseEvent {
     private final IComputingUnit computingUnit;
     private final Chunk chunk;
 
@@ -28,9 +27,5 @@ public class ComputingUnitChangeEvent extends Event {
 
     public World getWorld() {
         return getChunk().getWorld();
-    }
-
-    public void post() {
-        MinecraftForge.EVENT_BUS.post(this);
     }
 }

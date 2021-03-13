@@ -1,7 +1,6 @@
-package youyihj.herodotusutils.core;
+package youyihj.herodotusutils.modsupport.modularmachinery;
 
 import hellfirepvp.modularmachinery.client.util.BlockArrayRenderHelper;
-import hellfirepvp.modularmachinery.common.block.BlockController;
 import hellfirepvp.modularmachinery.common.tiles.TileMachineController;
 import hellfirepvp.modularmachinery.common.util.BlockArray;
 import net.minecraftforge.fml.relauncher.Side;
@@ -19,12 +18,6 @@ public class ModularMachineryPatches {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    public interface IDynamicMachinePatch {
-        void setController(BlockController controller);
-
-        BlockController getController();
     }
 
     @SideOnly(Side.CLIENT)

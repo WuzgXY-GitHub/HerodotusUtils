@@ -1,4 +1,4 @@
-package youyihj.herodotusutils.theoneprobe;
+package youyihj.herodotusutils.modsupport.theoneprobe;
 
 import mcjty.theoneprobe.api.*;
 import net.minecraft.block.state.IBlockState;

@@ -49,7 +49,7 @@ public class HerodotusUtils {
         FluidRegistry.addBucketForFluid(FluidMana.INSTANCE);
         FluidRegistry.addBucketForFluid(FluidMercury.INSTANCE);
         ComputingUnitHandler.register();
-        FMLInterModComms.sendFunctionMessage("theoneprobe", "getTheOneProbe", "youyihj.herodotusutils.theoneprobe.TOPHandler");
+        FMLInterModComms.sendFunctionMessage("theoneprobe", "getTheOneProbe", "youyihj.herodotusutils.modsupport.theoneprobe.TOPHandler");
     }
 
     /**

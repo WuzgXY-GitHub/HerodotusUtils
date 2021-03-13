@@ -13,7 +13,8 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import youyihj.herodotusutils.core.ModularMachineryPatches;
+import youyihj.herodotusutils.modsupport.modularmachinery.IDynamicMachinePatch;
+import youyihj.herodotusutils.modsupport.modularmachinery.ModularMachineryPatches;
 
 import java.util.Collections;
 
@@ -31,7 +32,7 @@ public abstract class MixinDynamicMachineRenderContext {
     @Inject(method = "<init>", at = @At("RETURN"))
     private void injectInit(DynamicMachine machine, CallbackInfo ci) {
         BlockArray copy = new BlockArray(machine.getPattern(), this.moveOffset);
-        copy.addBlock(new BlockPos(this.moveOffset), new BlockArray.BlockInformation(Collections.singletonList(new BlockArray.IBlockStateDescriptor(((ModularMachineryPatches.IDynamicMachinePatch) machine).getController().getDefaultState()))));
+        copy.addBlock(new BlockPos(this.moveOffset), new BlockArray.BlockInformation(Collections.singletonList(new BlockArray.IBlockStateDescriptor(((IDynamicMachinePatch) machine).getController().getDefaultState()))));
         this.render = ModularMachineryPatches.ClientStuff.createRenderHelper(copy);
     }
 }
