@@ -34,7 +34,7 @@ jobs:
     - name: Checkout Herodotus modpack repo
       uses: actions/checkout@v2
       with:
-        repository: https://github.com/ProjectHDS/Herodotus
+        repository: ProjectHDS/Herodotus
 
     - name: Move this mod to Herodotus modpack repo
       run: |
