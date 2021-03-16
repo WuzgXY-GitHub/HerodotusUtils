@@ -33,16 +33,16 @@ jobs:
       with:
         repository: ProjectHDS/Herodotus
         path: modpack
+        token: ${{ secrets.ACTION_TOKEN }}
 
     - name: Move this mod to Herodotus modpack repo
       run: |
         mv -f /home/runner/work/HerodotusUtils/HerodotusUtils/artifacts/* $GITHUB_WORKSPACE/modpack/.minecraft/mods/
 
     - name: Commit this mod to Herodotus modpack repo
-      uses: EndBug/add-and-commit@v4
+      uses: EndBug/add-and-commit@v7
       with:
         author_name: friendlyhj
         author_email: youyi580@qq.com
         message: "Update Herodotus Utils Mod"
         cwd: ./modpack
-        token: ${{ secrets.ACTION_TOKEN }}
