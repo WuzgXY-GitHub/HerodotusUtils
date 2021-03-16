@@ -6,8 +6,6 @@ name: HerodotusUtilsBuilds
 on:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
 
 jobs:
   build:
@@ -15,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
     - name: Set up JDK 1.8
       uses: actions/setup-java@v1
       with:
@@ -25,7 +23,7 @@ jobs:
     - name: Build with Gradle
       run: ./gradlew build
 
-    - name: Run a shell script
+    - name: Run build.sh
       run: bash build.sh
 
     - name: Upload a Build Artifact.
@@ -33,6 +31,7 @@ jobs:
       with:
         name: hdsutils-build
         path: artifacts
+
   publish:
 
     runs-on: ubuntu-latest
@@ -43,8 +42,11 @@ jobs:
         with:
           repository: https://github.com/ProjectHDS/Herodotus
 
-      - name: Run publish.sh
-        run: bash publish.sh
+      - name: Move this mod to Herodotus modpack repo
+        run: |
+          rm -f /home/runner/work/HerodotusUtils/HerodotusUtils/artifacts/build file here
+          rm -f /home/runner/work/Herodotus/Herodotus/.minecraft/mods/*
+          mv -f /home/runner/work/HerodotusUtils/HerodotusUtils/artifacts/* /home/runner/work/Herodotus/Herodotus/.minecraft/mods/
 
       - name: Commit this mod to Herodotus modpack repo
         uses: EndBug/add-and-commit@v4
