@@ -40,8 +40,9 @@ jobs:
         mv -f /home/runner/work/HerodotusUtils/HerodotusUtils/artifacts/* $GITHUB_WORKSPACE/modpack/.minecraft/mods/
 
     - name: Commit this mod to Herodotus modpack repo
-      uses: EndBug/add-and-commit@v7
+      uses: EndBug/add-and-commit@v4
       with:
+        branch: master
         author_name: friendlyhj
         author_email: youyi580@qq.com
         message: "Update Herodotus Utils Mod"
