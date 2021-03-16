@@ -24,12 +24,34 @@ jobs:
       run: chmod +x gradlew
     - name: Build with Gradle
       run: ./gradlew build
-    
+
     - name: Run a shell script
       run: bash build.sh
-    
+
     - name: Upload a Build Artifact.
       uses: actions/upload-artifact@v2.2.2
       with:
         name: hdsutils-build
         path: artifacts
+  publish:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Herodotus modpack repo
+      - uses: actions/checkout@v2
+        with:
+          repository: https://github.com/ProjectHDS/Herodotus
+
+      - name: Run publish.sh
+        run: bash publish.sh
+
+      - name: Commit this mod to Herodotus modpack repo
+        uses: EndBug/add-and-commit@v4
+        with:
+          author_name: friendlyhj
+          author_email: youyi580@qq.com
+          message: "Update Herodotus Utils Mod"
+          add: "*.jar"
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACTION_TOKEN }}
