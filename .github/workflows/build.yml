@@ -28,23 +28,36 @@ jobs:
       with:
         name: hdsutils-build
         path: artifacts
-    - name: Checkout Herodotus modpack repo
-      uses: actions/checkout@v2
-      with:
-        repository: ProjectHDS/Herodotus
-        path: modpack
-        token: ${{ secrets.ACTION_TOKEN }}
 
-    - name: Move this mod to Herodotus modpack repo
-      run: |
-        rm -f $GITHUB_WORKSPACE/modpack/.minecraft/mods/*
-        mv -f /home/runner/work/HerodotusUtils/HerodotusUtils/artifacts/* $GITHUB_WORKSPACE/modpack/.minecraft/mods/
+  deploy:
 
-    - name: Commit this mod to Herodotus modpack repo
-      uses: EndBug/add-and-commit@v7
-      with:
-        branch: master
-        author_name: friendlyhj
-        author_email: youyi580@qq.com
-        message: "Update Herodotus Utils Mod"
-        cwd: ./modpack
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Download the Build Artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: hdsutils-build
+          path: artifacts
+
+      - name: Checkout Herodotus modpack repo
+        uses: actions/checkout@v2
+        with:
+          repository: ProjectHDS/Herodotus
+          path: modpack
+          token: ${{ secrets.ACTION_TOKEN }}
+
+      - name: Move this mod to Herodotus modpack repo
+        run: |
+          rm -f $GITHUB_WORKSPACE/modpack/.minecraft/mods/*
+          mv -f $GITHUB_WORKSPACE/artifacts/* $GITHUB_WORKSPACE/modpack/.minecraft/mods/
+
+      - name: Commit this mod to Herodotus modpack repo
+        uses: EndBug/add-and-commit@v7
+        with:
+          branch: master
+          author_name: friendlyhj
+          author_email: youyi580@qq.com
+          message: "Update Herodotus Utils Mod"
+          cwd: ./modpack
