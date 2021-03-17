@@ -37,6 +37,7 @@ jobs:
 
     - name: Move this mod to Herodotus modpack repo
       run: |
+        rm -f $GITHUB_WORKSPACE/modpack/.minecraft/mods/*
         mv -f /home/runner/work/HerodotusUtils/HerodotusUtils/artifacts/* $GITHUB_WORKSPACE/modpack/.minecraft/mods/
 
     - name: Commit this mod to Herodotus modpack repo
