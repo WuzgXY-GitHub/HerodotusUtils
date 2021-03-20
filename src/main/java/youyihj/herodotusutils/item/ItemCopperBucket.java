@@ -2,6 +2,7 @@ package youyihj.herodotusutils.item;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
@@ -9,11 +10,13 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
+import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.fluids.FluidActionResult;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
+import net.minecraftforge.fluids.capability.wrappers.FluidBucketWrapper;
 
-import java.util.Optional;
+import javax.annotation.Nullable;
 
 /**
  * @author youyihj
@@ -30,6 +33,34 @@ public class ItemCopperBucket extends ItemFluidContainer {
     @Override
     public String getFluidName(FluidStack fluidStack) {
         return fluidStack.getLocalizedName();
+    }
+
+    @Nullable
+    @Override
+    public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable NBTTagCompound nbt) {
+        return new FluidBucketWrapper(stack) {
+            @Nullable
+            @Override
+            public FluidStack getFluid() {
+                return FluidStack.loadFluidStackFromNBT(container.getTagCompound());
+            }
+
+            @Override
+            protected void setFluid(@Nullable FluidStack fluidStack) {
+                NBTTagCompound tagCompound = container.getTagCompound();
+                if (tagCompound == null) {
+                    tagCompound = new NBTTagCompound();
+                    container.setTagCompound(tagCompound);
+                }
+                if (fluidStack == null) {
+                    tagCompound.removeTag("FluidName");
+                    tagCompound.removeTag("Amount");
+                } else {
+                    tagCompound.setString("FluidName", fluidStack.getFluid().getName());
+                    tagCompound.setInteger("Amount", 1000);
+                }
+            }
+        };
     }
 
     @Override
@@ -53,18 +84,16 @@ public class ItemCopperBucket extends ItemFluidContainer {
         }
         FluidActionResult fluidActionResult;
         if (this.isEmpty(stack)) {
-            fluidActionResult = Optional.ofNullable(FluidUtil.getFluidHandler(worldIn, pos, facing))
-                    .map(fluidHandler -> fluidHandler.drain(1000, false))
-                    .filter(fluidStack -> fluidStack.amount >= 1000)
-                    .map(fluidStack -> FluidUtil.tryPickUpFluid(stack, player, worldIn, pos, facing))
-                    .orElse(FluidActionResult.FAILURE);
+            fluidActionResult = FluidUtil.tryPickUpFluid(stack, player, worldIn, pos, facing);
         } else {
-            fluidActionResult = FluidUtil.tryPlaceFluid(player, worldIn, pos, stack, FluidUtil.getFluidContained(stack));
+            FluidStack fluidContained = FluidUtil.getFluidContained(stack);
+            fluidActionResult = FluidUtil.tryPlaceFluid(player, worldIn, pos, stack, fluidContained);
+            if (!fluidActionResult.success) {
+                fluidActionResult = FluidUtil.tryPlaceFluid(player, worldIn, pos.offset(facing), stack, fluidContained);
+            }
         }
         if (fluidActionResult.success) {
-            if (!worldIn.isRemote) {
-                player.setHeldItem(hand, fluidActionResult.result);
-            }
+            player.setHeldItem(hand, fluidActionResult.result);
             return ActionResult.newResult(EnumActionResult.SUCCESS, fluidActionResult.result);
         }
         return ActionResult.newResult(EnumActionResult.PASS, stack);
