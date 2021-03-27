@@ -83,6 +83,10 @@ repositories {
     }
 }
 
+mixin {
+    add sourceSets.main, "mixins.hdsutils.refmap.json"
+}
+
 dependencies {
     deobfCompile "vazkii.botania:Botania:r1.10-363.148"
     deobfCompile "com.azanor.baubles:Baubles:1.12-1.5.2"
