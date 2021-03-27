@@ -6,6 +6,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.registries.IForgeRegistry;
 import youyihj.herodotusutils.block.*;
+import youyihj.herodotusutils.modsupport.modularmachinery.block.BlockMMController;
 
 /**
  * @author youyihj
@@ -26,7 +27,7 @@ public class ItemRegistry {
         registry.register(BlockCalculatorController.ITEM_BLOCK_3);
         BlockTransporter.getItemBlockMap().values().forEach(registry::register);
         registry.register(BlockComputingModule.ITEM_BLOCK);
-        registry.register(BlockRegistry.MM_CONTROLLER_ITEM);
+        BlockMMController.CONTROLLER_ITEMS.forEach(registry::register);
         registry.register(ItemLithiumAmalgam.INSTANCE);
         registry.register(StarlightStorageTiny.INSTANCE);
     }

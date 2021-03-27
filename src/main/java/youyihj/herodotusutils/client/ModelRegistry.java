@@ -3,6 +3,7 @@ package youyihj.herodotusutils.client;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.block.statemap.StateMapperBase;
+import net.minecraft.client.renderer.color.BlockColors;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.client.event.ModelRegistryEvent;
@@ -17,6 +18,7 @@ import youyihj.herodotusutils.block.*;
 import youyihj.herodotusutils.fluid.FluidMana;
 import youyihj.herodotusutils.fluid.FluidMercury;
 import youyihj.herodotusutils.item.*;
+import youyihj.herodotusutils.modsupport.modularmachinery.block.BlockMMController;
 
 import javax.annotation.Nonnull;
 import java.util.Optional;
@@ -52,8 +54,8 @@ public class ModelRegistry {
         registerItemModel(BlockCalculatorController.ITEM_BLOCK_3);
         registerItemModel(BlockComputingModule.ITEM_BLOCK);
         registerItemModel(ItemLithiumAmalgam.INSTANCE);
-        registerItemModel(BlockRegistry.MM_CONTROLLER_ITEM);
         registerItemModel(StarlightStorageTiny.INSTANCE);
+        BlockMMController.CONTROLLER_ITEMS.forEach(ModelRegistry::registerItemModel);
         ModelLoader.setCustomModelResourceLocation(StarlightStorageTiny.INSTANCE, 1,
                 new ModelResourceLocation(StarlightStorageTiny.INSTANCE.getRegistryName() + "_full", "inventory"));
         BlockTransporter.getItemBlockMap().values().forEach(ModelRegistry::registerItemModel);
@@ -88,7 +90,8 @@ public class ModelRegistry {
 
     @SubscribeEvent
     public static void blockColor(ColorHandlerEvent.Block event) {
-        // event.getBlockColors().registerBlockColorHandler(BlockRegistry.MM_CONTROLLER::getColorMultiplier, BlockRegistry.MM_CONTROLLER);
+        BlockColors blockColors = event.getBlockColors();
+        BlockMMController.CONTROLLERS.forEach(controller -> blockColors.registerBlockColorHandler(controller::getColorMultiplier, controller));
     }
 
     private static void registerItemModel(Item item) {

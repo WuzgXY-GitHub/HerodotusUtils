@@ -3,11 +3,14 @@ package youyihj.herodotusutils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.event.*;
+import net.minecraftforge.fml.common.SidedProxy;
+import net.minecraftforge.fml.common.event.FMLConstructionEvent;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import org.apache.logging.log4j.LogManager;
-import youyihj.herodotusutils.computing.ComputingUnitHandler;
-import youyihj.herodotusutils.fluid.FluidMana;
-import youyihj.herodotusutils.fluid.FluidMercury;
+import org.apache.logging.log4j.Logger;
+import youyihj.herodotusutils.proxy.IProxy;
 
 @Mod(
         modid = HerodotusUtils.MOD_ID,
@@ -24,11 +27,16 @@ public class HerodotusUtils {
         return new ResourceLocation(MOD_ID, path);
     }
 
+    public static Logger logger;
+
     /**
      * This is the instance of your mod as created by Forge. It will never be null.
      */
     @Mod.Instance(MOD_ID)
     public static HerodotusUtils INSTANCE;
+
+    @SidedProxy(serverSide = "youyihj.herodotusutils.proxy.CommonProxy", clientSide = "youyihj.herodotusutils.proxy.ClientProxy")
+    public static IProxy proxy;
 
     @Mod.EventHandler
     public void construct(FMLConstructionEvent event) {
@@ -42,12 +50,8 @@ public class HerodotusUtils {
      */
     @Mod.EventHandler
     public void preinit(FMLPreInitializationEvent event) {
-        FluidRegistry.registerFluid(FluidMana.INSTANCE);
-        FluidRegistry.registerFluid(FluidMercury.INSTANCE);
-        FluidRegistry.addBucketForFluid(FluidMana.INSTANCE);
-        FluidRegistry.addBucketForFluid(FluidMercury.INSTANCE);
-        ComputingUnitHandler.register();
-        FMLInterModComms.sendFunctionMessage("theoneprobe", "getTheOneProbe", "youyihj.herodotusutils.modsupport.theoneprobe.TOPHandler");
+        logger = event.getModLog();
+        proxy.preInit(event);
     }
 
     /**
@@ -55,7 +59,7 @@ public class HerodotusUtils {
      */
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
-
+        proxy.init(event);
     }
 
     /**
@@ -63,6 +67,6 @@ public class HerodotusUtils {
      */
     @Mod.EventHandler
     public void postinit(FMLPostInitializationEvent event) {
-
+        proxy.postInit(event);
     }
 }

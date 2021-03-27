@@ -26,5 +26,6 @@ hdsutils.computing_unit.generate=Generating %s Computing Unit
 hdsutils.computing_unit.consume=Consuming %s Computing Unit
 hdsutils.star_light_collect=Throw it at night to inject starlight
 hdsutils.star_light_progress=Starlight: %s / %s
+hdsutils.controller=%s Controller
 effect.lithium_amalgam_infected=Lithium Amalgam Infected
 death.attack.lithium_amalgam_infected=%s dies due to infection of lithium amalgam
