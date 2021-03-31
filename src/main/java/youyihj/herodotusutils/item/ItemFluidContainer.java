@@ -8,6 +8,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
+import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.IFluidHandlerItem;
@@ -73,6 +74,10 @@ public abstract class ItemFluidContainer extends Item {
 
     public boolean isEmpty(ItemStack stack) {
         return FluidUtil.getFluidContained(stack) == null;
+    }
+
+    public boolean isHotFluid(Fluid fluid) {
+        return fluid.getTemperature() >= 600;
     }
 
     public static Item[] getContainers() {

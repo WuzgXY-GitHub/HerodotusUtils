@@ -18,6 +18,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * @author youyihj
@@ -94,7 +95,7 @@ public class TileCalculatorController extends TileEntity implements ITickable, I
     }
 
     private void updateStructure() {
-        MULTIBLOCK.getPattern().keySet().forEach(pos -> {
+        Stream.concat(MULTIBLOCK.getPattern().keySet().stream(), Stream.of(BlockPos.ORIGIN)).forEach(pos -> {
             BlockPos posOffset = this.pos.add(pos);
             IBlockState state = world.getBlockState(posOffset);
             Block block = state.getBlock();

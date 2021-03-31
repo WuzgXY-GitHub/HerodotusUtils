@@ -14,21 +14,27 @@ import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.fluids.FluidActionResult;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
+import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.fluids.capability.IFluidTankProperties;
 import net.minecraftforge.fluids.capability.wrappers.FluidBucketWrapper;
+import org.apache.commons.lang3.ArrayUtils;
 
 import javax.annotation.Nullable;
+import java.util.Objects;
+import java.util.Random;
+import java.util.stream.Stream;
 
 /**
  * @author youyihj
  */
 public class ItemCopperBucket extends ItemFluidContainer {
+    public static final String NAME = "copper_bucket";
+    public static final ItemCopperBucket INSTANCE = new ItemCopperBucket();
+
     private ItemCopperBucket() {
         super(NAME);
         this.setMaxStackSize(1);
     }
-
-    public static final String NAME = "copper_bucket";
-    public static final ItemCopperBucket INSTANCE = new ItemCopperBucket();
 
     @Override
     public String getFluidName(FluidStack fluidStack) {
@@ -66,13 +72,6 @@ public class ItemCopperBucket extends ItemFluidContainer {
     @Override
     public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer player, EnumHand hand) {
         ItemStack stack = player.getHeldItem(hand);
-        if (!worldIn.isRemote) {
-            if (worldIn.rand.nextInt(15) == 0) {
-                player.renderBrokenItemStack(stack);
-                stack.shrink(1);
-                return ActionResult.newResult(EnumActionResult.FAIL, stack);
-            }
-        }
         RayTraceResult rayTraceResult = this.rayTrace(worldIn, player, this.isEmpty(stack));
         if (rayTraceResult == null) {
             return ActionResult.newResult(EnumActionResult.FAIL, stack);
@@ -84,6 +83,11 @@ public class ItemCopperBucket extends ItemFluidContainer {
         }
         FluidActionResult fluidActionResult;
         if (this.isEmpty(stack)) {
+            if (shouldBroken(FluidUtil.getFluidHandler(worldIn, pos, facing), stack, worldIn.rand)) {
+                player.renderBrokenItemStack(stack);
+                stack.shrink(1);
+                return ActionResult.newResult(EnumActionResult.FAIL, stack);
+            }
             fluidActionResult = FluidUtil.tryPickUpFluid(stack, player, worldIn, pos, facing);
         } else {
             FluidStack fluidContained = FluidUtil.getFluidContained(stack);
@@ -91,11 +95,28 @@ public class ItemCopperBucket extends ItemFluidContainer {
             if (!fluidActionResult.success) {
                 fluidActionResult = FluidUtil.tryPlaceFluid(player, worldIn, pos.offset(facing), stack, fluidContained);
             }
+            if (shouldBroken(FluidUtil.getFluidHandler(worldIn, pos, facing), stack, worldIn.rand)) {
+                player.renderBrokenItemStack(stack);
+                stack.shrink(1);
+                return ActionResult.newResult(EnumActionResult.FAIL, stack);
+            }
         }
         if (fluidActionResult.success) {
             player.setHeldItem(hand, fluidActionResult.result);
             return ActionResult.newResult(EnumActionResult.SUCCESS, fluidActionResult.result);
         }
         return ActionResult.newResult(EnumActionResult.PASS, stack);
+    }
+
+    private boolean shouldBroken(@Nullable IFluidHandler fluidHandler, ItemStack container, Random random) {
+        return Stream.of(fluidHandler, FluidUtil.getFluidHandler(container))
+                .filter(Objects::nonNull)
+                .map(IFluidHandler::getTankProperties)
+                .filter(ArrayUtils::isEmpty)
+                .map(properties -> properties[0])
+                .map(IFluidTankProperties::getContents)
+                .filter(Objects::nonNull)
+                .map(FluidStack::getFluid)
+                .anyMatch(this::isHotFluid) && random.nextInt(6) == 0;
     }
 }
