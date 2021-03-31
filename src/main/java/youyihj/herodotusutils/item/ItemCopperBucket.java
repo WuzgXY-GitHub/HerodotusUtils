@@ -21,7 +21,6 @@ import org.apache.commons.lang3.ArrayUtils;
 
 import javax.annotation.Nullable;
 import java.util.Objects;
-import java.util.Random;
 import java.util.stream.Stream;
 
 /**
@@ -83,7 +82,7 @@ public class ItemCopperBucket extends ItemFluidContainer {
         }
         FluidActionResult fluidActionResult;
         if (this.isEmpty(stack)) {
-            if (shouldBroken(FluidUtil.getFluidHandler(worldIn, pos, facing), stack, worldIn.rand)) {
+            if (shouldBroken(FluidUtil.getFluidHandler(worldIn, pos, facing), stack, worldIn)) {
                 player.renderBrokenItemStack(stack);
                 stack.shrink(1);
                 return ActionResult.newResult(EnumActionResult.FAIL, stack);
@@ -95,7 +94,7 @@ public class ItemCopperBucket extends ItemFluidContainer {
             if (!fluidActionResult.success) {
                 fluidActionResult = FluidUtil.tryPlaceFluid(player, worldIn, pos.offset(facing), stack, fluidContained);
             }
-            if (shouldBroken(FluidUtil.getFluidHandler(worldIn, pos, facing), stack, worldIn.rand)) {
+            if (shouldBroken(FluidUtil.getFluidHandler(worldIn, pos, facing), stack, worldIn)) {
                 player.renderBrokenItemStack(stack);
                 stack.shrink(1);
                 return ActionResult.newResult(EnumActionResult.FAIL, stack);
@@ -108,7 +107,9 @@ public class ItemCopperBucket extends ItemFluidContainer {
         return ActionResult.newResult(EnumActionResult.PASS, stack);
     }
 
-    private boolean shouldBroken(@Nullable IFluidHandler fluidHandler, ItemStack container, Random random) {
+    private boolean shouldBroken(@Nullable IFluidHandler fluidHandler, ItemStack container, World world) {
+        if (world.isRemote)
+            return false;
         return Stream.of(fluidHandler, FluidUtil.getFluidHandler(container))
                 .filter(Objects::nonNull)
                 .map(IFluidHandler::getTankProperties)
@@ -117,6 +118,6 @@ public class ItemCopperBucket extends ItemFluidContainer {
                 .map(IFluidTankProperties::getContents)
                 .filter(Objects::nonNull)
                 .map(FluidStack::getFluid)
-                .anyMatch(this::isHotFluid) && random.nextInt(6) == 0;
+                .anyMatch(this::isHotFluid) && world.rand.nextInt(6) == 0;
     }
 }
