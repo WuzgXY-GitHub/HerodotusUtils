@@ -1,5 +1,6 @@
 package youyihj.herodotusutils.modsupport.modularmachinery.block;
 
+import hellfirepvp.modularmachinery.ModularMachinery;
 import hellfirepvp.modularmachinery.common.block.BlockController;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
@@ -16,13 +17,16 @@ import java.util.List;
 public class BlockMMController extends BlockController {
 
     private final int color;
+    private final String machineRegistryName;
+    private final String machineLocalizedName;
 
     public static final List<BlockMMController> CONTROLLERS = new ArrayList<>();
     public static final List<Item> CONTROLLER_ITEMS = new ArrayList<>();
 
-    public BlockMMController(String machineRegistryName, String machineUnlocalizedName, int color) {
+    public BlockMMController(String machineRegistryName, String machineLocalizedName, int color) {
         this.setRegistryName(machineRegistryName + "_controller");
-        this.setUnlocalizedName(machineUnlocalizedName);
+        this.machineRegistryName = machineRegistryName;
+        this.machineLocalizedName = machineLocalizedName;
         this.color = color;
         CONTROLLERS.add(this);
         CONTROLLER_ITEMS.add(new ItemBlock(this) {
@@ -41,6 +45,9 @@ public class BlockMMController extends BlockController {
     @Override
     @SuppressWarnings("deprecation")
     public String getLocalizedName() {
-        return I18n.translateToLocalFormatted("hdsutils.controller", I18n.translateToLocal(this.getUnlocalizedName().substring("tile.".length())));
+        String localizationKey = ModularMachinery.MODID + "." + machineRegistryName;
+        String localizedName = I18n.canTranslate(localizationKey) ? I18n.translateToLocal(localizationKey) :
+                machineLocalizedName != null ? machineLocalizedName : localizationKey;
+        return I18n.translateToLocalFormatted("hdsutils.controller", localizedName);
     }
 }
