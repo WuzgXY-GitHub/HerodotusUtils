@@ -1,7 +1,6 @@
 package youyihj.herodotusutils.proxy;
 
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import youyihj.herodotusutils.HerodotusUtils;
@@ -28,10 +27,5 @@ public class ClientProxy extends CommonProxy {
     @Override
     public void postInit(FMLPostInitializationEvent event) {
         super.postInit(event);
-    }
-
-    @Override
-    public void loadComplete(FMLLoadCompleteEvent event) {
-        super.loadComplete(event);
     }
 }
