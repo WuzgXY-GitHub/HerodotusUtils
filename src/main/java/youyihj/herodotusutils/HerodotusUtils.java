@@ -51,6 +51,7 @@ public class HerodotusUtils {
     @Mod.EventHandler
     public void preinit(FMLPreInitializationEvent event) {
         logger = event.getModLog();
+        logger.info("welcome to herodotus modpack!");
         proxy.preInit(event);
     }
 
