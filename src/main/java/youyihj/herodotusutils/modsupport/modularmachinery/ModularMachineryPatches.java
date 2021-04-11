@@ -39,7 +39,7 @@ public class ModularMachineryPatches {
             for (File file : Objects.requireNonNull(machineryDir.listFiles())) {
                 if (file.getName().endsWith(".json")) {
                     FileReader reader = new FileReader(file);
-                    Gson gson = new GsonBuilder().registerTypeAdapter(BlockMMController.class, MachineJSONPreReader.INSTANCE).create();
+                    Gson gson = new GsonBuilder().registerTypeAdapter(BlockMMController.class, MachineJsonPreReader.INSTANCE).create();
                     gson.fromJson(reader, BlockMMController.class);
                 }
             }

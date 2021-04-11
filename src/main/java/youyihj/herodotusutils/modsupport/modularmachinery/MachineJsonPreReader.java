@@ -6,7 +6,7 @@ import youyihj.herodotusutils.modsupport.modularmachinery.block.BlockMMControlle
 
 import java.lang.reflect.Type;
 
-public enum MachineJSONPreReader implements JsonDeserializer<BlockMMController> {
+public enum MachineJsonPreReader implements JsonDeserializer<BlockMMController> {
     INSTANCE;
 
     @Override
