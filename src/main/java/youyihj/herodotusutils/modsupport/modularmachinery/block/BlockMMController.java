@@ -2,6 +2,7 @@ package youyihj.herodotusutils.modsupport.modularmachinery.block;
 
 import hellfirepvp.modularmachinery.ModularMachinery;
 import hellfirepvp.modularmachinery.common.block.BlockController;
+import hellfirepvp.modularmachinery.common.item.ItemDynamicColor;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -14,7 +15,7 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BlockMMController extends BlockController {
+public class BlockMMController extends BlockController implements ItemDynamicColor {
 
     private final int color;
     private final String machineRegistryName;
@@ -49,5 +50,10 @@ public class BlockMMController extends BlockController {
         String localizedName = I18n.canTranslate(localizationKey) ? I18n.translateToLocal(localizationKey) :
                 machineLocalizedName != null ? machineLocalizedName : localizationKey;
         return I18n.translateToLocalFormatted("hdsutils.controller", localizedName);
+    }
+
+    @Override
+    public int getColorFromItemstack(ItemStack stack, int tintIndex) {
+        return color;
     }
 }

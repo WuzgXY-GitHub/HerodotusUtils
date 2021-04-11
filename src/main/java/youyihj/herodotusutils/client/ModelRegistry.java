@@ -4,6 +4,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.block.statemap.StateMapperBase;
 import net.minecraft.client.renderer.color.BlockColors;
+import net.minecraft.client.renderer.color.ItemColors;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.client.event.ModelRegistryEvent;
@@ -63,7 +64,8 @@ public class ModelRegistry {
 
     @SubscribeEvent
     public static void itemColor(ColorHandlerEvent.Item event) {
-        event.getItemColors().registerItemColorHandler((stack, tintIndex) -> {
+        ItemColors itemColors = event.getItemColors();
+        itemColors.registerItemColorHandler((stack, tintIndex) -> {
             if (tintIndex != 1) return -1;
             FluidStack fluidStack = FluidUtil.getFluidContained(stack);
             if (fluidStack == null) return -1;
@@ -73,7 +75,7 @@ public class ModelRegistry {
                 return 0xC94309;
             } else return fluidStack.getFluid().getColor();
         }, ItemFluidContainer.getContainers());
-        event.getItemColors().registerItemColorHandler((stack, tintIndex) -> {
+        itemColors.registerItemColorHandler((stack, tintIndex) -> {
             if (stack.getMetadata() != 1 && tintIndex == 1) {
                 int starlight = Optional.ofNullable(stack.getTagCompound())
                         .map(nbt -> nbt.getInteger(StarlightStorageTiny.TAG_STARLIGHT))
@@ -86,6 +88,7 @@ public class ModelRegistry {
             }
             return -1;
         }, StarlightStorageTiny.INSTANCE);
+        BlockMMController.CONTROLLERS.forEach(controller -> itemColors.registerItemColorHandler(controller::getColorFromItemstack, controller));
     }
 
     @SubscribeEvent
