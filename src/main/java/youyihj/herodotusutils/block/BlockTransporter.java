@@ -55,7 +55,7 @@ public class BlockTransporter extends PlainBlock {
 
     @Override
     public int getMetaFromState(IBlockState state) {
-        return state.getValue(ACTIVATED) ? 0 : 1;
+        return state.getValue(ACTIVATED) ? 1 : 0;
     }
 
     @Override
