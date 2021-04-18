@@ -15,7 +15,8 @@ import youyihj.herodotusutils.proxy.IProxy;
 @Mod(
         modid = HerodotusUtils.MOD_ID,
         name = HerodotusUtils.MOD_NAME,
-        version = HerodotusUtils.VERSION
+        version = HerodotusUtils.VERSION,
+        dependencies = "before:contenttweaker"
 )
 public class HerodotusUtils {
 

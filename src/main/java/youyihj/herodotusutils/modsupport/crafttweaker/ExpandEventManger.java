@@ -1,6 +1,5 @@
 package youyihj.herodotusutils.modsupport.crafttweaker;
 
-import crafttweaker.annotations.ZenRegister;
 import crafttweaker.api.event.IEventHandle;
 import crafttweaker.api.event.IEventManager;
 import crafttweaker.util.EventList;
@@ -11,7 +10,6 @@ import stanhebben.zenscript.annotations.ZenExpansion;
 import stanhebben.zenscript.annotations.ZenMethod;
 import youyihj.herodotusutils.modsupport.modularmachinery.event.MachineRecipeCompletedEvent;
 
-@ZenRegister
 @ZenExpansion("crafttweaker.events.IEventManager")
 public class ExpandEventManger {
     private static final EventList<CrTMachineRecipeCompletedEvent> elMachineRecipeComplete = new EventList<>();

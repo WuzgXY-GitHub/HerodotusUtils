@@ -1,6 +1,5 @@
 package youyihj.herodotusutils.modsupport.crafttweaker;
 
-import crafttweaker.annotations.ZenRegister;
 import crafttweaker.api.minecraft.CraftTweakerMC;
 import crafttweaker.api.world.IBlockPos;
 import crafttweaker.api.world.IWorld;
@@ -8,7 +7,6 @@ import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenGetter;
 import youyihj.herodotusutils.modsupport.modularmachinery.event.MachineRecipeCompletedEvent;
 
-@ZenRegister
 @ZenClass("mods.hdsutils.MachineRecipeCompletedEvent")
 public class CrTMachineRecipeCompletedEvent {
     public CrTMachineRecipeCompletedEvent(MachineRecipeCompletedEvent event) {

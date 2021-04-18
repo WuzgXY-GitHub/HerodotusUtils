@@ -1,6 +1,5 @@
 package youyihj.herodotusutils.modsupport.crafttweaker;
 
-import crafttweaker.annotations.ZenRegister;
 import crafttweaker.api.item.IItemStack;
 import crafttweaker.api.oredict.IOreDictEntry;
 import stanhebben.zenscript.annotations.ZenExpansion;
@@ -12,7 +11,6 @@ import java.util.List;
 /**
  * @author youyihj
  */
-@ZenRegister
 @ZenExpansion("crafttweaker.oredict.IOreDictEntry")
 public class MaterialPartOreExpansion {
     @ZenGetter
