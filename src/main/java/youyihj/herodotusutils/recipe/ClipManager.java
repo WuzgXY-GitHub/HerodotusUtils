@@ -1,6 +1,5 @@
 package youyihj.herodotusutils.recipe;
 
-import crafttweaker.annotations.ZenRegister;
 import crafttweaker.api.item.IIngredient;
 import crafttweaker.api.item.IItemStack;
 import crafttweaker.api.minecraft.CraftTweakerMC;
@@ -19,7 +18,6 @@ public class ClipManager {
     public static final List<ClipInfo> clipInfos = new ArrayList<>();
 
     @ZenClass("mods.hdsutils.Clip")
-    @ZenRegister
     public static class ClipInfoWriter {
         @ZenMethod
         public static void addClip(IIngredient ingredient, int duration, int power, @Optional IItemStack breakingResult) {
