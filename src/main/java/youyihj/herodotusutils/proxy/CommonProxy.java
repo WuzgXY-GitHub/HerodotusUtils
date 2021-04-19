@@ -5,6 +5,8 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLInterModComms;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import youyihj.herodotusutils.block.BlockOreBase;
+import youyihj.herodotusutils.block.BlockRegistry;
 import youyihj.herodotusutils.computing.ComputingUnitHandler;
 import youyihj.herodotusutils.fluid.FluidMana;
 import youyihj.herodotusutils.fluid.FluidMercury;
@@ -31,7 +33,7 @@ public class CommonProxy implements IProxy {
 
     @Override
     public void init(FMLInitializationEvent event) {
-
+        BlockRegistry.ORES.forEach(BlockOreBase::registerOreDict);
     }
 
     @Override

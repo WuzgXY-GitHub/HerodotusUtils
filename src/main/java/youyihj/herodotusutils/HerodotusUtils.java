@@ -1,7 +1,6 @@
 package youyihj.herodotusutils;
 
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLConstructionEvent;
@@ -42,7 +41,6 @@ public class HerodotusUtils {
     @Mod.EventHandler
     public void construct(FMLConstructionEvent event) {
         LogManager.getLogger().info("Welcome to Herodotus Modpack!");
-        FluidRegistry.enableUniversalBucket();
     }
 
     /**

@@ -25,6 +25,7 @@ public class ItemRegistry {
         registry.register(BlockCalculatorController.ITEM_BLOCK_1);
         registry.register(BlockCalculatorController.ITEM_BLOCK_2);
         registry.register(BlockCalculatorController.ITEM_BLOCK_3);
+        BlockRegistry.ORES.stream().map(BlockOreBase::getItem).forEach(registry::register);
         BlockTransporter.getItemBlockMap().values().forEach(registry::register);
         registry.register(BlockComputingModule.ITEM_BLOCK);
         BlockMMController.CONTROLLER_ITEMS.forEach(registry::register);

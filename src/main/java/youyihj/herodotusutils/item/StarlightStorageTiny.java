@@ -1,6 +1,6 @@
 package youyihj.herodotusutils.item;
 
-import net.minecraft.client.Minecraft;
+import hellfirepvp.modularmachinery.common.item.ItemDynamicColor;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
@@ -21,7 +21,7 @@ import java.util.Optional;
 /**
  * @author youyihj
  */
-public class StarlightStorageTiny extends Item {
+public class StarlightStorageTiny extends Item implements ItemDynamicColor {
     private StarlightStorageTiny() {
         this.setRegistryName("tiny_starlight_storage");
         this.setUnlocalizedName(HerodotusUtils.MOD_ID + ".tiny_starlight_storage");
@@ -85,5 +85,20 @@ public class StarlightStorageTiny extends Item {
         } else {
             return super.getUnlocalizedName(stack) + "_full";
         }
+    }
+
+    @Override
+    public int getColorFromItemstack(ItemStack stack, int tintIndex) {
+        if (stack.getMetadata() != 1 && tintIndex == 1) {
+            int starlight = Optional.ofNullable(stack.getTagCompound())
+                    .map(nbt -> nbt.getInteger(StarlightStorageTiny.TAG_STARLIGHT))
+                    .orElse(0);
+            double percent = starlight / (double) StarlightStorageTiny.CAPACITY;
+            int red = (int) (0xff * percent);
+            int green = (int) (0xff - percent * (0xff - 0x95));
+            int blue = (int) ((1.0 - percent) * 0xd0);
+            return red << 16 | green << 8 | blue;
+        }
+        return -1;
     }
 }

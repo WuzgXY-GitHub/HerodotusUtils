@@ -1,5 +1,6 @@
 package youyihj.herodotusutils.item;
 
+import hellfirepvp.modularmachinery.common.item.ItemDynamicColor;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.IItemPropertyGetter;
 import net.minecraft.item.Item;
@@ -24,7 +25,7 @@ import java.util.Optional;
 /**
  * @author youyihj
  */
-public abstract class ItemFluidContainer extends Item {
+public abstract class ItemFluidContainer extends Item implements ItemDynamicColor {
     protected ItemFluidContainer(String name) {
         this.setRegistryName(name);
         this.setUnlocalizedName(HerodotusUtils.MOD_ID + "." + name);
@@ -72,6 +73,18 @@ public abstract class ItemFluidContainer extends Item {
         );
     }
 
+    @Override
+    public int getColorFromItemstack(ItemStack stack, int tintIndex) {
+        if (tintIndex != 1) return -1;
+        FluidStack fluidStack = FluidUtil.getFluidContained(stack);
+        if (fluidStack == null) return -1;
+        if (fluidStack.getFluid().getName().equals("water")) {
+            return 0x2531AC;
+        } else if (fluidStack.getFluid().getName().equals("lava")) {
+            return 0xC94309;
+        } else return fluidStack.getFluid().getColor();
+    }
+
     public boolean isEmpty(ItemStack stack) {
         return FluidUtil.getFluidContained(stack) == null;
     }
@@ -85,4 +98,6 @@ public abstract class ItemFluidContainer extends Item {
     }
 
     public abstract String getFluidName(FluidStack fluidStack);
+
+
 }

@@ -1,0 +1,15 @@
+{
+  "parent": "base:ore",
+  "textures": {
+    "texture": "minecraft:blocks/stone",
+    "particle": "minecraft:blocks/stone",
+    "ore_shadow": "base:blocks/poor_ore"
+  },
+  "variants": {
+    "inventory": [
+      {
+        "transform": "forge:default-item"
+      }
+    ]
+  }
+}
