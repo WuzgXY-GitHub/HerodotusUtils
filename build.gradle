@@ -23,6 +23,13 @@ group = 'youyihj'
 version = '1.0'
 archivesBaseName = 'herodotusutils'
 
+// change FG2's default maven url to the new one.
+repositories.each {
+    if (it instanceof MavenArtifactRepository && it.url.toString() == "https://files.minecraftforge.net/maven") {
+        it.url = "https://maven.minecraftforge.net/"
+    }
+}
+
 minecraft {
     mappings channel: 'snapshot', version: '20171003-1.12'
 
