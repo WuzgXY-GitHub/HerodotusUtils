@@ -31,5 +31,6 @@ public class ItemRegistry {
         BlockMMController.CONTROLLER_ITEMS.forEach(registry::register);
         registry.register(ItemLithiumAmalgam.INSTANCE);
         registry.register(StarlightStorageTiny.INSTANCE);
+        registry.register(ItemOilAIOT.INSTANCE);
     }
 }

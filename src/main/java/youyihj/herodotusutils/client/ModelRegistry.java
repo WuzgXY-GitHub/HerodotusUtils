@@ -22,10 +22,7 @@ import youyihj.herodotusutils.HerodotusUtils;
 import youyihj.herodotusutils.block.*;
 import youyihj.herodotusutils.fluid.FluidMana;
 import youyihj.herodotusutils.fluid.FluidMercury;
-import youyihj.herodotusutils.item.ItemCopperBucket;
-import youyihj.herodotusutils.item.ItemLithiumAmalgam;
-import youyihj.herodotusutils.item.RefinedBottle;
-import youyihj.herodotusutils.item.StarlightStorageTiny;
+import youyihj.herodotusutils.item.*;
 import youyihj.herodotusutils.modsupport.modularmachinery.block.BlockMMController;
 
 import javax.annotation.Nonnull;
@@ -92,6 +89,7 @@ public class ModelRegistry {
         registerItemModel(BlockComputingModule.ITEM_BLOCK);
         registerItemModel(ItemLithiumAmalgam.INSTANCE);
         registerItemModel(StarlightStorageTiny.INSTANCE);
+        registerItemModel(ItemOilAIOT.INSTANCE);
         BlockMMController.CONTROLLER_ITEMS.forEach(ModelRegistry::registerItemModel);
         for (BlockOreBase ore : BlockRegistry.ORES) {
             ModelLoader.setCustomStateMapper(ore, ORE_STATE_MAPPER);
