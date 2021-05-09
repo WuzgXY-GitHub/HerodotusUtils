@@ -28,8 +28,8 @@ import youyihj.herodotusutils.block.BlockMercury;
 import youyihj.herodotusutils.computing.event.ComputingUnitChangeEvent;
 import youyihj.herodotusutils.item.RefinedBottle;
 import youyihj.herodotusutils.potion.LithiumAmalgamInfected;
-import youyihj.zenutils.capability.ZenWorldCapabilityHandler;
-import youyihj.zenutils.world.ZenUtilsWorld;
+import youyihj.zenutils.api.world.ZenUtilsWorld;
+import youyihj.zenutils.impl.capability.ZenWorldCapabilityHandler;
 
 import java.util.Optional;
 

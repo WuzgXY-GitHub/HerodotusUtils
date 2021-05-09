@@ -14,7 +14,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import youyihj.herodotusutils.HerodotusUtils;
 import youyihj.herodotusutils.modsupport.modularmachinery.block.BlockMMController;
-import youyihj.zenutils.util.ReflectUtils;
+import youyihj.zenutils.impl.util.ReflectUtils;
 
 import java.io.File;
 import java.io.FileReader;
@@ -22,7 +22,7 @@ import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.util.Objects;
 
-public class ModularMachineryPatches {
+public class ModularMachineryHacks {
     public static TileMachineController.CraftingStatus MISSING_STRUCTURE;
 
     static {

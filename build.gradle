@@ -103,10 +103,11 @@ dependencies {
     deobfCompile "cofh:RedstoneFlux:1.12-2.1.0.+:universal"
     deobfCompile "mcjty.theoneprobe:TheOneProbe-1.12:1.12-1.4.28-17"
     deobfCompile "mezz.jei:jei_1.12.2:4.16.1.302"
-    deobfCompile "youyihj:zenutils:1.6.4"
+    deobfCompile "youyihj:zenutils:1.8.0"
     deobfCompile "hellfirepvp.modularmachinery:modularmachinery:1.12.2-1.10.0-v44"
     deobfCompile "curse.maven:agricraft-225635:2609648"
     deobfCompile "curse.maven:infinitylib-251396:2537265"
+//    deobfCompile "curse.maven:thaumcraft-223628:2629023"
     compile('org.spongepowered:mixin:0.7.11-SNAPSHOT') {
         exclude module: 'guava'
         exclude module: 'commons-io'

@@ -11,7 +11,7 @@ import youyihj.herodotusutils.computing.ComputingUnitHandler;
 import youyihj.herodotusutils.fluid.FluidMana;
 import youyihj.herodotusutils.fluid.FluidMercury;
 import youyihj.herodotusutils.modsupport.crafttweaker.CraftTweakerExtension;
-import youyihj.herodotusutils.modsupport.modularmachinery.ModularMachineryPatches;
+import youyihj.herodotusutils.modsupport.modularmachinery.ModularMachineryHacks;
 
 import java.io.IOException;
 
@@ -19,7 +19,7 @@ public class CommonProxy implements IProxy {
     @Override
     public void preInit(FMLPreInitializationEvent event) {
         try {
-            ModularMachineryPatches.loadAllCustomControllers();
+            ModularMachineryHacks.loadAllCustomControllers();
         } catch (IOException e) {
             event.getModLog().error("failed to load custom controllers", e);
         }

@@ -12,7 +12,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.BlockFluidClassic;
 import youyihj.herodotusutils.fluid.FluidMercury;
-import youyihj.zenutils.world.ZenUtilsWorld;
+import youyihj.zenutils.api.world.ZenUtilsWorld;
 
 import java.util.Random;
 
