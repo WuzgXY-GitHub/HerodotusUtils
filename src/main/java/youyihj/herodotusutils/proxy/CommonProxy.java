@@ -34,10 +34,10 @@ public class CommonProxy implements IProxy {
     @Override
     public void init(FMLInitializationEvent event) {
         BlockRegistry.ORES.forEach(BlockOreBase::registerOreDict);
+        FMLInterModComms.sendFunctionMessage("theoneprobe", "getTheOneProbe", "youyihj.herodotusutils.modsupport.theoneprobe.TOPHandler");
     }
 
     @Override
     public void postInit(FMLPostInitializationEvent event) {
-        FMLInterModComms.sendFunctionMessage("theoneprobe", "getTheOneProbe", "youyihj.herodotusutils.modsupport.theoneprobe.TOPHandler");
     }
 }
