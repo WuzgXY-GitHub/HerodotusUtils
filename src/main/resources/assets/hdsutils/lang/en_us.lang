@@ -20,6 +20,7 @@ item.hdsutils.copper_bucket.name=%s Copper Bucket
 item.hdsutils.lithium_amalgam.name=Lithium Amalgam
 item.hdsutils.tiny_starlight_storage.name=Tiny Starlight Storage
 item.hdsutils.tiny_starlight_storage_full.name=Tiny Starlight Storage (Full)
+item.hdsutils.oil_aiot.name=Motive Tool
 hdsutils.empty=Empty
 hdsutils.computing_unit.bar=Computing Unit: %s / %s
 hdsutils.computing_unit.generate=Generating %s Computing Unit

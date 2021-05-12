@@ -20,6 +20,7 @@ item.hdsutils.copper_bucket.name=%s铜桶
 item.hdsutils.lithium_amalgam.name=锂汞齐
 item.hdsutils.tiny_starlight_storage.name=微型星能存储器
 item.hdsutils.tiny_starlight_storage_full.name=微型星能存储器（满）
+item.hdsutils.oil_aiot.name=动力工具
 hdsutils.empty=空
 hdsutils.computing_unit.bar=算力：%s / %s
 hdsutils.computing_unit.generate=生产 %s 算力
