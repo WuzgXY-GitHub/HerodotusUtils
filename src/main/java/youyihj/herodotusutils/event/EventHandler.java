@@ -1,9 +1,6 @@
 package youyihj.herodotusutils.event;
 
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 import crafttweaker.api.data.DataInt;
-import crafttweaker.api.data.DataMap;
 import crafttweaker.api.data.IData;
 import crafttweaker.api.minecraft.CraftTweakerMC;
 import net.minecraft.entity.EntityLivingBase;
@@ -28,6 +25,7 @@ import youyihj.herodotusutils.block.BlockMercury;
 import youyihj.herodotusutils.computing.event.ComputingUnitChangeEvent;
 import youyihj.herodotusutils.item.RefinedBottle;
 import youyihj.herodotusutils.potion.LithiumAmalgamInfected;
+import youyihj.herodotusutils.util.Util;
 import youyihj.zenutils.api.world.ZenUtilsWorld;
 import youyihj.zenutils.impl.capability.ZenWorldCapabilityHandler;
 
@@ -71,9 +69,7 @@ public class EventHandler {
         if (world instanceof WorldServer) {
             for (Chunk chunk : ((WorldServer) world).getChunkProvider().getLoadedChunks()) {
                 if (world.rand.nextInt(5000) == 0) {
-                    chunk.getCapability(ZenWorldCapabilityHandler.ZEN_WORLD_CAPABILITY, null).updateData(
-                            new DataMap(Maps.asMap(Sets.newHashSet(BlockMercury.TAG_POLLUTION), (s) -> new DataInt(0)), true)
-                    );
+                    chunk.getCapability(ZenWorldCapabilityHandler.ZEN_WORLD_CAPABILITY, null).updateData(Util.createDataMap(BlockMercury.TAG_POLLUTION, new DataInt(0)));
                 }
             }
         }

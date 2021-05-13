@@ -1,9 +1,6 @@
 package youyihj.herodotusutils.block;
 
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 import crafttweaker.api.data.DataInt;
-import crafttweaker.api.data.DataMap;
 import crafttweaker.api.data.IData;
 import crafttweaker.api.minecraft.CraftTweakerMC;
 import net.minecraft.block.material.Material;
@@ -12,6 +9,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.BlockFluidClassic;
 import youyihj.herodotusutils.fluid.FluidMercury;
+import youyihj.herodotusutils.util.Util;
 import youyihj.zenutils.api.world.ZenUtilsWorld;
 
 import java.util.Random;
@@ -33,7 +31,7 @@ public class BlockMercury extends BlockFluidClassic {
     public void randomTick(World worldIn, BlockPos pos, IBlockState state, Random random) {
         if (!worldIn.isRemote) {
             worldIn.setBlockToAir(pos);
-            IData toUpdateData = new DataMap(Maps.asMap(Sets.newHashSet(TAG_POLLUTION), (s) -> new DataInt(1)), true);
+            IData toUpdateData = Util.createDataMap(TAG_POLLUTION, new DataInt(1));
             ZenUtilsWorld.updateCustomChunkData(CraftTweakerMC.getIWorld(worldIn), toUpdateData, CraftTweakerMC.getIBlockPos(pos));
         }
     }
