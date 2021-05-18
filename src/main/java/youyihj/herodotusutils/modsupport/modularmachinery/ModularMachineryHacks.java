@@ -22,10 +22,10 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.Objects;
 
-public class ModularMachineryHacks {
-    public static Constructor<RecipeCraftingContext.CraftingCheckResult> craftingCheckResultConstructor;
-    public static Method checkResultAddErrorMethod;
-    public static Method checkResultSetValidityMethod;
+public final class ModularMachineryHacks {
+    private static Constructor<RecipeCraftingContext.CraftingCheckResult> craftingCheckResultConstructor;
+    private static Method checkResultAddErrorMethod;
+    private static Method checkResultSetValidityMethod;
 
     static {
         try {
