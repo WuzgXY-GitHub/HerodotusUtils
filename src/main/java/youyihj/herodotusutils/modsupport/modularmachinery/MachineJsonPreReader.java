@@ -12,7 +12,7 @@ public enum MachineJsonPreReader implements JsonDeserializer<BlockMMController> 
     @Override
     public BlockMMController deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         JsonObject jsonObject = json.getAsJsonObject();
-        return new BlockMMController(
+        return BlockMMController.create(
                 JsonUtils.getString(jsonObject, "registryname"),
                 JsonUtils.getString(jsonObject, "localizedname"),
                 Integer.parseInt(JsonUtils.getString(jsonObject, "color", "ffffff"), 16)

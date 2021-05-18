@@ -24,18 +24,25 @@ public class BlockMMController extends BlockController implements ItemDynamicCol
     public static final List<BlockMMController> CONTROLLERS = new ArrayList<>();
     public static final List<Item> CONTROLLER_ITEMS = new ArrayList<>();
 
-    public BlockMMController(String machineRegistryName, String machineLocalizedName, int color) {
+    private BlockMMController(String machineRegistryName, String machineLocalizedName, int color) {
         this.setRegistryName(machineRegistryName + "_controller");
         this.machineRegistryName = machineRegistryName;
         this.machineLocalizedName = machineLocalizedName;
         this.color = color;
-        CONTROLLERS.add(this);
-        CONTROLLER_ITEMS.add(new ItemBlock(this) {
+    }
+
+    public static BlockMMController create(String machineRegistryName, String machineLocalizedName, int color) {
+        BlockMMController controller = new BlockMMController(machineRegistryName, machineLocalizedName, color);
+
+        CONTROLLERS.add(controller);
+        CONTROLLER_ITEMS.add(new ItemBlock(controller) {
             @Override
             public String getItemStackDisplayName(ItemStack stack) {
-                return BlockMMController.this.getLocalizedName();
+                return controller.getLocalizedName();
             }
         }.setRegistryName(machineRegistryName + "_controller"));
+
+        return controller;
     }
 
     @Override
