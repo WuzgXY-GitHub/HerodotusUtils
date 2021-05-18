@@ -11,6 +11,7 @@
     "MixinDynamicMachine",
     "MixinMachineDeserializer",
     "MixinModifierDeserializer",
+    "MixinRecipeCraftingContext",
     "MixinTileMachineController"
   ],
   "client": [

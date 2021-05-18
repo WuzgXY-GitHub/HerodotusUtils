@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import youyihj.herodotusutils.modsupport.modularmachinery.IDynamicMachinePatch;
-import youyihj.herodotusutils.modsupport.modularmachinery.event.MachineRecipeCompletedEvent;
+import youyihj.herodotusutils.modsupport.modularmachinery.event.MachineRecipeCompleteEvent;
 
 @Mixin(value = TileMachineController.class)
 public abstract class MixinTileMachineController extends TileEntityRestrictedTick {
@@ -47,6 +47,6 @@ public abstract class MixinTileMachineController extends TileEntityRestrictedTic
 
     @Inject(method = "doRestrictedTick", at = @At(value = "INVOKE", target = "Lhellfirepvp/modularmachinery/common/crafting/ActiveMachineRecipe;reset()V"), remap = false)
     private void injectDoRestrictedTick(CallbackInfo ci) {
-        new MachineRecipeCompletedEvent(activeRecipe.getRecipe().getRegistryName(), foundMachine.getRegistryName(), pos, world).post();
+        new MachineRecipeCompleteEvent(activeRecipe.getRecipe().getRegistryName(), foundMachine.getRegistryName(), pos, world).post();
     }
 }

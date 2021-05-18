@@ -5,13 +5,13 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import youyihj.herodotusutils.event.BaseEvent;
 
-public class MachineRecipeCompletedEvent extends BaseEvent {
+public class MachineRecipeCompleteEvent extends BaseEvent {
     private final ResourceLocation recipeID;
     private final ResourceLocation machineID;
     private final BlockPos pos;
     private final World world;
 
-    public MachineRecipeCompletedEvent(ResourceLocation recipeID, ResourceLocation machineID, BlockPos pos, World world) {
+    public MachineRecipeCompleteEvent(ResourceLocation recipeID, ResourceLocation machineID, BlockPos pos, World world) {
         this.recipeID = recipeID;
         this.machineID = machineID;
         this.pos = pos;

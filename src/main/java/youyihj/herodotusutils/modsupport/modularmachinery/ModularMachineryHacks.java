@@ -3,6 +3,7 @@ package youyihj.herodotusutils.modsupport.modularmachinery;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import hellfirepvp.modularmachinery.client.util.BlockArrayRenderHelper;
+import hellfirepvp.modularmachinery.common.crafting.helper.RecipeCraftingContext;
 import hellfirepvp.modularmachinery.common.util.BlockArray;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.IResource;
@@ -18,9 +19,28 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
 import java.util.Objects;
 
 public class ModularMachineryHacks {
+    public static Constructor<RecipeCraftingContext.CraftingCheckResult> craftingCheckResultConstructor;
+    public static Method checkResultAddErrorMethod;
+    public static Method checkResultSetValidityMethod;
+
+    static {
+        try {
+            Class<RecipeCraftingContext.CraftingCheckResult> craftingCheckResultClass = RecipeCraftingContext.CraftingCheckResult.class;
+            craftingCheckResultConstructor = craftingCheckResultClass.getDeclaredConstructor();
+            craftingCheckResultConstructor.setAccessible(true);
+            checkResultAddErrorMethod = craftingCheckResultClass.getDeclaredMethod("addError", String.class);
+            checkResultAddErrorMethod.setAccessible(true);
+            checkResultSetValidityMethod = craftingCheckResultClass.getDeclaredMethod("setValidity", float.class);
+            checkResultSetValidityMethod.setAccessible(true);
+        } catch (Exception e) {
+            HerodotusUtils.logger.throwing(e);
+        }
+    }
+
     public static void loadAllCustomControllers() throws IOException {
         File machineryDir = new File("config/modularmachinery/machinery");
         if (machineryDir.exists() && machineryDir.isDirectory()) {
@@ -34,6 +54,17 @@ public class ModularMachineryHacks {
         }
     }
 
+    public static RecipeCraftingContext.CraftingCheckResult createErrorResult(String message, float validity) {
+        try {
+            RecipeCraftingContext.CraftingCheckResult result = craftingCheckResultConstructor.newInstance();
+            checkResultAddErrorMethod.invoke(result, message);
+            checkResultSetValidityMethod.invoke(result, validity);
+            return result;
+        } catch (Throwable e) {
+            throw new RuntimeException("failed to create such a crafting check result", e);
+        }
+    }
+
     @SideOnly(Side.CLIENT)
     public static class ClientStuff {
         private static Constructor<BlockArrayRenderHelper> renderHelperConstructor;
@@ -43,7 +74,7 @@ public class ModularMachineryHacks {
                 renderHelperConstructor = BlockArrayRenderHelper.class.getDeclaredConstructor(BlockArray.class);
                 renderHelperConstructor.setAccessible(true);
             } catch (Exception e) {
-                e.printStackTrace();
+                HerodotusUtils.logger.throwing(e);
             }
         }
 

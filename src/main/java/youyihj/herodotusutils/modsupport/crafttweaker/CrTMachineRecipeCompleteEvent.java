@@ -5,15 +5,15 @@ import crafttweaker.api.world.IBlockPos;
 import crafttweaker.api.world.IWorld;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenGetter;
-import youyihj.herodotusutils.modsupport.modularmachinery.event.MachineRecipeCompletedEvent;
+import youyihj.herodotusutils.modsupport.modularmachinery.event.MachineRecipeCompleteEvent;
 
-@ZenClass("mods.hdsutils.MachineRecipeCompletedEvent")
-public class CrTMachineRecipeCompletedEvent {
-    public CrTMachineRecipeCompletedEvent(MachineRecipeCompletedEvent event) {
+@ZenClass("mods.hdsutils.MachineRecipeCompleteEvent")
+public class CrTMachineRecipeCompleteEvent {
+    public CrTMachineRecipeCompleteEvent(MachineRecipeCompleteEvent event) {
         this.event = event;
     }
 
-    private final MachineRecipeCompletedEvent event;
+    private final MachineRecipeCompleteEvent event;
 
     @ZenGetter("pos")
     public IBlockPos getPos() {
