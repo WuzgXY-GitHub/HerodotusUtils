@@ -29,7 +29,7 @@ public abstract class MixinLoader {
 
     // dirty hack to resolve duplicated hdsutils mod loaded issue on server
     @Inject(method = "identifyMods", at = @At(value = "INVOKE", target = "Lnet/minecraftforge/fml/common/Loader;identifyDuplicates(Ljava/util/List;)V"), remap = false)
-    private void InjectIdentifyMods(List<String> additionalContainers, CallbackInfoReturnable<ModDiscoverer> cir) {
+    private void injectIdentifyMods(List<String> additionalContainers, CallbackInfoReturnable<ModDiscoverer> cir) {
         if (mods.stream().filter(modContainer -> modContainer.getModId().equals("hdsutils")).count() <= 1)
             return;
         final Iterator<ModContainer> each = mods.iterator();
