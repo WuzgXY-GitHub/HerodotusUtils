@@ -1,6 +1,7 @@
 package youyihj.herodotusutils.modsupport.crafttweaker;
 
 import com.google.common.base.Functions;
+import crafttweaker.api.event.IEventCancelable;
 import crafttweaker.api.minecraft.CraftTweakerMC;
 import crafttweaker.api.world.IBlockPos;
 import crafttweaker.api.world.IWorld;
@@ -16,7 +17,7 @@ import java.util.Optional;
  * @author youyihj
  */
 @ZenClass("mods.hdsutils.MachineRecipeStartEvent")
-public class CrTMachineRecipeStartEvent {
+public class CrTMachineRecipeStartEvent implements IEventCancelable {
     private final MachineRecipeStartEvent event;
 
     public CrTMachineRecipeStartEvent(MachineRecipeStartEvent event) {
@@ -49,5 +50,15 @@ public class CrTMachineRecipeStartEvent {
     @ZenMethod
     public void setFailed(String message) {
         event.setFailureMessage(message);
+    }
+
+    @Override
+    public boolean isCanceled() {
+        return event.isCanceled();
+    }
+
+    @Override
+    public void setCanceled(boolean canceled) {
+        event.setCanceled(canceled);
     }
 }

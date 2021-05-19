@@ -30,8 +30,7 @@ public abstract class MixinRecipeCraftingContext {
         if (cir.getReturnValue().isFailure())
             return;
         MachineRecipeStartEvent event = new MachineRecipeStartEvent(machineController.getFoundMachine(), this.recipe, machineController.getWorld(), machineController.getPos());
-        event.post();
-        if (event.isFailed()) {
+        if (event.post()) {
             cir.setReturnValue(ModularMachineryHacks.createErrorResult(event.getFailureMessage(), 0.98f));
         }
     }
