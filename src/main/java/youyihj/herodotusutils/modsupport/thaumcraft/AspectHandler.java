@@ -34,3 +34,4 @@ public class AspectHandler {
                 new AspectList().add(Aspect.EARTH, 5).add(HDS, 5));
     }
 }
+
