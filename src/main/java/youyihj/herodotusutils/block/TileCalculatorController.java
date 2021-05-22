@@ -84,9 +84,9 @@ public class TileCalculatorController extends TileEntity implements ITickable, I
                 .map(posOffset -> world.getTileEntity(posOffset))
                 .filter(TileComputingModule.class::isInstance)
                 .map(TileComputingModule.class::cast)
-                .map(TileComputingModule::getGeneratePower)
-                .reduce(Integer::sum)
-                .orElse(0));
+                .mapToInt(TileComputingModule::getGeneratePower)
+                .sum()
+        );
     }
 
     public void setStructureInactivated() {
