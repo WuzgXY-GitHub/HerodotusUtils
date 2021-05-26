@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.Shadow;
  * @author youyihj
  */
 @Mixin(targets = "dalapo.factech.plugins.crafttweaker.RiverGrate$Remove", remap = false)
-public class MixinRiverGrateRemoveAction {
+public abstract class MixinRiverGrateRemoveAction {
     @Shadow
     private IItemStack output;
 
