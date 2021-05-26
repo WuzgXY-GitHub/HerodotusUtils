@@ -108,6 +108,7 @@ dependencies {
     deobfCompile "curse.maven:agricraft-225635:2609648"
     deobfCompile "curse.maven:infinitylib-251396:2537265"
     deobfCompile "curse.maven:thaumcraft-223628:2629023"
+    deobfCompile "curse.maven:factorytech-278822:3178832"
     compile('org.spongepowered:mixin:0.7.11-SNAPSHOT') {
         exclude module: 'guava'
         exclude module: 'commons-io'

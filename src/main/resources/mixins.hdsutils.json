@@ -12,6 +12,7 @@
     "MixinMachineDeserializer",
     "MixinModifierDeserializer",
     "MixinRecipeCraftingContext",
+    "MixinRiverGrateRemoveAction",
     "MixinTileMachineController"
   ],
   "client": [
