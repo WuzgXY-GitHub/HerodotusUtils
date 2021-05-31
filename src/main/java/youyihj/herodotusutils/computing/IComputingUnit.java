@@ -1,12 +1,11 @@
 package youyihj.herodotusutils.computing;
 
+import it.unimi.dsi.fastutil.objects.Object2IntArrayMap;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.chunk.Chunk;
 import youyihj.herodotusutils.computing.event.ComputingUnitChangeEvent;
-
-import java.util.HashMap;
-import java.util.Map;
+import youyihj.herodotusutils.util.Util;
 
 /**
  * @author youyihj
@@ -25,17 +24,17 @@ public interface IComputingUnit {
     void removeInvalidEntry(IBlockAccess world);
 
     class Impl implements IComputingUnit {
-        private final Map<BlockPos, Integer> generateDevices = new HashMap<>();
-        private final Map<BlockPos, Integer> consumeDevices = new HashMap<>();
+        private final Object2IntArrayMap<BlockPos> generateDevices = new Object2IntArrayMap<>();
+        private final Object2IntArrayMap<BlockPos> consumeDevices = new Object2IntArrayMap<>();
 
         @Override
         public int totalGeneratePower() {
-            return generateDevices.values().stream().reduce(Integer::sum).orElse(0);
+            return Util.sumFastIntCollection(generateDevices.values());
         }
 
         @Override
         public int totalConsumePower() {
-            return consumeDevices.values().stream().reduce(Integer::sum).orElse(0);
+            return Util.sumFastIntCollection(consumeDevices.values());
         }
 
         @Override
