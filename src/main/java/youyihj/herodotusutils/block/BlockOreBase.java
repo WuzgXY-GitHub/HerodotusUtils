@@ -93,7 +93,7 @@ public class BlockOreBase extends PlainBlock implements BlockDynamicColor, ItemD
             try {
                 ItemStack stack = dropItemSupplier.get();
                 Type type = state.getValue(PROPERTY_TYPE);
-                stack.setCount(MathHelper.getInt(rand, type.minDrop + fortune, type.maxDrop + fortune * 2));
+                stack.setCount(getDropAmount(rand, type.getRandomDrop(rand), fortune));
                 drops.add(stack);
             } catch (Exception e) {
                 HerodotusUtils.logger.error("Fail to get drop items, drop the block itself", e);
@@ -155,6 +155,14 @@ public class BlockOreBase extends PlainBlock implements BlockDynamicColor, ItemD
         }
     }
 
+    private int getDropAmount(Random random, int originAmount, int fortuneLevel) {
+        int i = random.nextInt(fortuneLevel + 2) - 1;
+        if (i < 0) {
+            i = 0;
+        }
+        return originAmount * (i + 1);
+    }
+
     public enum Type implements IStringSerializable {
         NORMAL(1, 3, 0, 5, "base.part.ore"),
         POOR(0, 2, 0, 2, "base.part.poor_ore"),
@@ -183,6 +191,10 @@ public class BlockOreBase extends PlainBlock implements BlockDynamicColor, ItemD
         @Override
         public String getName() {
             return name().toLowerCase(Locale.ENGLISH);
+        }
+
+        public int getRandomDrop(Random random) {
+            return MathHelper.getInt(random, minDrop, maxDrop);
         }
     }
 }
