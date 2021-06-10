@@ -8,11 +8,9 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.MobEffects;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.chunk.Chunk;
-import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.fluids.FluidStack;
@@ -20,18 +18,14 @@ import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
-import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.oredict.OreDictionary;
-import thaumcraft.api.blocks.BlocksTC;
 import youyihj.herodotusutils.block.BlockMercury;
 import youyihj.herodotusutils.computing.event.ComputingUnitChangeEvent;
 import youyihj.herodotusutils.item.RefinedBottle;
 import youyihj.herodotusutils.potion.LithiumAmalgamInfected;
 import youyihj.herodotusutils.util.Util;
-import youyihj.herodotusutils.util.capability.Capabilities;
-import youyihj.herodotusutils.util.capability.IEntityContainment;
 import youyihj.zenutils.api.world.ZenUtilsWorld;
 import youyihj.zenutils.impl.capability.ZenWorldCapabilityHandler;
 
@@ -41,7 +35,7 @@ import java.util.Optional;
  * @author youyihj
  */
 @Mod.EventBusSubscriber
-public class EventHandlers {
+public class EventHandler {
     @SubscribeEvent
     public static void onEntityLivingUpdate(LivingEvent.LivingUpdateEvent event) {
         EntityLivingBase entity = event.getEntityLiving();
@@ -92,28 +86,5 @@ public class EventHandlers {
     @SubscribeEvent
     public static void onComputingUnitChange(ComputingUnitChangeEvent event) {
         event.getComputingUnit().removeInvalidEntry(event.getWorld());
-    }
-
-    // @SubscribeEvent
-    public static void onEntityUpdate(LivingEvent.LivingUpdateEvent event) {
-        EntityLivingBase entityLiving = event.getEntityLiving();
-        World world = entityLiving.world;
-        if (world.isRemote) return;
-        if (world.getBlockState(entityLiving.getPosition()).getBlock() != BlocksTC.fluxGoo) return;
-        IEntityContainment entityContainment = entityLiving.getCapability(Capabilities.ENTITY_CONTAINMENT, null);
-        if (entityContainment != null && !entityContainment.containsEntity()) {
-            entityContainment.setContainsEntity(ForgeRegistries.ENTITIES.getValue(new ResourceLocation("zombie")));
-        }
-    }
-
-    @SubscribeEvent
-    public static void onEntityDead(LivingDeathEvent event) {
-        EntityLivingBase entityLiving = event.getEntityLiving();
-        World world = entityLiving.world;
-        if (world.isRemote) return;
-        IEntityContainment entityContainment = entityLiving.getCapability(Capabilities.ENTITY_CONTAINMENT, null);
-        if (entityContainment != null && entityContainment.containsEntity()) {
-            entityContainment.summonContainsEntity(world, entityLiving.posX, entityLiving.posY, entityLiving.posZ);
-        }
     }
 }

@@ -12,12 +12,8 @@ import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.items.CapabilityItemHandler;
 import youyihj.herodotusutils.HerodotusUtils;
 import youyihj.herodotusutils.block.TileComputingModule;
-import youyihj.herodotusutils.computing.IComputingUnit;
-import youyihj.herodotusutils.computing.IComputingUnitConsumer;
-import youyihj.herodotusutils.computing.IComputingUnitGenerator;
-import youyihj.herodotusutils.computing.IComputingUnitInteract;
+import youyihj.herodotusutils.computing.*;
 import youyihj.herodotusutils.computing.event.ComputingUnitChangeEvent;
-import youyihj.herodotusutils.util.capability.Capabilities;
 
 /**
  * @author youyihj
@@ -35,7 +31,7 @@ public enum TOPInfoProvider implements IProbeInfoProvider {
         TileEntity tileEntity = world.getTileEntity(data.getPos());
         if (tileEntity instanceof IComputingUnitInteract) {
             Chunk chunk = world.getChunkFromBlockCoords(data.getPos());
-            IComputingUnit computingUnit = chunk.getCapability(Capabilities.COMPUTING_UNIT, null);
+            IComputingUnit computingUnit = chunk.getCapability(ComputingUnitHandler.COMPUTING_UNIT_CAPABILITY, null);
             new ComputingUnitChangeEvent(computingUnit, chunk).post();
             probeInfo.text(TextStyleClass.INFO + (new TextComponentTranslation("hdsutils.computing_unit.bar", computingUnit.totalConsumePower(), computingUnit.totalGeneratePower())).getUnformattedComponentText());
         }

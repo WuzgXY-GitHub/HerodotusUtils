@@ -3,7 +3,6 @@ package youyihj.herodotusutils.computing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
-import youyihj.herodotusutils.util.capability.Capabilities;
 
 /**
  * @author youyihj
@@ -13,6 +12,6 @@ public interface IComputingUnitGenerator extends IComputingUnitInteract {
 
     default void generateToChunk(World world, BlockPos pos) {
         Chunk chunk = world.getChunkFromBlockCoords(pos);
-        chunk.getCapability(Capabilities.COMPUTING_UNIT, null).generatePower(generateAmount(), pos, chunk);
+        chunk.getCapability(ComputingUnitHandler.COMPUTING_UNIT_CAPABILITY, null).generatePower(generateAmount(), pos, chunk);
     }
 }
