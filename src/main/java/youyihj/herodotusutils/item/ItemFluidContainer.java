@@ -16,7 +16,6 @@ import net.minecraftforge.fluids.capability.IFluidHandlerItem;
 import net.minecraftforge.fluids.capability.templates.FluidHandlerItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.apache.commons.lang3.ArrayUtils;
 import youyihj.herodotusutils.HerodotusUtils;
 
 import javax.annotation.Nullable;
@@ -36,10 +35,7 @@ public abstract class ItemFluidContainer extends Item implements ItemDynamicColo
                 return FluidUtil.getFluidContained(stack) == null ? 0.0f : 1.0f;
             }
         });
-        containers = ArrayUtils.add(containers, this);
     }
-
-    private static Item[] containers = new Item[0];
 
     @Nullable
     @Override
@@ -91,10 +87,6 @@ public abstract class ItemFluidContainer extends Item implements ItemDynamicColo
 
     public boolean isHotFluid(Fluid fluid) {
         return fluid.getTemperature() >= 600;
-    }
-
-    public static Item[] getContainers() {
-        return containers;
     }
 
     public abstract String getFluidName(FluidStack fluidStack);
