@@ -1,4 +1,4 @@
-package youyihj.herodotusutils.mixins;
+package youyihj.herodotusutils.mixins.mods.factorytech;
 
 import crafttweaker.api.item.IItemStack;
 import crafttweaker.mc1120.item.MCItemStack;
@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.Shadow;
  * @author youyihj
  */
 @Mixin(targets = "dalapo.factech.plugins.crafttweaker.RiverGrate$Remove", remap = false)
-public abstract class MixinRiverGrateRemoveAction {
+public abstract class MixinRiverGrateRemovalAction {
     @Shadow
     private IItemStack output;
 

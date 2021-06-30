@@ -1,4 +1,4 @@
-package youyihj.herodotusutils.mixins;
+package youyihj.herodotusutils.mixins.mods.modularmachinery;
 
 import hellfirepvp.modularmachinery.common.crafting.MachineRecipe;
 import hellfirepvp.modularmachinery.common.crafting.helper.RecipeCraftingContext;

@@ -1,7 +1,7 @@
-package youyihj.herodotusutils.mixins;
+package youyihj.herodotusutils.mixins.mods.modularmachinery;
 
 import com.google.common.collect.Iterables;
-import hellfirepvp.modularmachinery.common.integration.preview.StructurePreviewWrapper;
+import hellfirepvp.modularmachinery.client.gui.GuiScreenBlueprint;
 import hellfirepvp.modularmachinery.common.machine.DynamicMachine;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.util.ITooltipFlag;
@@ -16,8 +16,8 @@ import youyihj.herodotusutils.modsupport.modularmachinery.IDynamicMachinePatch;
 
 import java.util.List;
 
-@Mixin(value = StructurePreviewWrapper.class, remap = false)
-public abstract class MixinStructurePreviewWrapper {
+@Mixin(value = GuiScreenBlueprint.class, remap = false)
+public abstract class MixinGuiScreenBlueprint {
     @Shadow
     @Final
     private DynamicMachine machine;

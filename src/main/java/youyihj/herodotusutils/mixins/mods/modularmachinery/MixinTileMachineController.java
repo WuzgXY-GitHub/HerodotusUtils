@@ -1,4 +1,4 @@
-package youyihj.herodotusutils.mixins;
+package youyihj.herodotusutils.mixins.mods.modularmachinery;
 
 import hellfirepvp.modularmachinery.common.block.BlockController;
 import hellfirepvp.modularmachinery.common.crafting.ActiveMachineRecipe;

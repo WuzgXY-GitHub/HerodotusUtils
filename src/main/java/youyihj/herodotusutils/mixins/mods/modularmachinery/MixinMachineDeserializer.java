@@ -1,4 +1,4 @@
-package youyihj.herodotusutils.mixins;
+package youyihj.herodotusutils.mixins.mods.modularmachinery;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonElement;

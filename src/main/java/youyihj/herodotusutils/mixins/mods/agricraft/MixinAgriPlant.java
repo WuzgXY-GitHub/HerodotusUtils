@@ -1,4 +1,4 @@
-package youyihj.herodotusutils.mixins;
+package youyihj.herodotusutils.mixins.mods.agricraft;
 
 import com.agricraft.agricore.plant.AgriPlant;
 import net.minecraft.util.text.translation.I18n;

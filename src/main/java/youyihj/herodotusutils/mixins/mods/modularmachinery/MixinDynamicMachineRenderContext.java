@@ -1,4 +1,4 @@
-package youyihj.herodotusutils.mixins;
+package youyihj.herodotusutils.mixins.mods.modularmachinery;
 
 import hellfirepvp.modularmachinery.client.util.BlockArrayRenderHelper;
 import hellfirepvp.modularmachinery.client.util.DynamicMachineRenderContext;
