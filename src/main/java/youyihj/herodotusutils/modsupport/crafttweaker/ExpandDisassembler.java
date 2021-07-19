@@ -11,7 +11,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.registry.EntityEntry;
-import stanhebben.zenscript.annotations.ZenExpansion;
 import stanhebben.zenscript.annotations.ZenMethodStatic;
 
 import java.util.ArrayList;
@@ -22,7 +21,6 @@ import java.util.stream.Collectors;
 /**
  * @author youyihj
  */
-@ZenExpansion("mods.factorytech.Disassembler")
 @ZenRegister
 public class ExpandDisassembler {
     @ZenMethodStatic
