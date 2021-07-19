@@ -90,11 +90,14 @@ public class ExpandDisassembler {
 
         @Override
         protected void tweakDroppingItems(List<ItemStack> droppingItems) {
-            List<ItemStack> collect = CraftTweakerMC.getIItemStackList(droppingItems).stream()
-                    .filter(stack -> Arrays.stream(stacks).anyMatch(stack::matches))
-                    .map(CraftTweakerMC::getItemStack)
+            List<ItemStack> collect = droppingItems.stream()
+                    .filter(this::shouldRemoveThisItem)
                     .collect(Collectors.toList());
             droppingItems.removeAll(collect);
+        }
+
+        private boolean shouldRemoveThisItem(ItemStack stack) {
+            return Arrays.stream(stacks).map(CraftTweakerMC::getItemStack).anyMatch(stack::isItemEqual);
         }
     }
 }
