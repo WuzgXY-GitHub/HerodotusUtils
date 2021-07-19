@@ -11,7 +11,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.items.CapabilityItemHandler;
 import youyihj.herodotusutils.HerodotusUtils;
-import youyihj.herodotusutils.block.TileComputingModule;
+import youyihj.herodotusutils.block.computing.TileComputingModule;
 import youyihj.herodotusutils.computing.*;
 import youyihj.herodotusutils.computing.event.ComputingUnitChangeEvent;
 

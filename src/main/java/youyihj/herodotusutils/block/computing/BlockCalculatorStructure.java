@@ -1,4 +1,4 @@
-package youyihj.herodotusutils.block;
+package youyihj.herodotusutils.block.computing;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
@@ -8,6 +8,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
+import youyihj.herodotusutils.block.PlainBlock;
 
 public class BlockCalculatorStructure extends PlainBlock {
 

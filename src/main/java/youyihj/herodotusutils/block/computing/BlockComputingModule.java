@@ -1,4 +1,4 @@
-package youyihj.herodotusutils.block;
+package youyihj.herodotusutils.block.computing;
 
 import net.minecraft.block.material.EnumPushReaction;
 import net.minecraft.block.state.IBlockState;

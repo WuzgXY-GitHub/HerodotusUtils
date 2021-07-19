@@ -5,7 +5,13 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.registries.IForgeRegistry;
-import youyihj.herodotusutils.block.*;
+import youyihj.herodotusutils.block.BlockManaLiquidizer;
+import youyihj.herodotusutils.block.BlockOreBase;
+import youyihj.herodotusutils.block.BlockRegistry;
+import youyihj.herodotusutils.block.computing.BlockCalculatorController;
+import youyihj.herodotusutils.block.computing.BlockCalculatorStructure;
+import youyihj.herodotusutils.block.computing.BlockComputingModule;
+import youyihj.herodotusutils.block.computing.BlockTransporter;
 import youyihj.herodotusutils.modsupport.modularmachinery.block.BlockMMController;
 
 /**

@@ -1,4 +1,4 @@
-package youyihj.herodotusutils.block;
+package youyihj.herodotusutils.block.computing;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;

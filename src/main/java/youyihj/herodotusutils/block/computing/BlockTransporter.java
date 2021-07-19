@@ -1,4 +1,4 @@
-package youyihj.herodotusutils.block;
+package youyihj.herodotusutils.block.computing;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
@@ -13,6 +13,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import youyihj.herodotusutils.block.PlainBlock;
 
 import javax.annotation.Nullable;
 import java.util.List;
