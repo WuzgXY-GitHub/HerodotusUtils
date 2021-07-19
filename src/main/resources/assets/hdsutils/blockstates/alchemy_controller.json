@@ -1,0 +1,27 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "textures": {
+      "all": "hdsutils:blocks/alchemy_controller",
+      "particle": "hdsutils:blocks/alchemy_controller"
+    },
+    "model": "minecraft:cube_all"
+  },
+  "variants": {
+    "normal": [
+      {}
+    ],
+    "inventory": [
+      {}
+    ],
+    "work_type=close": [
+      {}
+    ],
+    "work_type=debug": [
+      {}
+    ],
+    "work_type=working": [
+      {}
+    ]
+  }
+}

@@ -12,6 +12,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.registries.IForgeRegistry;
 import youyihj.herodotusutils.HerodotusUtils;
+import youyihj.herodotusutils.block.alchemy.BlockAlchemyController;
+import youyihj.herodotusutils.block.alchemy.TileAlchemyController;
 import youyihj.herodotusutils.block.computing.*;
 import youyihj.herodotusutils.fluid.FluidMana;
 import youyihj.herodotusutils.modsupport.modularmachinery.block.BlockMMController;
@@ -57,6 +59,7 @@ public class BlockRegistry {
         registry.register(BlockCalculatorController.CONTROLLER_2);
         registry.register(BlockCalculatorController.CONTROLLER_3);
         registry.register(BlockComputingModule.INSTANCE);
+        registry.register(BlockAlchemyController.INSTANCE);
         BlockMMController.CONTROLLERS.forEach(registry::register);
         BlockTransporter.getBlockMap().values().forEach(registry::register);
         ORES.forEach(registry::register);
@@ -64,5 +67,6 @@ public class BlockRegistry {
         GameRegistry.registerTileEntity(TileCalculatorController.class, HerodotusUtils.rl("calculator_controller"));
         GameRegistry.registerTileEntity(TileComputingModule.class, HerodotusUtils.rl("computing_module"));
         GameRegistry.registerTileEntity(TileTransporter.class, HerodotusUtils.rl("transporter"));
+        GameRegistry.registerTileEntity(TileAlchemyController.class, HerodotusUtils.rl("alchemy_controller"));
     }
 }

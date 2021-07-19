@@ -22,6 +22,7 @@ import youyihj.herodotusutils.HerodotusUtils;
 import youyihj.herodotusutils.block.BlockManaLiquidizer;
 import youyihj.herodotusutils.block.BlockOreBase;
 import youyihj.herodotusutils.block.BlockRegistry;
+import youyihj.herodotusutils.block.alchemy.BlockAlchemyController;
 import youyihj.herodotusutils.block.computing.BlockCalculatorController;
 import youyihj.herodotusutils.block.computing.BlockCalculatorStructure;
 import youyihj.herodotusutils.block.computing.BlockComputingModule;
@@ -96,6 +97,7 @@ public class ModelRegistry {
         registerItemModel(ItemLithiumAmalgam.INSTANCE);
         registerItemModel(StarlightStorageTiny.INSTANCE);
         registerItemModel(ItemOilAIOT.INSTANCE);
+        registerItemModel(BlockAlchemyController.ITEM_BLOCK);
         BlockMMController.CONTROLLER_ITEMS.forEach(ModelRegistry::registerItemModel);
         for (BlockOreBase ore : BlockRegistry.ORES) {
             ModelLoader.setCustomStateMapper(ore, ORE_STATE_MAPPER);

@@ -8,6 +8,7 @@ import net.minecraftforge.registries.IForgeRegistry;
 import youyihj.herodotusutils.block.BlockManaLiquidizer;
 import youyihj.herodotusutils.block.BlockOreBase;
 import youyihj.herodotusutils.block.BlockRegistry;
+import youyihj.herodotusutils.block.alchemy.BlockAlchemyController;
 import youyihj.herodotusutils.block.computing.BlockCalculatorController;
 import youyihj.herodotusutils.block.computing.BlockCalculatorStructure;
 import youyihj.herodotusutils.block.computing.BlockComputingModule;
@@ -38,5 +39,6 @@ public class ItemRegistry {
         registry.register(ItemLithiumAmalgam.INSTANCE);
         registry.register(StarlightStorageTiny.INSTANCE);
         registry.register(ItemOilAIOT.INSTANCE);
+        registry.register(BlockAlchemyController.ITEM_BLOCK);
     }
 }
