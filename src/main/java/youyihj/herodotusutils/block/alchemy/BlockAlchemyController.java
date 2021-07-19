@@ -65,16 +65,13 @@ public class BlockAlchemyController extends AbstractPipeBlock {
 
     public enum WorkType implements IStringSerializable {
         CLOSE(false),
-        DEBUG(((world, pos, thisTileEntity) -> {
+        DEBUG((world, pos, thisTileEntity) -> {
             boolean hasRedstoneSignal = world.getStrongPower(pos) != 0;
-            if (thisTileEntity.lastRedstoneSignal) {
-                return false;
-            } else {
-                thisTileEntity.lastRedstoneSignal = hasRedstoneSignal;
-                return hasRedstoneSignal;
-            }
-        })),
-        WORKING(((world, pos, thisTileEntity) -> world.getTotalWorldTime() % 20 == 0));
+            boolean pre = thisTileEntity.lastRedstoneSignal;
+            thisTileEntity.lastRedstoneSignal = hasRedstoneSignal;
+            return !pre && hasRedstoneSignal;
+        }),
+        WORKING((world, pos, thisTileEntity) -> world.getTotalWorldTime() % 20 == 0);
 
         private final ITextComponent displayName;
         private final WorkCondition workCondition;
