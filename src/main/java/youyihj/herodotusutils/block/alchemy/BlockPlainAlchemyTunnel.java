@@ -28,14 +28,22 @@ public abstract class BlockPlainAlchemyTunnel extends AbstractPipeBlock {
             return PropertyEnum.create("direction", TransportDirection.class, TransportDirection::isStraight);
         }
     };
-    public static final BlockPlainAlchemyTunnel RIGHT_ANGLE = new BlockPlainAlchemyTunnel("right_angle_tunnel") {
+    public static final BlockPlainAlchemyTunnel HORIZONTAL_RIGHT_ANGLE = new BlockPlainAlchemyTunnel("right_angle_tunnel") {
         @Override
         protected IProperty<TransportDirection> createProperty() {
-            return PropertyEnum.create("direction", TransportDirection.class, TransportDirection::isRightAngle);
+            return PropertyEnum.create("direction", TransportDirection.class, TransportDirection::isHorizontalRightAngle);
+        }
+    };
+    public static final BlockPlainAlchemyTunnel VERTICAL_RIGHT_ANGLE = new BlockPlainAlchemyTunnel("vertical_right_angle") {
+        @Override
+        protected IProperty<TransportDirection> createProperty() {
+            return PropertyEnum.create("direction", TransportDirection.class, TransportDirection::isVerticalRightAngle);
         }
     };
     public static final Item STRAIGHT_ITEM = new ItemBlock(STRAIGHT).setRegistryName("straight_tunnel");
-    public static final Item RIGHT_ANGLE_ITEM = new ItemBlock(RIGHT_ANGLE).setRegistryName("right_angle_tunnel");
+    public static final Item RIGHT_ANGLE_ITEM = new ItemBlock(HORIZONTAL_RIGHT_ANGLE).setRegistryName("right_angle_tunnel");
+    public static final Item VERTICAL_ITEM = new ItemBlock(VERTICAL_RIGHT_ANGLE).setRegistryName("vertical_right_angle");
+
     private IProperty<TransportDirection> property;
 
     private BlockPlainAlchemyTunnel(String name) {
@@ -75,7 +83,8 @@ public abstract class BlockPlainAlchemyTunnel extends AbstractPipeBlock {
 
     @Override
     protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, createProperty());
+        property = createProperty();
+        return new BlockStateContainer(this, property);
     }
 
     protected abstract IProperty<TransportDirection> createProperty();
@@ -103,10 +112,12 @@ public abstract class BlockPlainAlchemyTunnel extends AbstractPipeBlock {
     }
 
     public enum TransportDirection implements IStringSerializable {
+        // straight
         N2S(EnumFacing.NORTH, EnumFacing.SOUTH),
         S2N(EnumFacing.SOUTH, EnumFacing.NORTH),
         W2E(EnumFacing.WEST, EnumFacing.EAST),
         E2W(EnumFacing.EAST, EnumFacing.WEST),
+        // horizontal right angle
         N2W(EnumFacing.NORTH, EnumFacing.WEST),
         N2E(EnumFacing.NORTH, EnumFacing.EAST),
         S2W(EnumFacing.SOUTH, EnumFacing.WEST),
@@ -114,7 +125,12 @@ public abstract class BlockPlainAlchemyTunnel extends AbstractPipeBlock {
         W2N(EnumFacing.WEST, EnumFacing.NORTH),
         W2S(EnumFacing.WEST, EnumFacing.SOUTH),
         E2N(EnumFacing.WEST, EnumFacing.NORTH),
-        E2S(EnumFacing.EAST, EnumFacing.SOUTH);
+        E2S(EnumFacing.EAST, EnumFacing.SOUTH),
+        // vertical right angle
+        U2N(EnumFacing.UP, EnumFacing.NORTH),
+        U2S(EnumFacing.UP, EnumFacing.SOUTH),
+        U2W(EnumFacing.UP, EnumFacing.WEST),
+        U2E(EnumFacing.UP, EnumFacing.EAST);
 
         private final EnumFacing inputSide;
         private final EnumFacing outputSide;
@@ -136,8 +152,12 @@ public abstract class BlockPlainAlchemyTunnel extends AbstractPipeBlock {
             return inputSide.getOpposite() == outputSide;
         }
 
-        public boolean isRightAngle() {
-            return !isStraight();
+        public boolean isVerticalRightAngle() {
+            return inputSide == EnumFacing.UP;
+        }
+
+        public boolean isHorizontalRightAngle() {
+            return !isStraight() && !isVerticalRightAngle();
         }
 
         @Override

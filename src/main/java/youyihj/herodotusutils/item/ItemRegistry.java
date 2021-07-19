@@ -9,6 +9,7 @@ import youyihj.herodotusutils.block.BlockManaLiquidizer;
 import youyihj.herodotusutils.block.BlockOreBase;
 import youyihj.herodotusutils.block.BlockRegistry;
 import youyihj.herodotusutils.block.alchemy.BlockAlchemyController;
+import youyihj.herodotusutils.block.alchemy.BlockPlainAlchemyTunnel;
 import youyihj.herodotusutils.block.computing.BlockCalculatorController;
 import youyihj.herodotusutils.block.computing.BlockCalculatorStructure;
 import youyihj.herodotusutils.block.computing.BlockComputingModule;
@@ -40,7 +41,10 @@ public class ItemRegistry {
                 ItemLithiumAmalgam.INSTANCE,
                 StarlightStorageTiny.INSTANCE,
                 ItemOilAIOT.INSTANCE,
-                BlockAlchemyController.ITEM_BLOCK
+                BlockAlchemyController.ITEM_BLOCK,
+                BlockPlainAlchemyTunnel.VERTICAL_ITEM,
+                BlockPlainAlchemyTunnel.RIGHT_ANGLE_ITEM,
+                BlockPlainAlchemyTunnel.STRAIGHT_ITEM
         );
         BlockRegistry.ORES.stream().map(BlockOreBase::getItem).forEach(registry::register);
         BlockTransporter.getItemBlockMap().values().forEach(registry::register);

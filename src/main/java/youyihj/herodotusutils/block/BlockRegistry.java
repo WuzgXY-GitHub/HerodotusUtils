@@ -64,7 +64,8 @@ public class BlockRegistry {
                 BlockComputingModule.INSTANCE,
                 BlockAlchemyController.INSTANCE,
                 BlockPlainAlchemyTunnel.STRAIGHT,
-                BlockPlainAlchemyTunnel.RIGHT_ANGLE
+                BlockPlainAlchemyTunnel.HORIZONTAL_RIGHT_ANGLE,
+                BlockPlainAlchemyTunnel.VERTICAL_RIGHT_ANGLE
         );
         BlockMMController.CONTROLLERS.forEach(registry::register);
         BlockTransporter.getBlockMap().values().forEach(registry::register);
