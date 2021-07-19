@@ -2,7 +2,6 @@ package youyihj.herodotusutils.modsupport.crafttweaker;
 
 import crafttweaker.CraftTweakerAPI;
 import crafttweaker.IAction;
-import crafttweaker.annotations.ZenRegister;
 import crafttweaker.api.entity.IEntityDefinition;
 import crafttweaker.api.item.IItemStack;
 import crafttweaker.api.minecraft.CraftTweakerMC;
@@ -11,6 +10,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.registry.EntityEntry;
+import stanhebben.zenscript.annotations.ZenExpansion;
 import stanhebben.zenscript.annotations.ZenMethodStatic;
 
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 /**
  * @author youyihj
  */
-@ZenRegister
+@ZenExpansion("mods.factorytech.Disassembler")
 public class ExpandDisassembler {
     @ZenMethodStatic
     public static void addRecipe(IEntityDefinition definition, IItemStack... stacks) {
