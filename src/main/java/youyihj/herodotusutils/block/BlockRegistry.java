@@ -15,6 +15,7 @@ import youyihj.herodotusutils.HerodotusUtils;
 import youyihj.herodotusutils.block.alchemy.BlockAlchemyController;
 import youyihj.herodotusutils.block.alchemy.BlockPlainAlchemyTunnel;
 import youyihj.herodotusutils.block.alchemy.TileAlchemyController;
+import youyihj.herodotusutils.block.alchemy.TileAlchemyTunnel;
 import youyihj.herodotusutils.block.computing.*;
 import youyihj.herodotusutils.fluid.FluidMana;
 import youyihj.herodotusutils.modsupport.modularmachinery.block.BlockMMController;
@@ -73,5 +74,6 @@ public class BlockRegistry {
         GameRegistry.registerTileEntity(TileComputingModule.class, HerodotusUtils.rl("computing_module"));
         GameRegistry.registerTileEntity(TileTransporter.class, HerodotusUtils.rl("transporter"));
         GameRegistry.registerTileEntity(TileAlchemyController.class, HerodotusUtils.rl("alchemy_controller"));
+        GameRegistry.registerTileEntity(TileAlchemyTunnel.class, HerodotusUtils.rl("alchemy_tunnel"));
     }
 }
