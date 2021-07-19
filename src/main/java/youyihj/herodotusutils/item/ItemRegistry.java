@@ -23,22 +23,29 @@ public class ItemRegistry {
     @SubscribeEvent
     public static void register(RegistryEvent.Register<Item> event) {
         IForgeRegistry<Item> registry = event.getRegistry();
-        registry.register(BlockManaLiquidizer.ITEM_BLOCK);
-        registry.register(RefinedBottle.INSTANCE);
-        registry.register(ItemCopperBucket.INSTANCE);
-        registry.register(BlockCalculatorStructure.STRUCTURE_BLOCK_1_ITEM);
-        registry.register(BlockCalculatorStructure.STRUCTURE_BLOCK_2_ITEM);
-        registry.register(BlockCalculatorStructure.STRUCTURE_BLOCK_3_ITEM);
-        registry.register(BlockCalculatorController.ITEM_BLOCK_1);
-        registry.register(BlockCalculatorController.ITEM_BLOCK_2);
-        registry.register(BlockCalculatorController.ITEM_BLOCK_3);
+        registry.registerAll(
+                BlockManaLiquidizer.ITEM_BLOCK,
+                RefinedBottle.INSTANCE,
+                ItemCopperBucket.INSTANCE,
+                BlockManaLiquidizer.ITEM_BLOCK,
+                RefinedBottle.INSTANCE,
+                ItemCopperBucket.INSTANCE,
+                BlockCalculatorStructure.STRUCTURE_BLOCK_1_ITEM,
+                BlockCalculatorStructure.STRUCTURE_BLOCK_2_ITEM,
+                BlockCalculatorStructure.STRUCTURE_BLOCK_3_ITEM,
+                BlockCalculatorController.ITEM_BLOCK_1,
+                BlockCalculatorController.ITEM_BLOCK_2,
+                BlockCalculatorController.ITEM_BLOCK_3,
+                BlockComputingModule.ITEM_BLOCK,
+                ItemLithiumAmalgam.INSTANCE,
+                StarlightStorageTiny.INSTANCE,
+                ItemOilAIOT.INSTANCE,
+                BlockAlchemyController.ITEM_BLOCK
+        );
         BlockRegistry.ORES.stream().map(BlockOreBase::getItem).forEach(registry::register);
         BlockTransporter.getItemBlockMap().values().forEach(registry::register);
-        registry.register(BlockComputingModule.ITEM_BLOCK);
+
         BlockMMController.CONTROLLER_ITEMS.forEach(registry::register);
-        registry.register(ItemLithiumAmalgam.INSTANCE);
-        registry.register(StarlightStorageTiny.INSTANCE);
-        registry.register(ItemOilAIOT.INSTANCE);
-        registry.register(BlockAlchemyController.ITEM_BLOCK);
+
     }
 }

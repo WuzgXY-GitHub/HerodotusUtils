@@ -13,6 +13,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.registries.IForgeRegistry;
 import youyihj.herodotusutils.HerodotusUtils;
 import youyihj.herodotusutils.block.alchemy.BlockAlchemyController;
+import youyihj.herodotusutils.block.alchemy.BlockPlainAlchemyTunnel;
 import youyihj.herodotusutils.block.alchemy.TileAlchemyController;
 import youyihj.herodotusutils.block.computing.*;
 import youyihj.herodotusutils.fluid.FluidMana;
@@ -28,7 +29,6 @@ import static net.minecraftforge.fml.common.registry.ForgeRegistries.ITEMS;
  */
 @Mod.EventBusSubscriber
 public class BlockRegistry {
-    private static final Block FLUID_MANA_BLOCK = new BlockFluidClassic(FluidMana.INSTANCE, Material.WATER).setRegistryName("fluid_mana");
     public static final BlockOreBase RED_ORE = new BlockOreBase("red", 0xfc0d20);
     public static final BlockOreBase YELLOW_ORE = new BlockOreBase("yellow", 0xffd701);
     public static final BlockOreBase BLUE_ORE = new BlockOreBase("blue", 0x00a2dd);
@@ -45,21 +45,26 @@ public class BlockRegistry {
                     ItemDropSupplier.of(() -> new ItemStack(ITEMS.getValue(new ResourceLocation("contenttweaker", "square"))))
             );
     public static final List<BlockOreBase> ORES = Lists.newArrayList(RED_ORE, YELLOW_ORE, BLUE_ORE, RHOMBUS_ORE, SPHERICAL_ORE, SQUARE_ORE);
+    private static final Block FLUID_MANA_BLOCK = new BlockFluidClassic(FluidMana.INSTANCE, Material.WATER).setRegistryName("fluid_mana");
 
     @SubscribeEvent
     public static void register(RegistryEvent.Register<Block> event) {
         IForgeRegistry<Block> registry = event.getRegistry();
-        registry.register(FLUID_MANA_BLOCK);
-        registry.register(BlockMercury.INSTANCE);
-        registry.register(BlockManaLiquidizer.INSTANCE);
-        registry.register(BlockCalculatorStructure.STRUCTURE_BLOCK_1);
-        registry.register(BlockCalculatorStructure.STRUCTURE_BLOCK_2);
-        registry.register(BlockCalculatorStructure.STRUCTURE_BLOCK_3);
-        registry.register(BlockCalculatorController.CONTROLLER_1);
-        registry.register(BlockCalculatorController.CONTROLLER_2);
-        registry.register(BlockCalculatorController.CONTROLLER_3);
-        registry.register(BlockComputingModule.INSTANCE);
-        registry.register(BlockAlchemyController.INSTANCE);
+        registry.registerAll(
+                FLUID_MANA_BLOCK,
+                BlockMercury.INSTANCE,
+                BlockManaLiquidizer.INSTANCE,
+                BlockCalculatorStructure.STRUCTURE_BLOCK_1,
+                BlockCalculatorStructure.STRUCTURE_BLOCK_2,
+                BlockCalculatorStructure.STRUCTURE_BLOCK_3,
+                BlockCalculatorController.CONTROLLER_1,
+                BlockCalculatorController.CONTROLLER_2,
+                BlockCalculatorController.CONTROLLER_3,
+                BlockComputingModule.INSTANCE,
+                BlockAlchemyController.INSTANCE,
+                BlockPlainAlchemyTunnel.STRAIGHT,
+                BlockPlainAlchemyTunnel.RIGHT_ANGLE
+        );
         BlockMMController.CONTROLLERS.forEach(registry::register);
         BlockTransporter.getBlockMap().values().forEach(registry::register);
         ORES.forEach(registry::register);

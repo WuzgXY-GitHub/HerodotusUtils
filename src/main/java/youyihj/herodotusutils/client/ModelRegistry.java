@@ -84,20 +84,22 @@ public class ModelRegistry {
                 return new ModelResourceLocation(HerodotusUtils.rl(FluidMercury.INSTANCE.getName()), "defaults");
             }
         });
-        registerItemModel(BlockManaLiquidizer.ITEM_BLOCK);
-        registerItemModel(RefinedBottle.INSTANCE);
-        registerItemModel(ItemCopperBucket.INSTANCE);
-        registerItemModel(BlockCalculatorStructure.STRUCTURE_BLOCK_1_ITEM);
-        registerItemModel(BlockCalculatorStructure.STRUCTURE_BLOCK_2_ITEM);
-        registerItemModel(BlockCalculatorStructure.STRUCTURE_BLOCK_3_ITEM);
-        registerItemModel(BlockCalculatorController.ITEM_BLOCK_1);
-        registerItemModel(BlockCalculatorController.ITEM_BLOCK_2);
-        registerItemModel(BlockCalculatorController.ITEM_BLOCK_3);
-        registerItemModel(BlockComputingModule.ITEM_BLOCK);
-        registerItemModel(ItemLithiumAmalgam.INSTANCE);
-        registerItemModel(StarlightStorageTiny.INSTANCE);
-        registerItemModel(ItemOilAIOT.INSTANCE);
-        registerItemModel(BlockAlchemyController.ITEM_BLOCK);
+        registerMultipleItemsModel(
+                BlockManaLiquidizer.ITEM_BLOCK,
+                RefinedBottle.INSTANCE,
+                ItemCopperBucket.INSTANCE,
+                BlockCalculatorStructure.STRUCTURE_BLOCK_1_ITEM,
+                BlockCalculatorStructure.STRUCTURE_BLOCK_2_ITEM,
+                BlockCalculatorStructure.STRUCTURE_BLOCK_3_ITEM,
+                BlockCalculatorController.ITEM_BLOCK_1,
+                BlockCalculatorController.ITEM_BLOCK_2,
+                BlockCalculatorController.ITEM_BLOCK_3,
+                BlockComputingModule.ITEM_BLOCK,
+                ItemLithiumAmalgam.INSTANCE,
+                StarlightStorageTiny.INSTANCE,
+                ItemOilAIOT.INSTANCE,
+                BlockAlchemyController.ITEM_BLOCK
+        );
         BlockMMController.CONTROLLER_ITEMS.forEach(ModelRegistry::registerItemModel);
         for (BlockOreBase ore : BlockRegistry.ORES) {
             ModelLoader.setCustomStateMapper(ore, ORE_STATE_MAPPER);
@@ -141,5 +143,11 @@ public class ModelRegistry {
     private static void registerItemModel(Item item) {
         ModelLoader.setCustomModelResourceLocation(item, 0,
                 new ModelResourceLocation(item.getRegistryName(), "inventory"));
+    }
+
+    private static void registerMultipleItemsModel(Item... items) {
+        for (Item item : items) {
+            registerItemModel(item);
+        }
     }
 }

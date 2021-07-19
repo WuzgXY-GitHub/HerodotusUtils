@@ -1,14 +1,19 @@
 package youyihj.herodotusutils.alchemy;
 
-import net.minecraftforge.fluids.FluidStack;
+import net.minecraft.util.EnumFacing;
+import net.minecraftforge.fluids.Fluid;
 
 /**
  * @author youyihj
  */
 public interface IHasAlchemyFluid extends IPipe {
-    FluidStack getContainedFluid();
+    Fluid getContainedFluid();
 
-    void handleInput(FluidStack input);
+    /**
+     * @param input the input stack
+     * @return if the input operator is success
+     */
+    boolean handleInput(Fluid input, EnumFacing inputSide);
 
-    FluidStack handleOutput();
+    void emptyFluid();
 }

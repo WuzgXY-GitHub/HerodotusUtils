@@ -5,14 +5,12 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
 import youyihj.herodotusutils.alchemy.IAlchemyModule;
-import youyihj.herodotusutils.alchemy.IHasAlchemyFluid;
 import youyihj.herodotusutils.alchemy.IPipe;
 
 import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 import java.util.function.Predicate;
 
 /**
@@ -70,20 +68,10 @@ public class TileAlchemyController extends AbstractPipeTileEntity implements ITi
         if (world.getBlockState(pos).getValue(BlockAlchemyController.WORK_TYPE_PROPERTY).shouldWork(world, pos, this)) {
             pipes.forEach((pos, pipe) -> {
                 if (pipe instanceof IAlchemyModule) {
-                    IAlchemyModule module = (IAlchemyModule) pipe;
-                    Optional<IHasAlchemyFluid> input = getAlchemyFluidHandler(pos, module.getInputSide());
-                    Optional<IHasAlchemyFluid> output = getAlchemyFluidHandler(pos, module.getOutputSide());
-                    if (input.isPresent() && output.isPresent()) {
-                        module.work(input.get(), output.get());
-                    }
+                    ((IAlchemyModule) pipe).work();
                 }
             });
+            pipes.values().forEach(IPipe::afterModuleMainWork);
         }
-    }
-
-    private Optional<IHasAlchemyFluid> getAlchemyFluidHandler(BlockPos pos, EnumFacing facing) {
-        return Optional.ofNullable(world.getTileEntity(pos.offset(facing)))
-                .filter(IHasAlchemyFluid.class::isInstance)
-                .map(IHasAlchemyFluid.class::cast);
     }
 }
