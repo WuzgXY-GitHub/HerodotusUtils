@@ -71,7 +71,7 @@ public class BlockAlchemyController extends AbstractPipeBlock {
             thisTileEntity.lastRedstoneSignal = hasRedstoneSignal;
             return !pre && hasRedstoneSignal;
         }),
-        WORKING((world, pos, thisTileEntity) -> world.getTotalWorldTime() % 20 == 0);
+        WORKING((world, pos, thisTileEntity) -> world.getStrongPower(pos) != 0 && world.getTotalWorldTime() % 20 == 0);
 
         private final ITextComponent displayName;
         private final WorkCondition workCondition;
