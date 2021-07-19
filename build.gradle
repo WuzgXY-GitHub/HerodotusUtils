@@ -88,10 +88,6 @@ repositories {
         name = "curseforge"
         url "https://www.cursemaven.com"
     }
-    maven {
-        name = "tehnut"
-        url "http://tehnut.info/maven"
-    }
 }
 
 mixin {
@@ -116,6 +112,7 @@ dependencies {
     deobfCompile "curse.maven:modularmagic-324318:2737623"
     deobfCompile "hellfirepvp.astralsorcery:astralsorcery:1.12.2-1.10.23-v161"
     deobfCompile "curse.maven:bloodmagic-224791:2822288"
+    deobfCompile "curse.maven:guideapi-228832:2645992"
     compile('org.spongepowered:mixin:0.7.11-SNAPSHOT') {
         exclude module: 'guava'
         exclude module: 'commons-io'
