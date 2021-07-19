@@ -11,5 +11,6 @@ public class CraftTweakerExtension {
         CraftTweakerAPI.registerClass(MaterialPartOreExpansion.class);
         CraftTweakerAPI.registerClass(ClipManager.ClipInfoWriter.class);
         CraftTweakerAPI.registerClass(CrTMachineRecipeStartEvent.class);
+        CraftTweakerAPI.registerClass(MagicPrimer.class);
     }
 }
