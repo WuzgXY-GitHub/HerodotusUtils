@@ -3,12 +3,15 @@ package youyihj.herodotusutils.block.alchemy;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import youyihj.herodotusutils.alchemy.IHasAlchemyFluid;
 import youyihj.herodotusutils.alchemy.IPipe;
 import youyihj.herodotusutils.block.PlainBlock;
 
 import javax.annotation.Nullable;
+import java.util.Arrays;
 import java.util.Optional;
 
 /**
@@ -36,6 +39,12 @@ public abstract class AbstractPipeBlock extends PlainBlock {
     public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
         super.neighborChanged(state, worldIn, pos, blockIn, fromPos);
         recalculatePipes(worldIn, pos);
+        if (isNoPipeConnected(worldIn, pos)) {
+            Optional.ofNullable(worldIn.getTileEntity(pos))
+                    .filter(IHasAlchemyFluid.class::isInstance)
+                    .map(IHasAlchemyFluid.class::cast)
+                    .ifPresent(IHasAlchemyFluid::emptyFluid);
+        }
     }
 
     private void recalculatePipes(World world, BlockPos pos) {
@@ -44,5 +53,12 @@ public abstract class AbstractPipeBlock extends PlainBlock {
                 .map(IPipe.class::cast)
                 .map(IPipe::getLinkedController)
                 .ifPresent(TileAlchemyController::startScanPipes);
+    }
+
+    private boolean isNoPipeConnected(World world, BlockPos pos) {
+        return Arrays.stream(EnumFacing.values())
+                .map(pos::offset)
+                .map(world::getTileEntity)
+                .noneMatch(IPipe.class::isInstance);
     }
 }

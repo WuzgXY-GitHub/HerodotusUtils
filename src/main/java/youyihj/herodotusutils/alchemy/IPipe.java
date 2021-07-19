@@ -13,6 +13,10 @@ public interface IPipe {
 
     void setLinkedController(TileAlchemyController tileAlchemyController);
 
+    default void unlinkController() {
+        setLinkedController(null);
+    }
+
     default void afterModuleMainWork() {
     }
 }

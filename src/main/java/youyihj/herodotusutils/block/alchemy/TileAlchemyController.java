@@ -43,6 +43,7 @@ public class TileAlchemyController extends AbstractPipeTileEntity implements ITi
     }
 
     public void startScanPipes() {
+        pipes.values().forEach(IPipe::unlinkController);
         pipes.clear();
         scanPipes(pos);
     }
