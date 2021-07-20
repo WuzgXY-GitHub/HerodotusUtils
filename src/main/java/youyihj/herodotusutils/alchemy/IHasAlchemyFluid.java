@@ -3,10 +3,13 @@ package youyihj.herodotusutils.alchemy;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fluids.Fluid;
 
+import javax.annotation.Nullable;
+
 /**
  * @author youyihj
  */
 public interface IHasAlchemyFluid extends IPipe {
+    @Nullable
     Fluid getContainedFluid();
 
     /**

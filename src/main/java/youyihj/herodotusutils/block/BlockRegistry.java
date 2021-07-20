@@ -12,10 +12,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.registries.IForgeRegistry;
 import youyihj.herodotusutils.HerodotusUtils;
-import youyihj.herodotusutils.block.alchemy.BlockAlchemyController;
-import youyihj.herodotusutils.block.alchemy.BlockPlainAlchemyTunnel;
-import youyihj.herodotusutils.block.alchemy.TileAlchemyController;
-import youyihj.herodotusutils.block.alchemy.TileAlchemyTunnel;
+import youyihj.herodotusutils.block.alchemy.*;
 import youyihj.herodotusutils.block.computing.*;
 import youyihj.herodotusutils.fluid.FluidMana;
 import youyihj.herodotusutils.modsupport.modularmachinery.block.BlockMMController;
@@ -65,7 +62,8 @@ public class BlockRegistry {
                 BlockAlchemyController.INSTANCE,
                 BlockPlainAlchemyTunnel.STRAIGHT,
                 BlockPlainAlchemyTunnel.HORIZONTAL_RIGHT_ANGLE,
-                BlockPlainAlchemyTunnel.VERTICAL_RIGHT_ANGLE
+                BlockPlainAlchemyTunnel.VERTICAL_RIGHT_ANGLE,
+                BlockAlchemyInputHatch.INSTANCE
         );
         BlockMMController.CONTROLLERS.forEach(registry::register);
         BlockTransporter.getBlockMap().values().forEach(registry::register);
@@ -76,5 +74,6 @@ public class BlockRegistry {
         GameRegistry.registerTileEntity(TileTransporter.class, HerodotusUtils.rl("transporter"));
         GameRegistry.registerTileEntity(TileAlchemyController.class, HerodotusUtils.rl("alchemy_controller"));
         GameRegistry.registerTileEntity(TileAlchemyTunnel.class, HerodotusUtils.rl("alchemy_tunnel"));
+        GameRegistry.registerTileEntity(TileAlchemyInputHatch.class, HerodotusUtils.rl("alchemy_input_hatch"));
     }
 }

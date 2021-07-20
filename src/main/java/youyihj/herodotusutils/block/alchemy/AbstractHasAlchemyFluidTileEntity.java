@@ -6,6 +6,8 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import youyihj.herodotusutils.alchemy.IHasAlchemyFluid;
 
+import javax.annotation.Nullable;
+
 /**
  * @author youyihj
  */
@@ -29,6 +31,7 @@ public abstract class AbstractHasAlchemyFluidTileEntity extends AbstractPipeTile
     }
 
     @Override
+    @Nullable
     public Fluid getContainedFluid() {
         return content;
     }

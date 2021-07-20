@@ -17,6 +17,7 @@ import net.minecraft.world.World;
 import javax.annotation.Nullable;
 import java.util.Locale;
 import java.util.NoSuchElementException;
+import java.util.function.Predicate;
 
 /**
  * @author youyihj
@@ -24,27 +25,27 @@ import java.util.NoSuchElementException;
 public abstract class BlockPlainAlchemyTunnel extends AbstractPipeBlock {
     public static final BlockPlainAlchemyTunnel STRAIGHT = new BlockPlainAlchemyTunnel("straight_tunnel") {
         @Override
-        protected IProperty<TransportDirection> createProperty() {
-            return PropertyEnum.create("direction", TransportDirection.class, TransportDirection::isStraight);
+        protected TunnelType getTunnelType() {
+            return TunnelType.STRAIGHT;
         }
     };
     public static final BlockPlainAlchemyTunnel HORIZONTAL_RIGHT_ANGLE = new BlockPlainAlchemyTunnel("right_angle_tunnel") {
         @Override
-        protected IProperty<TransportDirection> createProperty() {
-            return PropertyEnum.create("direction", TransportDirection.class, TransportDirection::isHorizontalRightAngle);
+        protected TunnelType getTunnelType() {
+            return TunnelType.HORIZONTAL_RIGHT_ANGLE;
         }
     };
     public static final BlockPlainAlchemyTunnel VERTICAL_RIGHT_ANGLE = new BlockPlainAlchemyTunnel("vertical_right_angle") {
         @Override
-        protected IProperty<TransportDirection> createProperty() {
-            return PropertyEnum.create("direction", TransportDirection.class, TransportDirection::isVerticalRightAngle);
+        protected TunnelType getTunnelType() {
+            return TunnelType.VERTICAL_RIGHT_ANGLE;
         }
     };
     public static final Item STRAIGHT_ITEM = new ItemBlock(STRAIGHT).setRegistryName("straight_tunnel");
     public static final Item RIGHT_ANGLE_ITEM = new ItemBlock(HORIZONTAL_RIGHT_ANGLE).setRegistryName("right_angle_tunnel");
     public static final Item VERTICAL_ITEM = new ItemBlock(VERTICAL_RIGHT_ANGLE).setRegistryName("vertical_right_angle");
 
-    private IProperty<TransportDirection> property;
+    private IProperty<TransferDirection> property;
 
     private BlockPlainAlchemyTunnel(String name) {
         super(name);
@@ -63,22 +64,7 @@ public abstract class BlockPlainAlchemyTunnel extends AbstractPipeBlock {
 
     @Override
     public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand) {
-        EnumFacing inputSide = placer.getHorizontalFacing();
-        EnumFacing outputSide;
-        if (this == STRAIGHT) {
-            outputSide = inputSide.getOpposite();
-        } else if (inputSide.getAxis() == EnumFacing.Axis.X) {
-            outputSide = hitZ > 0.5f ? EnumFacing.SOUTH : EnumFacing.NORTH;
-        } else {
-            outputSide = hitX > 0.5f ? EnumFacing.EAST : EnumFacing.WEST;
-        }
-        return this.blockState.getBaseState().withProperty(property,
-                property.getAllowedValues().stream()
-                        .filter(direction -> direction.inputSide == inputSide)
-                        .filter(direction -> direction.outputSide == outputSide)
-                        .findFirst()
-                        .orElseThrow(NoSuchElementException::new)
-        );
+        return this.blockState.getBaseState().withProperty(property, getTunnelType().directionSupplierFromPlacement.get(placer.getHorizontalFacing(), hitX, hitZ));
     }
 
     @Override
@@ -87,7 +73,11 @@ public abstract class BlockPlainAlchemyTunnel extends AbstractPipeBlock {
         return new BlockStateContainer(this, property);
     }
 
-    protected abstract IProperty<TransportDirection> createProperty();
+    private IProperty<TransferDirection> createProperty() {
+        return PropertyEnum.create("direction", TransferDirection.class, getTunnelType().directionFilter::test);
+    }
+
+    protected abstract TunnelType getTunnelType();
 
     @Nullable
     @Override
@@ -95,13 +85,15 @@ public abstract class BlockPlainAlchemyTunnel extends AbstractPipeBlock {
         return new TileAlchemyTunnel();
     }
 
-    public TransportDirection getDirection(IBlockState state) {
+    public TransferDirection getDirection(IBlockState state) {
         return state.getValue(this.property);
     }
 
     @Override
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-        if (!worldIn.isRemote && playerIn.isSneaking()) {
+        if (!playerIn.isSneaking() || !playerIn.getHeldItem(hand).isEmpty())
+            return false;
+        if (!worldIn.isRemote) {
             int meta = this.getMetaFromState(state);
             meta++;
             if (meta >= this.blockState.getValidStates().size())
@@ -111,7 +103,8 @@ public abstract class BlockPlainAlchemyTunnel extends AbstractPipeBlock {
         return true;
     }
 
-    public enum TransportDirection implements IStringSerializable {
+    @SuppressWarnings("unused")
+    public enum TransferDirection implements IStringSerializable {
         // straight
         N2S(EnumFacing.NORTH, EnumFacing.SOUTH),
         S2N(EnumFacing.SOUTH, EnumFacing.NORTH),
@@ -135,9 +128,18 @@ public abstract class BlockPlainAlchemyTunnel extends AbstractPipeBlock {
         private final EnumFacing inputSide;
         private final EnumFacing outputSide;
 
-        TransportDirection(EnumFacing inputSide, EnumFacing outputSide) {
+        TransferDirection(EnumFacing inputSide, EnumFacing outputSide) {
             this.inputSide = inputSide;
             this.outputSide = outputSide;
+        }
+
+        public static TransferDirection find(EnumFacing inputSide, EnumFacing outputSide) {
+            for (TransferDirection value : values()) {
+                if (value.inputSide == inputSide && value.outputSide == outputSide) {
+                    return value;
+                }
+            }
+            throw new NoSuchElementException("No such transfer direction for input: " + inputSide.name() + " output: " + outputSide.name());
         }
 
         public EnumFacing getInputSide() {
@@ -164,5 +166,50 @@ public abstract class BlockPlainAlchemyTunnel extends AbstractPipeBlock {
         public String getName() {
             return name().toLowerCase(Locale.ENGLISH);
         }
+    }
+
+    public enum TunnelType {
+        STRAIGHT(TransferDirection::isStraight, (mainFacing, hitX, hitZ) -> {
+            switch (mainFacing) {
+                case NORTH:
+                    return TransferDirection.S2N;
+                case SOUTH:
+                    return TransferDirection.N2S;
+                case WEST:
+                    return TransferDirection.E2W;
+                case EAST:
+                    return TransferDirection.W2E;
+                default:
+                    throw new IllegalArgumentException(mainFacing.name());
+            }
+        }),
+        HORIZONTAL_RIGHT_ANGLE(TransferDirection::isHorizontalRightAngle, (mainFacing, hitX, hitZ) -> {
+            EnumFacing outputSide;
+            if (mainFacing.getAxis() == EnumFacing.Axis.X) {
+                outputSide = hitZ > 0.5f ? EnumFacing.SOUTH : EnumFacing.NORTH;
+            } else {
+                outputSide = hitX > 0.5f ? EnumFacing.EAST : EnumFacing.WEST;
+            }
+            return TransferDirection.find(mainFacing, outputSide);
+        }),
+        VERTICAL_RIGHT_ANGLE(TransferDirection::isVerticalRightAngle, (mainFacing, hitX, hitZ) ->
+                (hitX + hitZ < 1.0f) ?
+                        (hitX > hitZ) ? TransferDirection.U2N : TransferDirection.U2W
+                        :
+                        (hitX > hitZ) ? TransferDirection.U2E : TransferDirection.U2S
+        );
+
+        private final Predicate<TransferDirection> directionFilter;
+        private final IDirectionSupplierFromPlacement directionSupplierFromPlacement;
+
+        TunnelType(Predicate<TransferDirection> directionFilter, IDirectionSupplierFromPlacement directionSupplierFromPlacement) {
+            this.directionFilter = directionFilter;
+            this.directionSupplierFromPlacement = directionSupplierFromPlacement;
+        }
+    }
+
+    @FunctionalInterface
+    private interface IDirectionSupplierFromPlacement {
+        TransferDirection get(EnumFacing mainFacing, float hitX, float hitZ);
     }
 }

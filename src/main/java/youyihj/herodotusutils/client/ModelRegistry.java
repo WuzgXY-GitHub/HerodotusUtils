@@ -23,6 +23,8 @@ import youyihj.herodotusutils.block.BlockManaLiquidizer;
 import youyihj.herodotusutils.block.BlockOreBase;
 import youyihj.herodotusutils.block.BlockRegistry;
 import youyihj.herodotusutils.block.alchemy.BlockAlchemyController;
+import youyihj.herodotusutils.block.alchemy.BlockAlchemyInputHatch;
+import youyihj.herodotusutils.block.alchemy.BlockPlainAlchemyTunnel;
 import youyihj.herodotusutils.block.computing.BlockCalculatorController;
 import youyihj.herodotusutils.block.computing.BlockCalculatorStructure;
 import youyihj.herodotusutils.block.computing.BlockComputingModule;
@@ -98,7 +100,11 @@ public class ModelRegistry {
                 ItemLithiumAmalgam.INSTANCE,
                 StarlightStorageTiny.INSTANCE,
                 ItemOilAIOT.INSTANCE,
-                BlockAlchemyController.ITEM_BLOCK
+                BlockAlchemyController.ITEM_BLOCK,
+                BlockAlchemyInputHatch.ITEM_BLOCK,
+                BlockPlainAlchemyTunnel.RIGHT_ANGLE_ITEM,
+                BlockPlainAlchemyTunnel.STRAIGHT_ITEM,
+                BlockPlainAlchemyTunnel.VERTICAL_ITEM
         );
         BlockMMController.CONTROLLER_ITEMS.forEach(ModelRegistry::registerItemModel);
         for (BlockOreBase ore : BlockRegistry.ORES) {

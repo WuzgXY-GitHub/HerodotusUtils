@@ -24,6 +24,11 @@ public abstract class AbstractPipeBlock extends PlainBlock {
         this.setHarvestLevel("pickaxe", 2);
     }
 
+    @Override
+    public boolean hasTileEntity(IBlockState state) {
+        return true;
+    }
+
     @Nullable
     @Override
     public abstract AbstractPipeTileEntity createTileEntity(World world, IBlockState state);

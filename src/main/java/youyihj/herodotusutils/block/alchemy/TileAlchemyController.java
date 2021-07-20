@@ -7,39 +7,26 @@ import net.minecraft.util.math.BlockPos;
 import youyihj.herodotusutils.alchemy.IAlchemyModule;
 import youyihj.herodotusutils.alchemy.IPipe;
 
-import javax.annotation.Nullable;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Predicate;
 
 /**
  * @author youyihj
  */
 public class TileAlchemyController extends AbstractPipeTileEntity implements ITickable {
     /* package-private */ boolean lastRedstoneSignal = false;
+    private boolean isFirstScan = true;
     private final Map<BlockPos, IPipe> pipes = new HashMap<>();
-
-    {
-        startScanPipes();
-    }
 
     @Override
     public void update() {
         if (world.isRemote)
             return;
+        if (isFirstScan) {
+            startScanPipes();
+            isFirstScan = false;
+        }
         work();
-    }
-
-    @Nullable
-    @Override
-    public TileAlchemyController getLinkedController() {
-        return this;
-    }
-
-    @Override
-    public void setLinkedController(TileAlchemyController tileAlchemyController) {
-        // no-op
     }
 
     public void startScanPipes() {
@@ -49,20 +36,26 @@ public class TileAlchemyController extends AbstractPipeTileEntity implements ITi
     }
 
     private void scanPipes(BlockPos pos) {
-        addPipe(pos);
-        Arrays.stream(EnumFacing.values())
-                .map(pos::offset)
-                .filter(((Predicate<BlockPos>) pipes::containsKey).negate())
-                .forEach(this::scanPipes);
+        boolean success = addPipe(pos);
+        if (!success)
+            return;
+        for (EnumFacing enumFacing : EnumFacing.values()) {
+            BlockPos offset = pos.offset(enumFacing);
+            scanPipes(offset);
+        }
     }
 
-    private void addPipe(BlockPos pipePos) {
+    private boolean addPipe(BlockPos pipePos) {
         TileEntity tileEntity = world.getTileEntity(pipePos);
         if (tileEntity instanceof IPipe) {
             IPipe pipe = (IPipe) tileEntity;
-            pipes.put(pipePos, pipe);
-            pipe.setLinkedController(this);
+            if (pipe.getLinkedController() != this) {
+                pipes.put(pipePos, pipe);
+                pipe.setLinkedController(this);
+                return true;
+            }
         }
+        return false;
     }
 
     private void work() {

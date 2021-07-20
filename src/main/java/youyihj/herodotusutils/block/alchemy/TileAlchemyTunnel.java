@@ -11,7 +11,7 @@ import youyihj.herodotusutils.alchemy.IHasAlchemyFluidModule;
  * @author youyihj
  */
 public class TileAlchemyTunnel extends AbstractHasAlchemyFluidTileEntity implements IHasAlchemyFluidModule {
-    private BlockPlainAlchemyTunnel.TransportDirection getTransportDirection() {
+    private BlockPlainAlchemyTunnel.TransferDirection getTransportDirection() {
         IBlockState blockState = world.getBlockState(pos);
         return ((BlockPlainAlchemyTunnel) blockState.getBlock()).getDirection(blockState);
     }
@@ -26,6 +26,6 @@ public class TileAlchemyTunnel extends AbstractHasAlchemyFluidTileEntity impleme
         EnumFacing outputSide = getTransportDirection().getOutputSide();
         TileEntity tileEntity = world.getTileEntity(pos.offset(outputSide));
         if (tileEntity instanceof IHasAlchemyFluid)
-            IAlchemyModule.transformFluid(this, ((IHasAlchemyFluid) tileEntity), outputSide);
+            IAlchemyModule.transferFluid(this, ((IHasAlchemyFluid) tileEntity), outputSide);
     }
 }
