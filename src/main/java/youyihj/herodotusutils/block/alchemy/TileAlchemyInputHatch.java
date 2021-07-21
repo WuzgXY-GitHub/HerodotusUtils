@@ -34,7 +34,7 @@ public class TileAlchemyInputHatch extends AbstractPipeTileEntity implements IAl
 
     @Override
     public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing) {
-        if (facing == EnumFacing.UP && capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
+        if ((facing == EnumFacing.UP || facing == null) && capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
             return true;
         }
         return super.hasCapability(capability, facing);
@@ -43,7 +43,7 @@ public class TileAlchemyInputHatch extends AbstractPipeTileEntity implements IAl
     @Nullable
     @Override
     public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing) {
-        if (facing == EnumFacing.UP && capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
+        if ((facing == EnumFacing.UP || facing == null) && capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
             return CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.cast(this.tank);
         }
         return super.getCapability(capability, facing);

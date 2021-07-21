@@ -9,8 +9,10 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
+import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.items.CapabilityItemHandler;
 import youyihj.herodotusutils.HerodotusUtils;
+import youyihj.herodotusutils.alchemy.IHasAlchemyFluid;
 import youyihj.herodotusutils.block.computing.TileComputingModule;
 import youyihj.herodotusutils.computing.*;
 import youyihj.herodotusutils.computing.event.ComputingUnitChangeEvent;
@@ -33,18 +35,24 @@ public enum TOPInfoProvider implements IProbeInfoProvider {
             Chunk chunk = world.getChunkFromBlockCoords(data.getPos());
             IComputingUnit computingUnit = chunk.getCapability(ComputingUnitHandler.COMPUTING_UNIT_CAPABILITY, null);
             new ComputingUnitChangeEvent(computingUnit, chunk).post();
-            probeInfo.text(TextStyleClass.INFO + (new TextComponentTranslation("hdsutils.computing_unit.bar", computingUnit.totalConsumePower(), computingUnit.totalGeneratePower())).getUnformattedComponentText());
+            probeInfo.element(new ElementTextComponent(TextStyleClass.INFO, new TextComponentTranslation("hdsutils.computing_unit.bar", computingUnit.totalConsumePower(), computingUnit.totalGeneratePower())));
         }
         if (tileEntity instanceof IComputingUnitGenerator) {
-            probeInfo.text(TextStyleClass.INFO + (new TextComponentTranslation("hdsutils.computing_unit.generate", ((IComputingUnitGenerator) tileEntity).generateAmount())).getUnformattedComponentText());
+            probeInfo.element(new ElementTextComponent(TextStyleClass.INFO, new TextComponentTranslation("hdsutils.computing_unit.generate", ((IComputingUnitGenerator) tileEntity).generateAmount())));
         }
         if (tileEntity instanceof IComputingUnitConsumer) {
-            probeInfo.text(TextStyleClass.INFO + (new TextComponentTranslation("hdsutils.computing_unit.consume", ((IComputingUnitConsumer) tileEntity).consumeAmount())).getUnformattedComponentText());
+            probeInfo.element(new ElementTextComponent(TextStyleClass.INFO, new TextComponentTranslation("hdsutils.computing_unit.consume", ((IComputingUnitConsumer) tileEntity).consumeAmount())));
         }
         if (tileEntity instanceof TileComputingModule) {
             ItemStack itemStack = tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, EnumFacing.NORTH).getStackInSlot(0).copy();
             if (!itemStack.isEmpty()) {
                 probeInfo.element(new ElementItemWithName(itemStack));
+            }
+        }
+        if (tileEntity instanceof IHasAlchemyFluid) {
+            Fluid containedFluid = ((IHasAlchemyFluid) tileEntity).getContainedFluid();
+            if (containedFluid != null) {
+                probeInfo.element(new ElementTextComponent(TextStyleClass.NAME, new TextComponentTranslation("hdsutils.alchemy.fluid_info").appendSibling(new TextComponentTranslation(containedFluid.getUnlocalizedName()))));
             }
         }
     }
