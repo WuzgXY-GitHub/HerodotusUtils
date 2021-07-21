@@ -12,7 +12,7 @@ import javax.annotation.Nullable;
  * @author youyihj
  */
 public abstract class AbstractHasAlchemyFluidTileEntity extends AbstractPipeTileEntity implements IHasAlchemyFluid {
-    private Fluid content;
+    protected Fluid content;
     private Fluid cachedContent;
 
     @Override

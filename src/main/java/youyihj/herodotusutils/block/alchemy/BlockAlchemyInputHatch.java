@@ -9,9 +9,10 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fluids.FluidActionResult;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.fluids.capability.IFluidHandlerItem;
+import youyihj.herodotusutils.alchemy.IAlchemyExternalHatch;
 
 import javax.annotation.Nullable;
 
@@ -29,14 +30,15 @@ public class BlockAlchemyInputHatch extends AbstractPipeBlock {
     @Override
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
         ItemStack heldItem = playerIn.getHeldItem(hand);
-        IFluidHandlerItem itemFluidHandler = FluidUtil.getFluidHandler(heldItem);
         IFluidHandler tileEntityFluidHandler = FluidUtil.getFluidHandler(worldIn, pos, EnumFacing.UP);
-        if (itemFluidHandler == null || tileEntityFluidHandler == null)
+        if (tileEntityFluidHandler == null)
             return false;
-        if (worldIn.isRemote)
+        FluidActionResult fluidActionResult = FluidUtil.tryEmptyContainer(heldItem, tileEntityFluidHandler, IAlchemyExternalHatch.FLUID_UNIT, playerIn, true);
+        if (fluidActionResult.isSuccess()) {
+            playerIn.setHeldItem(hand, fluidActionResult.getResult());
             return true;
-        FluidUtil.tryFluidTransfer(tileEntityFluidHandler, itemFluidHandler, 1000, true);
-        return true;
+        }
+        return false;
     }
 
     @Nullable
