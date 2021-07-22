@@ -21,6 +21,7 @@ tile.hdsutils.alchemy_output_hatch.name=Alchemical Output Hatch
 tile.hdsutils.straight_tunnel.name=Straight Alchemical Pipe
 tile.hdsutils.right_angle_tunnel.name=Right Angle Alchemical Pipe
 tile.hdsutils.vertical_right_angle.name=Vertical Right Alchemical Pipe
+tile.hdsutils.round_robin_tunnel.name=Round Robin Alchemical Pipe
 item.hdsutils.refined_bottle.name=Refined Glass Bottle (%s)
 item.hdsutils.copper_bucket.name=%s Copper Bucket
 item.hdsutils.lithium_amalgam.name=Lithium Amalgam

@@ -21,6 +21,7 @@ tile.hdsutils.alchemy_output_hatch.name=炼金输出口
 tile.hdsutils.straight_tunnel.name=横向炼金管道
 tile.hdsutils.right_angle_tunnel.name=直角炼金管道
 tile.hdsutils.vertical_right_angle.name=垂直式直角炼金管道
+tile.hdsutils.round_robin_tunnel.name=循环炼金管道
 item.hdsutils.refined_bottle.name=强化玻璃瓶（%s）
 item.hdsutils.copper_bucket.name=%s铜桶
 item.hdsutils.lithium_amalgam.name=锂汞齐

@@ -22,10 +22,7 @@ import youyihj.herodotusutils.HerodotusUtils;
 import youyihj.herodotusutils.block.BlockManaLiquidizer;
 import youyihj.herodotusutils.block.BlockOreBase;
 import youyihj.herodotusutils.block.BlockRegistry;
-import youyihj.herodotusutils.block.alchemy.BlockAlchemyController;
-import youyihj.herodotusutils.block.alchemy.BlockAlchemyInputHatch;
-import youyihj.herodotusutils.block.alchemy.BlockAlchemyOutputHatch;
-import youyihj.herodotusutils.block.alchemy.BlockPlainAlchemyTunnel;
+import youyihj.herodotusutils.block.alchemy.*;
 import youyihj.herodotusutils.block.computing.BlockCalculatorController;
 import youyihj.herodotusutils.block.computing.BlockCalculatorStructure;
 import youyihj.herodotusutils.block.computing.BlockComputingModule;
@@ -106,7 +103,8 @@ public class ModelRegistry {
                 BlockPlainAlchemyTunnel.RIGHT_ANGLE_ITEM,
                 BlockPlainAlchemyTunnel.STRAIGHT_ITEM,
                 BlockPlainAlchemyTunnel.VERTICAL_ITEM,
-                BlockAlchemyOutputHatch.ITEM_BLOCK
+                BlockAlchemyOutputHatch.ITEM_BLOCK,
+                BlockAlchemyRoundRobinTunnel.ITEM_BLOCK
         );
         BlockMMController.CONTROLLER_ITEMS.forEach(ModelRegistry::registerItemModel);
         for (BlockOreBase ore : BlockRegistry.ORES) {

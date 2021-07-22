@@ -14,7 +14,7 @@ import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import youyihj.herodotusutils.alchemy.IAlchemyExternalHatch;
 
-import javax.annotation.Nullable;
+import javax.annotation.Nonnull;
 
 /**
  * @author youyihj
@@ -41,7 +41,7 @@ public class BlockAlchemyInputHatch extends AbstractPipeBlock {
         return false;
     }
 
-    @Nullable
+    @Nonnull
     @Override
     public AbstractPipeTileEntity createTileEntity(World world, IBlockState state) {
         return new TileAlchemyInputHatch();

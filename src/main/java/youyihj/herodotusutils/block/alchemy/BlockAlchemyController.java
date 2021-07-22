@@ -14,7 +14,7 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 
-import javax.annotation.Nullable;
+import javax.annotation.Nonnull;
 import java.util.Locale;
 
 /**
@@ -57,7 +57,7 @@ public class BlockAlchemyController extends AbstractPipeBlock {
         return true;
     }
 
-    @Nullable
+    @Nonnull
     @Override
     public AbstractPipeTileEntity createTileEntity(World world, IBlockState state) {
         return new TileAlchemyController();
@@ -71,7 +71,7 @@ public class BlockAlchemyController extends AbstractPipeBlock {
             thisTileEntity.lastRedstoneSignal = hasRedstoneSignal;
             return !pre && hasRedstoneSignal;
         }),
-        WORKING((world, pos, thisTileEntity) -> world.getStrongPower(pos) != 0 && world.getTotalWorldTime() % 20 == 0);
+        WORKING((world, pos, thisTileEntity) -> world.getStrongPower(pos) == 0 && world.getTotalWorldTime() % 20 == 0);
 
         private final ITextComponent displayName;
         private final WorkCondition workCondition;

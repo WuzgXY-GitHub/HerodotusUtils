@@ -6,9 +6,12 @@ import net.minecraft.world.World;
 import net.minecraftforge.fluids.Fluid;
 import youyihj.herodotusutils.util.Util;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 /**
  * @author youyihj
  */
+@ParametersAreNonnullByDefault
 public interface IAlchemyModule extends IPipe {
     static void transferFluid(IHasAlchemyFluid from, IHasAlchemyFluid to, EnumFacing outputSide) {
         Fluid containedFluid = from.getContainedFluid();

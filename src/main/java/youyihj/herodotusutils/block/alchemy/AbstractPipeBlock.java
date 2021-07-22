@@ -11,7 +11,7 @@ import youyihj.herodotusutils.alchemy.IPipe;
 import youyihj.herodotusutils.block.PlainBlock;
 import youyihj.herodotusutils.util.Util;
 
-import javax.annotation.Nullable;
+import javax.annotation.Nonnull;
 import java.util.Arrays;
 
 /**
@@ -29,7 +29,7 @@ public abstract class AbstractPipeBlock extends PlainBlock {
         return true;
     }
 
-    @Nullable
+    @Nonnull
     @Override
     public abstract AbstractPipeTileEntity createTileEntity(World world, IBlockState state);
 
