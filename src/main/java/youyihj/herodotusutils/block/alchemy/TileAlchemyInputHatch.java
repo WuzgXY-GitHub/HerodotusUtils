@@ -81,13 +81,22 @@ public class TileAlchemyInputHatch extends AbstractPipeTileEntity implements IAl
 
         @Override
         public int fill(FluidStack resource, boolean doFill) {
+            FluidStack content = getFluid();
+            final int contentAmount = content == null ? 0 : content.amount;
+            final int inputAmount = resource.amount;
             if (!doFill) {
-                return resource.amount;
+                return Math.min(inputAmount, contentAmount + FLUID_UNIT);
             } else {
-                FluidStack content = this.getFluid();
                 if (content != null && content.getFluid() != resource.getFluid()) {
-                    this.drain(resource, true);
-                    return resource.amount;
+                    int handleAmount = 0;
+                    FluidStack drain = this.drain(inputAmount, true);
+                    if (drain != null) {
+                        handleAmount += drain.amount;
+                    }
+                    if (inputAmount > handleAmount) {
+                        handleAmount += super.fill(new FluidStack(resource.getFluid(), inputAmount - handleAmount), true);
+                    }
+                    return handleAmount;
                 }
                 return super.fill(resource, true);
             }
