@@ -14,9 +14,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
+import youyihj.herodotusutils.util.Util;
 
 import javax.annotation.Nullable;
-import java.util.Optional;
 
 /**
  * @author youyihj
@@ -50,7 +50,7 @@ public class BlockComputingModule extends BlockCalculatorStructure {
         if (worldIn.isRemote)
             return true;
         ItemStack heldItem = playerIn.getHeldItem(hand);
-        Optional.ofNullable(worldIn.getTileEntity(pos))
+        Util.getTileEntity(worldIn, pos)
                 .map(tileEntity -> tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null))
                 .map(itemHandler -> {
                     if (heldItem.isEmpty()) {
@@ -65,7 +65,7 @@ public class BlockComputingModule extends BlockCalculatorStructure {
 
     @Override
     public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
-        Optional.ofNullable(worldIn.getTileEntity(pos))
+        Util.getTileEntity(worldIn, pos)
                 .map(tileEntity -> tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null))
                 .ifPresent(itemHandler -> InventoryHelper.spawnItemStack(worldIn, pos.getX(), pos.getY() + 0.5f, pos.getZ(), itemHandler.getStackInSlot(0).copy()));
         super.breakBlock(worldIn, pos, state);

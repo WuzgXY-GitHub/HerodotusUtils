@@ -9,10 +9,10 @@ import net.minecraft.world.World;
 import youyihj.herodotusutils.alchemy.IHasAlchemyFluid;
 import youyihj.herodotusutils.alchemy.IPipe;
 import youyihj.herodotusutils.block.PlainBlock;
+import youyihj.herodotusutils.util.Util;
 
 import javax.annotation.Nullable;
 import java.util.Arrays;
-import java.util.Optional;
 
 /**
  * @author youyihj
@@ -45,17 +45,12 @@ public abstract class AbstractPipeBlock extends PlainBlock {
         super.neighborChanged(state, worldIn, pos, blockIn, fromPos);
         recalculatePipes(worldIn, pos);
         if (isNoPipeConnected(worldIn, pos)) {
-            Optional.ofNullable(worldIn.getTileEntity(pos))
-                    .filter(IHasAlchemyFluid.class::isInstance)
-                    .map(IHasAlchemyFluid.class::cast)
-                    .ifPresent(IHasAlchemyFluid::emptyFluid);
+            Util.getTileEntity(worldIn, pos, IHasAlchemyFluid.class).ifPresent(IHasAlchemyFluid::emptyFluid);
         }
     }
 
     private void recalculatePipes(World world, BlockPos pos) {
-        Optional.ofNullable(world.getTileEntity(pos))
-                .filter(IPipe.class::isInstance)
-                .map(IPipe.class::cast)
+        Util.getTileEntity(world, pos, IPipe.class)
                 .map(IPipe::getLinkedController)
                 .ifPresent(TileAlchemyController::startScanPipes);
     }
