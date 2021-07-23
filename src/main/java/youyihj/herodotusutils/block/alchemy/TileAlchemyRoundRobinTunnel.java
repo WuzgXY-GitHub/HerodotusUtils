@@ -43,6 +43,8 @@ public class TileAlchemyRoundRobinTunnel extends AbstractHasAlchemyFluidTileEnti
 
     @Override
     public void work() {
+        if (content == null)
+            return;
         EnumFacing nextOutputSide = getNextOutputSide(true);
         if (nextOutputSide != null) {
             IAlchemyModule.transferFluid(this, world, pos, nextOutputSide);
