@@ -14,7 +14,7 @@ import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-import javax.annotation.Nullable;
+import javax.annotation.Nonnull;
 import java.util.Locale;
 import java.util.NoSuchElementException;
 import java.util.function.Predicate;
@@ -47,7 +47,7 @@ public abstract class BlockPlainAlchemyTunnel extends AbstractPipeBlock {
 
     private IProperty<TransferDirection> property;
 
-    private BlockPlainAlchemyTunnel(String name) {
+    protected BlockPlainAlchemyTunnel(String name) {
         super(name);
     }
 
@@ -79,7 +79,7 @@ public abstract class BlockPlainAlchemyTunnel extends AbstractPipeBlock {
 
     protected abstract TunnelType getTunnelType();
 
-    @Nullable
+    @Nonnull
     @Override
     public AbstractPipeTileEntity createTileEntity(World world, IBlockState state) {
         return new TileAlchemyTunnel();

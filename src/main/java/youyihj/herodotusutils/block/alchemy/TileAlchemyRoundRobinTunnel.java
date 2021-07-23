@@ -33,7 +33,7 @@ public class TileAlchemyRoundRobinTunnel extends AbstractHasAlchemyFluidTileEnti
         super.readFromNBT(compound);
         nextIndex = compound.getByte("nextIndex");
         byte[] facingQuerySource = compound.getByteArray("facingQuery");
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < facingQuerySource.length; i++) {
             byte b = facingQuerySource[i];
             if (b != -1) {
                 facingQuery[i] = EnumFacing.getHorizontal(b);

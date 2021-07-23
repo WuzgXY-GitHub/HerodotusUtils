@@ -46,7 +46,8 @@ public class ItemRegistry {
                 BlockPlainAlchemyTunnel.STRAIGHT_ITEM,
                 BlockAlchemyInputHatch.ITEM_BLOCK,
                 BlockAlchemyOutputHatch.ITEM_BLOCK,
-                BlockAlchemyRoundRobinTunnel.ITEM_BLOCK
+                BlockAlchemyRoundRobinTunnel.ITEM_BLOCK,
+                BlockLazyAlchemyTunnel.ITEM_BLOCK
         );
         BlockRegistry.ORES.stream().map(BlockOreBase::getItem).forEach(registry::register);
         BlockTransporter.getItemBlockMap().values().forEach(registry::register);
