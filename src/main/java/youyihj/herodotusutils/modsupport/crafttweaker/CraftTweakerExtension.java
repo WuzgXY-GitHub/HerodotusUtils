@@ -15,5 +15,6 @@ public class CraftTweakerExtension {
         CraftTweakerAPI.registerClass(MagicPrimer.class);
         CraftTweakerAPI.registerClass(ExpandDisassembler.class);
         CraftTweakerAPI.registerClass(AlchemyRecipes.class);
+        CraftTweakerAPI.registerClass(HDSUtils.class);
     }
 }
