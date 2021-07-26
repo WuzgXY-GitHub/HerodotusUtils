@@ -16,8 +16,8 @@ public class EntityRedSlime extends EntitySlime {
         super(world);
     }
 
-    public double baseMaxHealth = 4 * 4;
-    public double baseAttackStrength = 4;
+    public double baseMaxHealth = 20 * 40;
+    public double baseAttackStrength = 4 * 4;
 
     @Override
     protected EntityRedSlime createInstance() {
@@ -40,13 +40,13 @@ public class EntityRedSlime extends EntitySlime {
 
     @Override
     protected int getAttackStrength() {
-        return ((int) (baseAttackStrength * getSlimeSize() / 4));
+        return ((int) (baseAttackStrength));
     }
 
     @Override
     protected void setSlimeSize(int size, boolean resetHealth) {
         super.setSlimeSize(size, resetHealth);
-        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(baseMaxHealth * getSlimeSize() / 4);
+        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(baseMaxHealth);
     }
 
     @Nullable
@@ -71,7 +71,7 @@ public class EntityRedSlime extends EntitySlime {
                 float f = ((float) (k % 2) - 0.5F) * (float) i / 4.0F;
                 float f1 = ((float) (k / 2) - 0.5F) * (float) i / 4.0F;
                 EntityRedSlime entityRedSlime = this.createInstance(); // edited
-                entityRedSlime.syncBaseValue(this); // edited
+                entityRedSlime.syncBaseValue(this, j); // edited
 
                 if (this.hasCustomName()) {
                     entityRedSlime.setCustomNameTag(this.getCustomNameTag());
@@ -86,10 +86,11 @@ public class EntityRedSlime extends EntitySlime {
                 this.world.spawnEntity(entityRedSlime);
             }
         }
+        this.isDead = true;
     }
 
-    private void syncBaseValue(EntityRedSlime other) {
-        this.baseAttackStrength = other.baseAttackStrength;
-        this.baseMaxHealth = other.baseMaxHealth;
+    private void syncBaseValue(EntityRedSlime other, double spawnAmount) {
+        this.baseAttackStrength = Math.ceil(other.baseAttackStrength / spawnAmount);
+        this.baseMaxHealth = Math.ceil(other.baseMaxHealth /spawnAmount);
     }
 }
