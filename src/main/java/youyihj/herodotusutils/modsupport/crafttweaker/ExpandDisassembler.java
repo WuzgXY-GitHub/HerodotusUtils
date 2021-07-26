@@ -24,12 +24,12 @@ import java.util.stream.Collectors;
 @ZenExpansion("mods.factorytech.Disassembler")
 public class ExpandDisassembler {
     @ZenMethodStatic
-    public static void addRecipe(IEntityDefinition definition, IItemStack... stacks) {
+    public static void add(IEntityDefinition definition, IItemStack... stacks) {
         CraftTweakerAPI.apply(new Add(definition, stacks));
     }
 
     @ZenMethodStatic
-    public static void removeRecipe(IEntityDefinition definition, IItemStack... stacks) {
+    public static void remove(IEntityDefinition definition, IItemStack... stacks) {
         CraftTweakerAPI.apply(new Remove(definition, stacks));
     }
 
