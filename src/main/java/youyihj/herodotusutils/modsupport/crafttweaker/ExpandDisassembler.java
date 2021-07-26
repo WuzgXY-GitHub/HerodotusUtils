@@ -49,7 +49,7 @@ public class ExpandDisassembler {
         @Override
         @SuppressWarnings("unchecked")
         public void apply() {
-            if (EntityLiving.class.isAssignableFrom(entityClass)) {
+            if (!EntityLiving.class.isAssignableFrom(entityClass)) {
                 CraftTweakerAPI.logWarning(entityCommandString + " is not a living entity!");
             } else {
                 if (!MachineRecipes.DISASSEMBLER.containsKey(entityClass)) {
