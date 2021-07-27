@@ -19,6 +19,7 @@ public class HDSUtils {
         EntityRedSlime entityRedSlime = new EntityRedSlime(mcWorld);
         entityRedSlime.baseMaxHealth = baseMaxHealth;
         entityRedSlime.baseAttackStrength = baseAttackStrength;
+        entityRedSlime.setSlimeSize(4, true);
         entityRedSlime.setPosition(position.getX(), position.getY(), position.getZ());
         mcWorld.spawnEntity(entityRedSlime);
     }
