@@ -47,6 +47,10 @@ public class EntityRedSlime extends EntitySlime {
     protected void setSlimeSize(int size, boolean resetHealth) {
         super.setSlimeSize(size, resetHealth);
         this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(baseMaxHealth);
+        if (resetHealth) {
+            this.setHealth(this.getMaxHealth());
+        }
+
     }
 
     @Nullable
