@@ -26,16 +26,16 @@ public class EntityRedSlime extends EntitySlime {
 
     @Override
     public void readEntityFromNBT(NBTTagCompound compound) {
-        super.readEntityFromNBT(compound);
         this.baseMaxHealth = compound.getDouble("baseMaxHealth");
         this.baseAttackStrength = compound.getDouble("baseAttackStrength");
+        super.readEntityFromNBT(compound);
     }
 
     @Override
     public void writeEntityToNBT(NBTTagCompound compound) {
-        super.writeEntityToNBT(compound);
         compound.setDouble("baseMaxHealth", baseMaxHealth);
         compound.setDouble("baseAttackStrength", baseAttackStrength);
+        super.writeEntityToNBT(compound);
     }
 
     @Override
