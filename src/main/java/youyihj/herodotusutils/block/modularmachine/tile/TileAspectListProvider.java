@@ -31,6 +31,9 @@ public abstract class TileAspectListProvider extends TileThaumcraft implements M
             if (aspects.getAspects().length != 0) {
                 currentSuction = aspect;
                 amount = aspects.getAmount(aspect);
+            } else {
+                amount = 0;
+                currentSuction = null;
             }
             for (EnumFacing face : EnumFacing.VALUES)
                 fill(face);
@@ -76,7 +79,7 @@ public abstract class TileAspectListProvider extends TileThaumcraft implements M
 
     @Override
     public boolean doesContainerAccept(Aspect tag) {
-        return true;
+        return this.currentSuction == null || tag.equals(this.currentSuction);
     }
 
     @Override
@@ -133,8 +136,6 @@ public abstract class TileAspectListProvider extends TileThaumcraft implements M
 
     @Override
     public void setSuction(Aspect aspect, int amount) {
-        this.amount = amount;
-        this.currentSuction = aspect;
     }
 
     @Override
@@ -149,27 +150,27 @@ public abstract class TileAspectListProvider extends TileThaumcraft implements M
 
     @Override
     public int takeEssentia(Aspect aspect, int amount, EnumFacing face) {
-        return this.takeFromContainer(aspect, amount) ? amount : 0;
+        return this.canOutputTo(face) && this.takeFromContainer(aspect, amount) ? amount : 0;
     }
 
     @Override
     public int addEssentia(Aspect aspect, int amount, EnumFacing face) {
-        return amount - this.addToContainer(aspect, amount);
+        return this.canInputFrom(face) ? amount - this.addToContainer(aspect, amount) : 0;
     }
 
     @Override
     public Aspect getEssentiaType(EnumFacing face) {
-        return null;
+        return this.currentSuction;
     }
 
     @Override
     public int getEssentiaAmount(EnumFacing face) {
-        return 0;
+        return this.amount;
     }
 
     @Override
     public int getMinimumSuction() {
-        return 0;
+        return this.currentSuction != null ? 64 : 32;
     }
 
     @Nullable
