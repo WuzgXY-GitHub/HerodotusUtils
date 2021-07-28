@@ -12,12 +12,13 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.world.World;
+import youyihj.herodotusutils.HerodotusUtils;
 import youyihj.herodotusutils.block.modularmachine.tile.TileAspectListProvider.Input;
 
 public class BlockAspectListProviderInput extends BlockMachineComponent {
 
     public static final BlockAspectListProviderInput INSTANCE = new BlockAspectListProviderInput();
-    public static final Item ITEM_BLOCK = new ItemBlockMachineComponent(INSTANCE);
+    public static final Item ITEM_BLOCK = new ItemBlockMachineComponent(INSTANCE).setRegistryName("block_aspectlist_provider_input");
 
     public BlockAspectListProviderInput() {
         super(Material.IRON);
@@ -26,6 +27,7 @@ public class BlockAspectListProviderInput extends BlockMachineComponent {
         this.setSoundType(SoundType.METAL);
         this.setHarvestLevel("pickaxe", 1);
         this.setRegistryName("block_aspectlist_provider_input");
+        this.setUnlocalizedName(HerodotusUtils.MOD_ID + "." + "block_aspectlist_provider_input");
         this.setCreativeTab(CommonProxy.creativeTabModularMachinery);
     }
 
