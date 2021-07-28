@@ -5,20 +5,53 @@ import hellfirepvp.modularmachinery.common.machine.MachineComponent.IOType;
 import hellfirepvp.modularmachinery.common.tiles.base.MachineComponentTile;
 import javax.annotation.Nullable;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ITickable;
+import thaumcraft.api.ThaumcraftApiHelper;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
-import thaumcraft.api.aspects.IAspectContainer;
+import thaumcraft.api.aspects.IAspectSource;
 import thaumcraft.api.aspects.IEssentiaTransport;
 import thaumcraft.common.tiles.TileThaumcraft;
 
-public class TileAspectListProvider extends TileThaumcraft implements MachineComponentTile, IAspectContainer, IEssentiaTransport {
+public abstract class TileAspectListProvider extends TileThaumcraft implements MachineComponentTile, IAspectSource, IEssentiaTransport, ITickable {
 
     private final Integer MAX_ASPECT = 6;
     private final Integer MAX_AMOUNT = 250;
 
-    public Aspect currentSuction = null;
     public AspectList aspects = new AspectList();
+    public Aspect currentSuction = null;
+    public Integer amount = 0;
+
+    @Override
+    public void update() {
+        if (!super.world.isRemote) {
+            Aspect aspect = aspects.getAspects()[0];
+            if (aspects.getAspects().length != 0) {
+                currentSuction = aspect;
+                amount = aspects.getAmount(aspect);
+            }
+            for (EnumFacing face : EnumFacing.VALUES)
+                fill(face);
+        }
+    }
+
+    private void fill(EnumFacing face) {
+        TileEntity te = ThaumcraftApiHelper.getConnectableTile(this.world, this.pos, face);
+        if (te != null) {
+            IEssentiaTransport ic = (IEssentiaTransport) te;
+            if (!ic.canOutputTo(face.getOpposite()))
+                return;
+            Aspect ta = null;
+            if (this.currentSuction != null && this.amount > 0)
+                ta = this.currentSuction;
+            if (ic.getEssentiaAmount(face.getOpposite()) > 0 && ic.getSuctionAmount(face.getOpposite()) < this.getSuctionAmount(face) && this.getSuctionAmount(face) >= ic.getMinimumSuction())
+                ta = ic.getEssentiaType(face.getOpposite());
+            if (ta != null && ic.getSuctionAmount(face.getOpposite()) < this.getSuctionAmount(face))
+                this.addToContainer(ta, ic.takeEssentia(ta, 1, face.getOpposite()));
+        }
+    }
 
     @Override
     public void readSyncNBT(NBTTagCompound nbt) {
@@ -99,17 +132,8 @@ public class TileAspectListProvider extends TileThaumcraft implements MachineCom
     }
 
     @Override
-    public boolean canInputFrom(EnumFacing face) {
-        return true;
-    }
-
-    @Override
-    public boolean canOutputTo(EnumFacing face) {
-        return true;
-    }
-
-    @Override
     public void setSuction(Aspect aspect, int amount) {
+        this.amount = amount;
         this.currentSuction = aspect;
     }
 
@@ -120,7 +144,7 @@ public class TileAspectListProvider extends TileThaumcraft implements MachineCom
 
     @Override
     public int getSuctionAmount(EnumFacing face) {
-        return this.currentSuction != null ? 128 : 0;
+        return this.amount;
     }
 
     @Override
@@ -154,11 +178,26 @@ public class TileAspectListProvider extends TileThaumcraft implements MachineCom
         return null;
     }
 
+    @Override
+    public boolean isBlocked() {
+        return false;
+    }
+
     public static class Output extends TileAspectListProvider {
 
         @Nullable
         public MachineComponent provideComponent() {
             return new MachineComponentAspectListProvider(this, IOType.OUTPUT);
+        }
+
+        @Override
+        public boolean canInputFrom(EnumFacing face) {
+            return false;
+        }
+
+        @Override
+        public boolean canOutputTo(EnumFacing face) {
+            return true;
         }
     }
 
@@ -167,6 +206,16 @@ public class TileAspectListProvider extends TileThaumcraft implements MachineCom
         @Nullable
         public MachineComponent provideComponent() {
             return new MachineComponentAspectListProvider(this, IOType.INPUT);
+        }
+
+        @Override
+        public boolean canInputFrom(EnumFacing face) {
+            return true;
+        }
+
+        @Override
+        public boolean canOutputTo(EnumFacing face) {
+            return false;
         }
     }
 }

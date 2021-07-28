@@ -27,8 +27,8 @@ public class BlockAspectListProviderOutput extends BlockMachineComponent {
         this.setSoundType(SoundType.METAL);
         this.setHarvestLevel("pickaxe", 1);
         this.setRegistryName("block_aspectlist_provider_output");
-        this.setUnlocalizedName(HerodotusUtils.MOD_ID + "." + "block_aspectlist_provider_output");
         this.setCreativeTab(CommonProxy.creativeTabModularMachinery);
+        this.setUnlocalizedName(HerodotusUtils.MOD_ID + "." + "block_aspectlist_provider_output");
     }
 
     public EnumBlockRenderType getRenderType(IBlockState state) {
