@@ -15,7 +15,6 @@ import youyihj.herodotusutils.HerodotusUtils;
 import youyihj.herodotusutils.block.alchemy.*;
 import youyihj.herodotusutils.block.computing.*;
 import youyihj.herodotusutils.block.modularmachine.BlockAspectListProviderInput;
-import youyihj.herodotusutils.block.modularmachine.BlockAspectListProviderOutput;
 import youyihj.herodotusutils.block.modularmachine.tile.TileAspectListProvider;
 import youyihj.herodotusutils.fluid.FluidMana;
 import youyihj.herodotusutils.modsupport.modularmachinery.block.BlockMMController;
@@ -30,21 +29,22 @@ import static net.minecraftforge.fml.common.registry.ForgeRegistries.ITEMS;
  */
 @Mod.EventBusSubscriber
 public class BlockRegistry {
+
     public static final BlockOreBase RED_ORE = new BlockOreBase("red", 0xfc0d20);
     public static final BlockOreBase YELLOW_ORE = new BlockOreBase("yellow", 0xffd701);
     public static final BlockOreBase BLUE_ORE = new BlockOreBase("blue", 0x00a2dd);
     public static final BlockOreBase RHOMBUS_ORE = new BlockOreBase("rhombus", 0xffffff)
-            .setDropItemSupplier(
-                    ItemDropSupplier.of(() -> new ItemStack(ITEMS.getValue(new ResourceLocation("contenttweaker", "rhombus"))))
-            );
+        .setDropItemSupplier(
+            ItemDropSupplier.of(() -> new ItemStack(ITEMS.getValue(new ResourceLocation("contenttweaker", "rhombus"))))
+        );
     public static final BlockOreBase SPHERICAL_ORE = new BlockOreBase("spherical", 0xffffff)
-            .setDropItemSupplier(
-                    ItemDropSupplier.of(() -> new ItemStack(ITEMS.getValue(new ResourceLocation("contenttweaker", "spherical"))))
-            );
+        .setDropItemSupplier(
+            ItemDropSupplier.of(() -> new ItemStack(ITEMS.getValue(new ResourceLocation("contenttweaker", "spherical"))))
+        );
     public static final BlockOreBase SQUARE_ORE = new BlockOreBase("square", 0xffffff)
-            .setDropItemSupplier(
-                    ItemDropSupplier.of(() -> new ItemStack(ITEMS.getValue(new ResourceLocation("contenttweaker", "square"))))
-            );
+        .setDropItemSupplier(
+            ItemDropSupplier.of(() -> new ItemStack(ITEMS.getValue(new ResourceLocation("contenttweaker", "square"))))
+        );
     public static final List<BlockOreBase> ORES = Lists.newArrayList(RED_ORE, YELLOW_ORE, BLUE_ORE, RHOMBUS_ORE, SPHERICAL_ORE, SQUARE_ORE);
     private static final Block FLUID_MANA_BLOCK = new BlockFluidClassic(FluidMana.INSTANCE, Material.WATER).setRegistryName("fluid_mana");
 
@@ -52,27 +52,26 @@ public class BlockRegistry {
     public static void register(RegistryEvent.Register<Block> event) {
         IForgeRegistry<Block> registry = event.getRegistry();
         registry.registerAll(
-                FLUID_MANA_BLOCK,
-                BlockMercury.INSTANCE,
-                BlockManaLiquidizer.INSTANCE,
-                BlockCalculatorStructure.STRUCTURE_BLOCK_1,
-                BlockCalculatorStructure.STRUCTURE_BLOCK_2,
-                BlockCalculatorStructure.STRUCTURE_BLOCK_3,
-                BlockCalculatorController.CONTROLLER_1,
-                BlockCalculatorController.CONTROLLER_2,
-                BlockCalculatorController.CONTROLLER_3,
-                BlockComputingModule.INSTANCE,
-                BlockAlchemyController.INSTANCE,
-                BlockPlainAlchemyTunnel.STRAIGHT,
-                BlockPlainAlchemyTunnel.HORIZONTAL_RIGHT_ANGLE,
-                BlockPlainAlchemyTunnel.VERTICAL_RIGHT_ANGLE,
-                BlockAlchemyInputHatch.INSTANCE,
-                BlockAlchemyOutputHatch.INSTANCE,
-                BlockAlchemyRoundRobinTunnel.INSTANCE,
-                BlockLazyAlchemyTunnel.INSTANCE,
-                BlockAlchemyCrafter.INSTANCE,
-                BlockAspectListProviderInput.INSTANCE,
-                BlockAspectListProviderOutput.INSTANCE
+            FLUID_MANA_BLOCK,
+            BlockMercury.INSTANCE,
+            BlockManaLiquidizer.INSTANCE,
+            BlockCalculatorStructure.STRUCTURE_BLOCK_1,
+            BlockCalculatorStructure.STRUCTURE_BLOCK_2,
+            BlockCalculatorStructure.STRUCTURE_BLOCK_3,
+            BlockCalculatorController.CONTROLLER_1,
+            BlockCalculatorController.CONTROLLER_2,
+            BlockCalculatorController.CONTROLLER_3,
+            BlockComputingModule.INSTANCE,
+            BlockAlchemyController.INSTANCE,
+            BlockPlainAlchemyTunnel.STRAIGHT,
+            BlockPlainAlchemyTunnel.HORIZONTAL_RIGHT_ANGLE,
+            BlockPlainAlchemyTunnel.VERTICAL_RIGHT_ANGLE,
+            BlockAlchemyInputHatch.INSTANCE,
+            BlockAlchemyOutputHatch.INSTANCE,
+            BlockAlchemyRoundRobinTunnel.INSTANCE,
+            BlockLazyAlchemyTunnel.INSTANCE,
+            BlockAlchemyCrafter.INSTANCE,
+            BlockAspectListProviderInput.INSTANCE
         );
         BlockMMController.CONTROLLERS.forEach(registry::register);
         BlockTransporter.getBlockMap().values().forEach(registry::register);
@@ -88,7 +87,6 @@ public class BlockRegistry {
         GameRegistry.registerTileEntity(TileAlchemyRoundRobinTunnel.class, HerodotusUtils.rl("alchemy_round_robin_tunnel"));
         GameRegistry.registerTileEntity(TileAlchemyLazyTunnel.class, HerodotusUtils.rl("alchemy_lazy_tunnel"));
         GameRegistry.registerTileEntity(TileAlchemyCrafter.class, HerodotusUtils.rl("alchemy_crafter"));
-        GameRegistry.registerTileEntity(TileAspectListProvider.Input.class, HerodotusUtils.rl("block_aspectlist_provider_input"));
-        GameRegistry.registerTileEntity(TileAspectListProvider.Output.class, HerodotusUtils.rl("block_aspectlist_provider_output"));
+        GameRegistry.registerTileEntity(TileAspectListProvider.class, HerodotusUtils.rl("block_aspectlist_provider_input"));
     }
 }

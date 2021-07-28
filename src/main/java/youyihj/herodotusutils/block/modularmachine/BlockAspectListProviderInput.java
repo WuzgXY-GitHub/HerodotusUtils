@@ -13,7 +13,7 @@ import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.world.World;
 import youyihj.herodotusutils.HerodotusUtils;
-import youyihj.herodotusutils.block.modularmachine.tile.TileAspectListProvider.Input;
+import youyihj.herodotusutils.block.modularmachine.tile.TileAspectListProvider;
 
 public class BlockAspectListProviderInput extends BlockMachineComponent {
 
@@ -45,7 +45,7 @@ public class BlockAspectListProviderInput extends BlockMachineComponent {
 
     @Nullable
     public TileEntity createTileEntity(World world, IBlockState state) {
-        return new Input();
+        return new TileAspectListProvider();
     }
 
     @Nullable

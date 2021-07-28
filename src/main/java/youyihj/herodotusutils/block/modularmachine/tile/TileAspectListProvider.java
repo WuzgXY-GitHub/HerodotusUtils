@@ -5,56 +5,19 @@ import hellfirepvp.modularmachinery.common.machine.MachineComponent.IOType;
 import hellfirepvp.modularmachinery.common.tiles.base.MachineComponentTile;
 import javax.annotation.Nullable;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.ITickable;
-import thaumcraft.api.ThaumcraftApiHelper;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.aspects.IAspectSource;
 import thaumcraft.api.aspects.IEssentiaTransport;
 import thaumcraft.common.tiles.TileThaumcraft;
 
-public abstract class TileAspectListProvider extends TileThaumcraft implements MachineComponentTile, IAspectSource, IEssentiaTransport, ITickable {
+public class TileAspectListProvider extends TileThaumcraft implements MachineComponentTile, IAspectSource, IEssentiaTransport {
 
     private final Integer MAX_ASPECT = 6;
     private final Integer MAX_AMOUNT = 250;
 
     public AspectList aspects = new AspectList();
-    public Aspect currentSuction = null;
-    public Integer amount = 0;
-
-    @Override
-    public void update() {
-        if (!super.world.isRemote) {
-            Aspect aspect = aspects.getAspects()[0];
-            if (aspects.getAspects().length != 0) {
-                currentSuction = aspect;
-                amount = aspects.getAmount(aspect);
-            } else {
-                amount = 0;
-                currentSuction = null;
-            }
-            for (EnumFacing face : EnumFacing.VALUES)
-                fill(face);
-        }
-    }
-
-    private void fill(EnumFacing face) {
-        TileEntity te = ThaumcraftApiHelper.getConnectableTile(this.world, this.pos, face);
-        if (te != null) {
-            IEssentiaTransport ic = (IEssentiaTransport) te;
-            if (!ic.canOutputTo(face.getOpposite()))
-                return;
-            Aspect ta = null;
-            if (this.currentSuction != null && this.amount > 0)
-                ta = this.currentSuction;
-            if (ic.getEssentiaAmount(face.getOpposite()) > 0 && ic.getSuctionAmount(face.getOpposite()) < this.getSuctionAmount(face) && this.getSuctionAmount(face) >= ic.getMinimumSuction())
-                ta = ic.getEssentiaType(face.getOpposite());
-            if (ta != null && ic.getSuctionAmount(face.getOpposite()) < this.getSuctionAmount(face))
-                this.addToContainer(ta, ic.takeEssentia(ta, 1, face.getOpposite()));
-        }
-    }
 
     @Override
     public void readSyncNBT(NBTTagCompound nbt) {
@@ -79,7 +42,10 @@ public abstract class TileAspectListProvider extends TileThaumcraft implements M
 
     @Override
     public boolean doesContainerAccept(Aspect tag) {
-        return this.currentSuction == null || tag.equals(this.currentSuction);
+        if (this.aspects.size() > 6) {
+            return this.aspects.getAmount(tag) > 250;
+        }
+        return true;
     }
 
     @Override
@@ -87,7 +53,7 @@ public abstract class TileAspectListProvider extends TileThaumcraft implements M
         if (amount != 0 && this.aspects.size() < MAX_ASPECT) {
             int currentAmount = this.aspects.getAmount(tag);
             if (currentAmount < this.MAX_AMOUNT) {
-                int added = Math.min(amount, 250 - currentAmount);
+                int added = Math.min(amount, MAX_AMOUNT - currentAmount);
                 this.aspects.add(tag, amount);
                 amount -= added;
             }
@@ -140,12 +106,12 @@ public abstract class TileAspectListProvider extends TileThaumcraft implements M
 
     @Override
     public Aspect getSuctionType(EnumFacing face) {
-        return this.currentSuction;
+        return null;
     }
 
     @Override
     public int getSuctionAmount(EnumFacing face) {
-        return this.amount;
+        return 0;
     }
 
     @Override
@@ -160,63 +126,37 @@ public abstract class TileAspectListProvider extends TileThaumcraft implements M
 
     @Override
     public Aspect getEssentiaType(EnumFacing face) {
-        return this.currentSuction;
+        return null;
     }
 
     @Override
     public int getEssentiaAmount(EnumFacing face) {
-        return this.amount;
+        return 0;
     }
 
     @Override
     public int getMinimumSuction() {
-        return this.currentSuction != null ? 64 : 32;
+        return 0;
     }
 
+
     @Nullable
-    @Override
     public MachineComponent provideComponent() {
-        return null;
+        return new MachineComponentAspectListProvider(this, IOType.INPUT);
+    }
+
+    @Override
+    public boolean canInputFrom(EnumFacing face) {
+        return true;
+    }
+
+    @Override
+    public boolean canOutputTo(EnumFacing face) {
+        return false;
     }
 
     @Override
     public boolean isBlocked() {
         return false;
-    }
-
-    public static class Output extends TileAspectListProvider {
-
-        @Nullable
-        public MachineComponent provideComponent() {
-            return new MachineComponentAspectListProvider(this, IOType.OUTPUT);
-        }
-
-        @Override
-        public boolean canInputFrom(EnumFacing face) {
-            return false;
-        }
-
-        @Override
-        public boolean canOutputTo(EnumFacing face) {
-            return true;
-        }
-    }
-
-    public static class Input extends TileAspectListProvider {
-
-        @Nullable
-        public MachineComponent provideComponent() {
-            return new MachineComponentAspectListProvider(this, IOType.INPUT);
-        }
-
-        @Override
-        public boolean canInputFrom(EnumFacing face) {
-            return true;
-        }
-
-        @Override
-        public boolean canOutputTo(EnumFacing face) {
-            return false;
-        }
     }
 }
