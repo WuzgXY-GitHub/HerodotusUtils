@@ -14,6 +14,9 @@ import net.minecraftforge.registries.IForgeRegistry;
 import youyihj.herodotusutils.HerodotusUtils;
 import youyihj.herodotusutils.block.alchemy.*;
 import youyihj.herodotusutils.block.computing.*;
+import youyihj.herodotusutils.block.modularmachine.BlockAspectListProviderInput;
+import youyihj.herodotusutils.block.modularmachine.BlockAspectListProviderOutput;
+import youyihj.herodotusutils.block.modularmachine.tile.TileAspectListProvider;
 import youyihj.herodotusutils.fluid.FluidMana;
 import youyihj.herodotusutils.modsupport.modularmachinery.block.BlockMMController;
 import youyihj.herodotusutils.util.ItemDropSupplier;
@@ -67,7 +70,9 @@ public class BlockRegistry {
                 BlockAlchemyOutputHatch.INSTANCE,
                 BlockAlchemyRoundRobinTunnel.INSTANCE,
                 BlockLazyAlchemyTunnel.INSTANCE,
-                BlockAlchemyCrafter.INSTANCE
+                BlockAlchemyCrafter.INSTANCE,
+                BlockAspectListProviderInput.INSTANCE,
+                BlockAspectListProviderOutput.INSTANCE
         );
         BlockMMController.CONTROLLERS.forEach(registry::register);
         BlockTransporter.getBlockMap().values().forEach(registry::register);
@@ -83,5 +88,7 @@ public class BlockRegistry {
         GameRegistry.registerTileEntity(TileAlchemyRoundRobinTunnel.class, HerodotusUtils.rl("alchemy_round_robin_tunnel"));
         GameRegistry.registerTileEntity(TileAlchemyLazyTunnel.class, HerodotusUtils.rl("alchemy_lazy_tunnel"));
         GameRegistry.registerTileEntity(TileAlchemyCrafter.class, HerodotusUtils.rl("alchemy_crafter"));
+        GameRegistry.registerTileEntity(TileAspectListProvider.Input.class, HerodotusUtils.rl("block_aspectlist_provider_input"));
+        GameRegistry.registerTileEntity(TileAspectListProvider.Output.class, HerodotusUtils.rl("block_aspectlist_provider_output"));
     }
 }

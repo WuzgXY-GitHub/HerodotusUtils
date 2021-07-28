@@ -13,6 +13,8 @@ import youyihj.herodotusutils.block.computing.BlockCalculatorController;
 import youyihj.herodotusutils.block.computing.BlockCalculatorStructure;
 import youyihj.herodotusutils.block.computing.BlockComputingModule;
 import youyihj.herodotusutils.block.computing.BlockTransporter;
+import youyihj.herodotusutils.block.modularmachine.BlockAspectListProviderInput;
+import youyihj.herodotusutils.block.modularmachine.BlockAspectListProviderOutput;
 import youyihj.herodotusutils.modsupport.modularmachinery.block.BlockMMController;
 
 /**
@@ -45,7 +47,9 @@ public class ItemRegistry {
                 BlockAlchemyOutputHatch.ITEM_BLOCK,
                 BlockAlchemyRoundRobinTunnel.ITEM_BLOCK,
                 BlockLazyAlchemyTunnel.ITEM_BLOCK,
-                BlockAlchemyCrafter.ITEM_BLOCK
+                BlockAlchemyCrafter.ITEM_BLOCK,
+                BlockAspectListProviderInput.ITEM_BLOCK,
+                BlockAspectListProviderOutput.ITEM_BLOCK
         );
         BlockRegistry.ORES.stream().map(BlockOreBase::getItem).forEach(registry::register);
         BlockTransporter.getItemBlockMap().values().forEach(registry::register);
