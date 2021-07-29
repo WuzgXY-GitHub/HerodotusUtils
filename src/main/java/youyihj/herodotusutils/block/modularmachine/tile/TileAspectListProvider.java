@@ -3,7 +3,6 @@ package youyihj.herodotusutils.block.modularmachine.tile;
 import hellfirepvp.modularmachinery.common.machine.MachineComponent;
 import hellfirepvp.modularmachinery.common.machine.MachineComponent.IOType;
 import hellfirepvp.modularmachinery.common.tiles.base.MachineComponentTile;
-import javax.annotation.Nullable;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import thaumcraft.api.aspects.Aspect;
@@ -12,10 +11,12 @@ import thaumcraft.api.aspects.IAspectSource;
 import thaumcraft.api.aspects.IEssentiaTransport;
 import thaumcraft.common.tiles.TileThaumcraft;
 
+import javax.annotation.Nullable;
+
 public class TileAspectListProvider extends TileThaumcraft implements MachineComponentTile, IAspectSource, IEssentiaTransport {
 
-    private final Integer MAX_ASPECT = 6;
-    private final Integer MAX_AMOUNT = 250;
+    private static final int MAX_ASPECT = 6;
+    private static final int MAX_AMOUNT = 250;
 
     public AspectList aspects = new AspectList();
 
@@ -52,7 +53,7 @@ public class TileAspectListProvider extends TileThaumcraft implements MachineCom
     public int addToContainer(Aspect tag, int amount) {
         if (amount != 0 && this.aspects.size() < MAX_ASPECT) {
             int currentAmount = this.aspects.getAmount(tag);
-            if (currentAmount < this.MAX_AMOUNT) {
+            if (currentAmount < MAX_AMOUNT) {
                 int added = Math.min(amount, MAX_AMOUNT - currentAmount);
                 this.aspects.add(tag, amount);
                 amount -= added;
