@@ -7,13 +7,16 @@ import hellfirepvp.modularmachinery.common.crafting.helper.CraftCheck;
 import hellfirepvp.modularmachinery.common.crafting.helper.RecipeCraftingContext;
 import hellfirepvp.modularmachinery.common.machine.MachineComponent;
 import hellfirepvp.modularmachinery.common.machine.MachineComponent.IOType;
+import hellfirepvp.modularmachinery.common.modifier.RecipeModifier;
 import hellfirepvp.modularmachinery.common.util.ResultChance;
-import java.util.List;
-import javax.annotation.Nonnull;
+import net.minecraft.util.math.MathHelper;
 import thaumcraft.api.aspects.Aspect;
 import youyihj.herodotusutils.block.modularmachine.tile.TileAspectListProvider;
 
-public class RequirementAspectList extends ComponentRequirement {
+import javax.annotation.Nonnull;
+import java.util.List;
+
+public class RequirementAspectList extends ComponentRequirement<Aspect> {
 
     public int amount;
     public Aspect aspect;
@@ -44,6 +47,17 @@ public class RequirementAspectList extends ComponentRequirement {
         return true;
     }
 
+    @Override
+    public ComponentRequirement<Aspect> deepCopy() {
+        return new RequirementAspectList(this.getActionType(), this.amount, this.aspect);
+    }
+
+    @Override
+    public ComponentRequirement<Aspect> deepCopyModified(List<RecipeModifier> modifiers) {
+        float newAmount = RecipeModifier.applyModifiers(modifiers, this, this.amount, false);
+        return new RequirementAspectList(this.getActionType(), MathHelper.ceil(newAmount), this.aspect);
+    }
+
     @Nonnull
     public CraftCheck canStartCrafting(MachineComponent component, RecipeCraftingContext context, List restrictions) {
         TileAspectListProvider provider = (TileAspectListProvider) component.getContainerProvider();
@@ -65,13 +79,6 @@ public class RequirementAspectList extends ComponentRequirement {
         }
     }
 
-    public ComponentRequirement deepCopy() {
-        return this;
-    }
-
-    public ComponentRequirement deepCopyModified(List list) {
-        return this;
-    }
 
     public void startRequirementCheck(ResultChance contextChance, RecipeCraftingContext context) {
     }
@@ -79,7 +86,8 @@ public class RequirementAspectList extends ComponentRequirement {
     public void endRequirementCheck() {
     }
 
-    public JEIComponent provideJEIComponent() {
+    @Override
+    public JEIComponent<Aspect> provideJEIComponent() {
         return null;
     }
 }
