@@ -14,10 +14,10 @@ import net.minecraftforge.registries.IForgeRegistry;
 import youyihj.herodotusutils.HerodotusUtils;
 import youyihj.herodotusutils.block.alchemy.*;
 import youyihj.herodotusutils.block.computing.*;
-import youyihj.herodotusutils.block.modularmachine.BlockAspectListProviderInput;
-import youyihj.herodotusutils.block.modularmachine.tile.TileAspectListProvider;
 import youyihj.herodotusutils.fluid.FluidMana;
+import youyihj.herodotusutils.modsupport.modularmachinery.block.BlockAspectListProviderInput;
 import youyihj.herodotusutils.modsupport.modularmachinery.block.BlockMMController;
+import youyihj.herodotusutils.modsupport.modularmachinery.tile.TileAspectListProvider;
 import youyihj.herodotusutils.util.ItemDropSupplier;
 
 import java.util.List;

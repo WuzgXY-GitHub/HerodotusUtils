@@ -1,4 +1,4 @@
-package youyihj.herodotusutils.block.modularmachine.crafting.requirement;
+package youyihj.herodotusutils.modsupport.modularmachinery.crafting.requirement;
 
 import com.google.common.collect.Lists;
 import fr.frinn.modularmagic.common.integration.jei.component.JEIComponentAspect;
@@ -10,13 +10,14 @@ import hellfirepvp.modularmachinery.common.machine.MachineComponent;
 import hellfirepvp.modularmachinery.common.machine.MachineComponent.IOType;
 import hellfirepvp.modularmachinery.common.modifier.RecipeModifier;
 import hellfirepvp.modularmachinery.common.util.ResultChance;
-import java.util.List;
-import javax.annotation.Nonnull;
 import net.minecraft.util.math.MathHelper;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
-import youyihj.herodotusutils.block.modularmachine.tile.TileAspectListProvider;
+import youyihj.herodotusutils.modsupport.modularmachinery.tile.TileAspectListProvider;
 import youyihj.herodotusutils.util.IMixinJEIComponentAspect;
+
+import javax.annotation.Nonnull;
+import java.util.List;
 
 public class RequirementAspectList extends ComponentRequirement<AspectList> {
 

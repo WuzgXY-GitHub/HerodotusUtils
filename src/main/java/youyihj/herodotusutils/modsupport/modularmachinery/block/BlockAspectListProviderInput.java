@@ -1,9 +1,8 @@
-package youyihj.herodotusutils.block.modularmachine;
+package youyihj.herodotusutils.modsupport.modularmachinery.block;
 
 import hellfirepvp.modularmachinery.common.CommonProxy;
 import hellfirepvp.modularmachinery.common.block.BlockMachineComponent;
 import hellfirepvp.modularmachinery.common.item.ItemBlockMachineComponent;
-import javax.annotation.Nullable;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -13,7 +12,9 @@ import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.world.World;
 import youyihj.herodotusutils.HerodotusUtils;
-import youyihj.herodotusutils.block.modularmachine.tile.TileAspectListProvider;
+import youyihj.herodotusutils.modsupport.modularmachinery.tile.TileAspectListProvider;
+
+import javax.annotation.Nullable;
 
 /**
  * @author ikexing

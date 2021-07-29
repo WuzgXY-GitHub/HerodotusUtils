@@ -1,9 +1,8 @@
-package youyihj.herodotusutils.block.modularmachine.tile;
+package youyihj.herodotusutils.modsupport.modularmachinery.tile;
 
 import hellfirepvp.modularmachinery.common.machine.MachineComponent;
 import hellfirepvp.modularmachinery.common.machine.MachineComponent.IOType;
 import hellfirepvp.modularmachinery.common.tiles.base.MachineComponentTile;
-import javax.annotation.Nullable;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import thaumcraft.api.aspects.Aspect;
@@ -11,6 +10,8 @@ import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.aspects.IAspectSource;
 import thaumcraft.api.aspects.IEssentiaTransport;
 import thaumcraft.common.tiles.TileThaumcraft;
+
+import javax.annotation.Nullable;
 
 /**
  * @author ikexing

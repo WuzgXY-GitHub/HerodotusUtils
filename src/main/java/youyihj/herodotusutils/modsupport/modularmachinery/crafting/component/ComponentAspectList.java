@@ -1,13 +1,14 @@
-package youyihj.herodotusutils.block.modularmachine.crafting.component;
+package youyihj.herodotusutils.modsupport.modularmachinery.crafting.component;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import hellfirepvp.modularmachinery.common.crafting.ComponentType;
 import hellfirepvp.modularmachinery.common.machine.MachineComponent.IOType;
+import thaumcraft.api.aspects.Aspect;
+import youyihj.herodotusutils.modsupport.modularmachinery.crafting.requirement.RequirementAspectList;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import thaumcraft.api.aspects.Aspect;
-import youyihj.herodotusutils.block.modularmachine.crafting.requirement.RequirementAspectList;
 
 public class ComponentAspectList extends ComponentType<RequirementAspectList> {
 

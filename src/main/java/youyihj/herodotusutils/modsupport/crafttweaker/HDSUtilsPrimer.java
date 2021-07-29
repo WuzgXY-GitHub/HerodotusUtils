@@ -3,12 +3,13 @@ package youyihj.herodotusutils.modsupport.crafttweaker;
 import crafttweaker.CraftTweakerAPI;
 import hellfirepvp.modularmachinery.common.integration.crafttweaker.RecipePrimer;
 import hellfirepvp.modularmachinery.common.machine.MachineComponent.IOType;
-import java.util.Map;
 import stanhebben.zenscript.annotations.ZenExpansion;
 import stanhebben.zenscript.annotations.ZenMethod;
 import thaumcraft.api.aspects.Aspect;
-import youyihj.herodotusutils.block.modularmachine.crafting.requirement.RequirementAspectList;
-import youyihj.herodotusutils.block.modularmachine.tile.TileAspectListProvider;
+import youyihj.herodotusutils.modsupport.modularmachinery.crafting.requirement.RequirementAspectList;
+import youyihj.herodotusutils.modsupport.modularmachinery.tile.TileAspectListProvider;
+
+import java.util.Map;
 
 @ZenExpansion("mods.modularmachinery.RecipePrimer")
 public class HDSUtilsPrimer {

@@ -1,4 +1,4 @@
-package youyihj.herodotusutils.block.modularmachine.tile;
+package youyihj.herodotusutils.modsupport.modularmachinery.tile;
 
 import hellfirepvp.modularmachinery.common.crafting.ComponentType;
 import hellfirepvp.modularmachinery.common.crafting.ComponentType.Registry;
