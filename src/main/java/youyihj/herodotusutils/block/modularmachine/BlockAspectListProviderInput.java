@@ -15,6 +15,9 @@ import net.minecraft.world.World;
 import youyihj.herodotusutils.HerodotusUtils;
 import youyihj.herodotusutils.block.modularmachine.tile.TileAspectListProvider;
 
+/**
+ * @author ikexing
+ */
 public class BlockAspectListProviderInput extends BlockMachineComponent {
 
     public static final BlockAspectListProviderInput INSTANCE = new BlockAspectListProviderInput();
@@ -31,23 +34,28 @@ public class BlockAspectListProviderInput extends BlockMachineComponent {
         this.setUnlocalizedName(HerodotusUtils.MOD_ID + "." + "block_aspectlist_provider_input");
     }
 
+    @Override
     public EnumBlockRenderType getRenderType(IBlockState state) {
         return EnumBlockRenderType.MODEL;
     }
 
+    @Override
     public BlockRenderLayer getBlockLayer() {
         return BlockRenderLayer.CUTOUT;
     }
 
+    @Override
     public boolean hasTileEntity(IBlockState state) {
         return true;
     }
 
+    @Override
     @Nullable
     public TileEntity createTileEntity(World world, IBlockState state) {
         return new TileAspectListProvider();
     }
 
+    @Override
     @Nullable
     public TileEntity createNewTileEntity(World worldIn, int meta) {
         return null;

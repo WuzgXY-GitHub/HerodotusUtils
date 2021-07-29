@@ -4,6 +4,9 @@ import hellfirepvp.modularmachinery.common.crafting.ComponentType;
 import hellfirepvp.modularmachinery.common.crafting.ComponentType.Registry;
 import hellfirepvp.modularmachinery.common.machine.MachineComponent;
 
+/**
+ * @author ikexing
+ */
 public class MachineComponentAspectListProvider extends MachineComponent<TileAspectListProvider> {
 
     private final TileAspectListProvider aspectListProvider;
