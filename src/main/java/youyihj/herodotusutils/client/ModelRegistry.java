@@ -28,6 +28,7 @@ import youyihj.herodotusutils.block.computing.BlockCalculatorController;
 import youyihj.herodotusutils.block.computing.BlockCalculatorStructure;
 import youyihj.herodotusutils.block.computing.BlockComputingModule;
 import youyihj.herodotusutils.block.computing.BlockTransporter;
+import youyihj.herodotusutils.block.modularmachine.BlockAspectListProviderInput;
 import youyihj.herodotusutils.entity.EntityRedSlime;
 import youyihj.herodotusutils.entity.RenderRedSlime;
 import youyihj.herodotusutils.fluid.FluidMana;
@@ -109,7 +110,8 @@ public class ModelRegistry {
                 BlockAlchemyOutputHatch.ITEM_BLOCK,
                 BlockAlchemyRoundRobinTunnel.ITEM_BLOCK,
                 BlockLazyAlchemyTunnel.ITEM_BLOCK,
-                BlockAlchemyCrafter.ITEM_BLOCK
+                BlockAlchemyCrafter.ITEM_BLOCK,
+                BlockAspectListProviderInput.ITEM_BLOCK
         );
         BlockMMController.CONTROLLER_ITEMS.forEach(ModelRegistry::registerItemModel);
         for (BlockOreBase ore : BlockRegistry.ORES) {
