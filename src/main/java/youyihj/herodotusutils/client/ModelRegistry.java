@@ -34,6 +34,7 @@ import youyihj.herodotusutils.fluid.FluidMana;
 import youyihj.herodotusutils.fluid.FluidMercury;
 import youyihj.herodotusutils.item.*;
 import youyihj.herodotusutils.modsupport.modularmachinery.block.BlockAspectListProviderInput;
+import youyihj.herodotusutils.modsupport.modularmachinery.block.BlockImpetusInputHatch;
 import youyihj.herodotusutils.modsupport.modularmachinery.block.BlockMMController;
 
 import javax.annotation.Nonnull;
@@ -111,7 +112,8 @@ public class ModelRegistry {
                 BlockAlchemyRoundRobinTunnel.ITEM_BLOCK,
                 BlockLazyAlchemyTunnel.ITEM_BLOCK,
                 BlockAlchemyCrafter.ITEM_BLOCK,
-                BlockAspectListProviderInput.ITEM_BLOCK
+                BlockAspectListProviderInput.ITEM_BLOCK,
+                BlockImpetusInputHatch.ITEM_BLOCK
         );
         BlockMMController.CONTROLLER_ITEMS.forEach(ModelRegistry::registerItemModel);
         for (BlockOreBase ore : BlockRegistry.ORES) {

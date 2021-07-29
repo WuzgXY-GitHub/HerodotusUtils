@@ -26,6 +26,7 @@ import youyihj.herodotusutils.block.BlockMercury;
 import youyihj.herodotusutils.computing.event.ComputingUnitChangeEvent;
 import youyihj.herodotusutils.item.RefinedBottle;
 import youyihj.herodotusutils.modsupport.modularmachinery.crafting.component.ComponentAspectList;
+import youyihj.herodotusutils.modsupport.modularmachinery.crafting.component.ComponentImpetus;
 import youyihj.herodotusutils.potion.LithiumAmalgamInfected;
 import youyihj.herodotusutils.util.Util;
 import youyihj.zenutils.api.world.ZenUtilsWorld;
@@ -93,5 +94,6 @@ public class EventHandler {
     @SubscribeEvent
     public static void onRegistryModularRequirements(ComponentType.ComponentRegistryEvent event) {
         ComponentType.Registry.register(new ComponentAspectList());
+        ComponentType.Registry.register(new ComponentImpetus());
     }
 }

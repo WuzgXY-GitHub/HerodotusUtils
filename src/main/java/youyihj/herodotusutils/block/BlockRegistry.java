@@ -16,8 +16,10 @@ import youyihj.herodotusutils.block.alchemy.*;
 import youyihj.herodotusutils.block.computing.*;
 import youyihj.herodotusutils.fluid.FluidMana;
 import youyihj.herodotusutils.modsupport.modularmachinery.block.BlockAspectListProviderInput;
+import youyihj.herodotusutils.modsupport.modularmachinery.block.BlockImpetusInputHatch;
 import youyihj.herodotusutils.modsupport.modularmachinery.block.BlockMMController;
 import youyihj.herodotusutils.modsupport.modularmachinery.tile.TileAspectListProvider;
+import youyihj.herodotusutils.modsupport.modularmachinery.tile.TileImpetusComponent;
 import youyihj.herodotusutils.util.ItemDropSupplier;
 
 import java.util.List;
@@ -52,26 +54,27 @@ public class BlockRegistry {
     public static void register(RegistryEvent.Register<Block> event) {
         IForgeRegistry<Block> registry = event.getRegistry();
         registry.registerAll(
-            FLUID_MANA_BLOCK,
-            BlockMercury.INSTANCE,
-            BlockManaLiquidizer.INSTANCE,
-            BlockCalculatorStructure.STRUCTURE_BLOCK_1,
-            BlockCalculatorStructure.STRUCTURE_BLOCK_2,
-            BlockCalculatorStructure.STRUCTURE_BLOCK_3,
-            BlockCalculatorController.CONTROLLER_1,
-            BlockCalculatorController.CONTROLLER_2,
-            BlockCalculatorController.CONTROLLER_3,
-            BlockComputingModule.INSTANCE,
-            BlockAlchemyController.INSTANCE,
-            BlockPlainAlchemyTunnel.STRAIGHT,
-            BlockPlainAlchemyTunnel.HORIZONTAL_RIGHT_ANGLE,
-            BlockPlainAlchemyTunnel.VERTICAL_RIGHT_ANGLE,
-            BlockAlchemyInputHatch.INSTANCE,
-            BlockAlchemyOutputHatch.INSTANCE,
-            BlockAlchemyRoundRobinTunnel.INSTANCE,
-            BlockLazyAlchemyTunnel.INSTANCE,
-            BlockAlchemyCrafter.INSTANCE,
-            BlockAspectListProviderInput.INSTANCE
+                FLUID_MANA_BLOCK,
+                BlockMercury.INSTANCE,
+                BlockManaLiquidizer.INSTANCE,
+                BlockCalculatorStructure.STRUCTURE_BLOCK_1,
+                BlockCalculatorStructure.STRUCTURE_BLOCK_2,
+                BlockCalculatorStructure.STRUCTURE_BLOCK_3,
+                BlockCalculatorController.CONTROLLER_1,
+                BlockCalculatorController.CONTROLLER_2,
+                BlockCalculatorController.CONTROLLER_3,
+                BlockComputingModule.INSTANCE,
+                BlockAlchemyController.INSTANCE,
+                BlockPlainAlchemyTunnel.STRAIGHT,
+                BlockPlainAlchemyTunnel.HORIZONTAL_RIGHT_ANGLE,
+                BlockPlainAlchemyTunnel.VERTICAL_RIGHT_ANGLE,
+                BlockAlchemyInputHatch.INSTANCE,
+                BlockAlchemyOutputHatch.INSTANCE,
+                BlockAlchemyRoundRobinTunnel.INSTANCE,
+                BlockLazyAlchemyTunnel.INSTANCE,
+                BlockAlchemyCrafter.INSTANCE,
+                BlockAspectListProviderInput.INSTANCE,
+                BlockImpetusInputHatch.INSTANCE
         );
         BlockMMController.CONTROLLERS.forEach(registry::register);
         BlockTransporter.getBlockMap().values().forEach(registry::register);
@@ -88,5 +91,6 @@ public class BlockRegistry {
         GameRegistry.registerTileEntity(TileAlchemyLazyTunnel.class, HerodotusUtils.rl("alchemy_lazy_tunnel"));
         GameRegistry.registerTileEntity(TileAlchemyCrafter.class, HerodotusUtils.rl("alchemy_crafter"));
         GameRegistry.registerTileEntity(TileAspectListProvider.class, HerodotusUtils.rl("block_aspectlist_provider_input"));
+        GameRegistry.registerTileEntity(TileImpetusComponent.Input.class, HerodotusUtils.rl("impetus_input_hatch"));
     }
 }
