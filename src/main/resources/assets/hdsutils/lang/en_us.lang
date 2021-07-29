@@ -22,6 +22,7 @@ tile.hdsutils.straight_tunnel.name=Straight Alchemical Pipe
 tile.hdsutils.right_angle_tunnel.name=Right Angle Alchemical Pipe
 tile.hdsutils.vertical_right_angle.name=Vertical Right Alchemical Pipe
 tile.hdsutils.round_robin_tunnel.name=Round Robin Alchemical Pipe
+tile.hdsutils.block_aspectlist_provider_input.name=Advanced Essentia Input Hatch
 item.hdsutils.refined_bottle.name=Refined Glass Bottle (%s)
 item.hdsutils.copper_bucket.name=%s Copper Bucket
 item.hdsutils.lithium_amalgam.name=Lithium Amalgam
