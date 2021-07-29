@@ -34,8 +34,13 @@ public class TileAlchemyOutputHatch extends AbstractHasAlchemyFluidTileEntity im
     }
 
     @Override
-    protected EnumFacing allowInputSide() {
+    public EnumFacing inputSide() {
         return world.getBlockState(pos).getValue(BlockHorizontal.FACING);
+    }
+
+    @Override
+    public EnumFacing outputSide() {
+        return null;
     }
 
     @Override

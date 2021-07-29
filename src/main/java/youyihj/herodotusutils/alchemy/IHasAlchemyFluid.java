@@ -19,4 +19,8 @@ public interface IHasAlchemyFluid extends IPipe {
     boolean handleInput(Fluid input, EnumFacing inputSide);
 
     void emptyFluid();
+
+    EnumFacing inputSide();
+
+    EnumFacing outputSide();
 }

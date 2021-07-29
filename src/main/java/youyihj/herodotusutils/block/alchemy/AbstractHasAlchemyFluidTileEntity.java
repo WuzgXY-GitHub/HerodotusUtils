@@ -38,7 +38,7 @@ public abstract class AbstractHasAlchemyFluidTileEntity extends AbstractPipeTile
 
     @Override
     public boolean handleInput(Fluid input, EnumFacing inputSide) {
-        if (content == null && inputSide == allowInputSide()) {
+        if (content == null && inputSide == inputSide()) {
             cachedContent = input;
             return true;
         }
@@ -57,6 +57,4 @@ public abstract class AbstractHasAlchemyFluidTileEntity extends AbstractPipeTile
     public void emptyFluid() {
         content = null;
     }
-
-    protected abstract EnumFacing allowInputSide();
 }

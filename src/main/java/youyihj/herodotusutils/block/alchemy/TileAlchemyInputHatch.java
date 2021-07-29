@@ -73,6 +73,16 @@ public class TileAlchemyInputHatch extends AbstractPipeTileEntity implements IAl
         tank.drain(FLUID_UNIT, true);
     }
 
+    @Override
+    public EnumFacing inputSide() {
+        return null;
+    }
+
+    @Override
+    public EnumFacing outputSide() {
+        return EnumFacing.DOWN;
+    }
+
     private static class CustomFluidTank extends FluidTank {
 
         public CustomFluidTank() {
