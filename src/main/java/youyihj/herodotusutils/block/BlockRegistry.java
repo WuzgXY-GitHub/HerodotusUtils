@@ -67,7 +67,9 @@ public class BlockRegistry {
                 BlockAlchemyOutputHatch.INSTANCE,
                 BlockAlchemyRoundRobinTunnel.INSTANCE,
                 BlockLazyAlchemyTunnel.INSTANCE,
-                BlockAlchemyCrafter.INSTANCE
+                BlockAlchemyCrafter.INSTANCE,
+                BlockAlchemySeparator.INSTANCE,
+                BlockAlchemySeparatorTank.INSTANCE
         );
         BlockMMController.CONTROLLERS.forEach(registry::register);
         BlockTransporter.getBlockMap().values().forEach(registry::register);
@@ -83,5 +85,7 @@ public class BlockRegistry {
         GameRegistry.registerTileEntity(TileAlchemyRoundRobinTunnel.class, HerodotusUtils.rl("alchemy_round_robin_tunnel"));
         GameRegistry.registerTileEntity(TileAlchemyLazyTunnel.class, HerodotusUtils.rl("alchemy_lazy_tunnel"));
         GameRegistry.registerTileEntity(TileAlchemyCrafter.class, HerodotusUtils.rl("alchemy_crafter"));
+        GameRegistry.registerTileEntity(TileAlchemySeparatorTank.class, HerodotusUtils.rl("alchemy_separator_tank"));
+        GameRegistry.registerTileEntity(TileAlchemySeparator.class, HerodotusUtils.rl("alchemy_separator"));
     }
 }

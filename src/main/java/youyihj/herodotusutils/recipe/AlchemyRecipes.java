@@ -22,17 +22,32 @@ import java.util.stream.Collectors;
 @ZenClass("mods.hdsutils.Alchemy")
 public class AlchemyRecipes {
     private static final List<Craft> craftRecipes = new ArrayList<>();
+    private static final List<Separate> separateRecipes = new ArrayList<>();
 
     @ZenMethod
     public static void addCraftingRecipe(ILiquidStack output, ILiquidStack[] input) {
         CraftTweakerAPI.apply(new AddCraftingRecipeAction(output, input));
     }
 
+    @ZenMethod
+    public static void addSeparatingRecipe(ILiquidStack input, ILiquidStack[] output) {
+        CraftTweakerAPI.apply(new AddSeparatingRecipeAction(input, output));
+    }
+
     @Nullable
-    public static Fluid getOutputFor(Fluid[] input) {
+    public static Fluid getCraftingOutputFor(Fluid[] input) {
         return craftRecipes.stream()
                 .filter(recipe -> recipe.checkInput(input))
                 .map(Craft::getOutput)
+                .findFirst()
+                .orElse(null);
+    }
+
+    @Nullable
+    public static Fluid[] getSeparatingOutputFor(Fluid input) {
+        return separateRecipes.stream()
+                .filter(recipe -> recipe.getInput() == input)
+                .map(Separate::getOutput)
                 .findFirst()
                 .orElse(null);
     }
@@ -65,6 +80,24 @@ public class AlchemyRecipes {
         }
     }
 
+    public static class Separate {
+        private final Fluid input;
+        private final Fluid[] output;
+
+        public Separate(Fluid input, Fluid[] output) {
+            this.input = input;
+            this.output = output;
+        }
+
+        public Fluid getInput() {
+            return input;
+        }
+
+        public Fluid[] getOutput() {
+            return output;
+        }
+    }
+
     public static class AddCraftingRecipeAction implements IAction {
         private final ILiquidStack output;
         private final ILiquidStack[] input;
@@ -90,6 +123,35 @@ public class AlchemyRecipes {
         @Override
         public String describe() {
             return "Adding a new crafting alchemy recipe, output: " + output.toCommandString() + "input: " + Arrays.stream(input).map(IIngredient::toCommandString).collect(Collectors.joining(", ", "[", "]"));
+        }
+    }
+
+    public static class AddSeparatingRecipeAction implements IAction {
+        private final ILiquidStack input;
+        private final ILiquidStack[] output;
+
+        public AddSeparatingRecipeAction(ILiquidStack input, ILiquidStack[] output) {
+            this.input = input;
+            this.output = output;
+        }
+
+        @Override
+        public void apply() {
+            if (output.length > 4) {
+                throw new IllegalArgumentException();
+            }
+
+            Fluid mcInput = CraftTweakerMC.getFluid(input.getDefinition());
+            Fluid[] mcOutput = Arrays.stream(output)
+                    .map(ILiquidStack::getDefinition)
+                    .map(CraftTweakerMC::getFluid)
+                    .toArray(Fluid[]::new);
+            separateRecipes.add(new Separate(mcInput, mcOutput));
+        }
+
+        @Override
+        public String describe() {
+            return "Adding a new separating alchemy recipe, input: " + input.toCommandString() + "input: " + Arrays.stream(output).map(IIngredient::toCommandString).collect(Collectors.joining(", ", "[", "]"));
         }
     }
 }

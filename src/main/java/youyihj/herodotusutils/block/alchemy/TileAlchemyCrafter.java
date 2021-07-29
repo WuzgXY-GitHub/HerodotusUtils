@@ -34,7 +34,7 @@ public class TileAlchemyCrafter extends AbstractPipeTileEntity implements IAlche
                 .map(IHasAlchemyFluid::getContainedFluid)
                 .filter(Objects::nonNull)
                 .toArray(Fluid[]::new);
-        Fluid output = AlchemyRecipes.getOutputFor(input);
+        Fluid output = AlchemyRecipes.getCraftingOutputFor(input);
         if (output != null) {
             Util.getTileEntity(world, pos.down(), IHasAlchemyFluid.class)
                     .ifPresent(pipe -> pipe.handleInput(output, EnumFacing.UP));

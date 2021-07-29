@@ -109,7 +109,9 @@ public class ModelRegistry {
                 BlockAlchemyOutputHatch.ITEM_BLOCK,
                 BlockAlchemyRoundRobinTunnel.ITEM_BLOCK,
                 BlockLazyAlchemyTunnel.ITEM_BLOCK,
-                BlockAlchemyCrafter.ITEM_BLOCK
+                BlockAlchemyCrafter.ITEM_BLOCK,
+                BlockAlchemySeparator.ITEM_BLOCK,
+                BlockAlchemySeparatorTank.ITEM_BLOCK
         );
         BlockMMController.CONTROLLER_ITEMS.forEach(ModelRegistry::registerItemModel);
         for (BlockOreBase ore : BlockRegistry.ORES) {
