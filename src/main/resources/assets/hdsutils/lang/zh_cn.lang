@@ -40,6 +40,7 @@ hdsutils.alchemy.controller.debug=调试
 hdsutils.alchemy.controller.working=工作
 hdsutils.alchemy.controller.close=关闭
 hdsutils.alchemy.fluid_info=含有炼金流体：
+hdsutils.add_lp_while_eating_raw_meat=
 effect.lithium_amalgam_infected=锂汞齐侵染
 effect.starvation=饥饿
 death.attack.lithium_amalgam_infected=%s因锂汞齐侵染而死
