@@ -83,7 +83,7 @@ public class TileAlchemyInputHatch extends AbstractPipeTileEntity implements IAl
         return EnumFacing.DOWN;
     }
 
-    private static class CustomFluidTank extends FluidTank {
+    private class CustomFluidTank extends FluidTank {
 
         public CustomFluidTank() {
             super(FLUID_UNIT);
@@ -110,6 +110,11 @@ public class TileAlchemyInputHatch extends AbstractPipeTileEntity implements IAl
                 }
                 return super.fill(resource, true);
             }
+        }
+
+        @Override
+        protected void onContentsChanged() {
+            TileAlchemyInputHatch.this.markDirty();
         }
     }
 }

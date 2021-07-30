@@ -24,9 +24,7 @@ public abstract class AbstractHasAlchemyFluidTileEntity extends AbstractPipeTile
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound compound) {
         super.writeToNBT(compound);
-        if (content != null) {
-            compound.setString("fluid", content.getName());
-        }
+        compound.setString("fluid", content == null ? "empty" : content.getName());
         return compound;
     }
 
@@ -49,6 +47,7 @@ public abstract class AbstractHasAlchemyFluidTileEntity extends AbstractPipeTile
     public void afterModuleMainWork() {
         if (cachedContent != null && content == null) {
             content = cachedContent;
+            this.markDirty();
             cachedContent = null;
         }
     }
@@ -56,5 +55,6 @@ public abstract class AbstractHasAlchemyFluidTileEntity extends AbstractPipeTile
     @Override
     public void emptyFluid() {
         content = null;
+        this.markDirty();
     }
 }

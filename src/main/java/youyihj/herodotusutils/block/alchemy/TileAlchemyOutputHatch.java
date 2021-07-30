@@ -78,6 +78,7 @@ public class TileAlchemyOutputHatch extends AbstractHasAlchemyFluidTileEntity im
             if (resource.getFluid() == resource.getFluid() && resource.amount >= FLUID_UNIT) {
                 if (doDrain) {
                     emptyFluid();
+                    TileAlchemyOutputHatch.this.markDirty();
                 }
                 return new FluidStack(content, FLUID_UNIT);
             }
@@ -90,6 +91,7 @@ public class TileAlchemyOutputHatch extends AbstractHasAlchemyFluidTileEntity im
             if (maxDrain >= FLUID_UNIT) {
                 if (doDrain) {
                     emptyFluid();
+                    TileAlchemyOutputHatch.this.markDirty();
                 }
                 return new FluidStack(content, FLUID_UNIT);
             }
