@@ -100,7 +100,7 @@ dependencies {
     deobfCompile "CraftTweaker2:CraftTweaker2-MC1120-Main:1.12-4.1.20.646"
     deobfCompile "com.teamacronymcoders.base:base:1.12.2-3.13.0-SNAPSHOT.+"
     deobfCompile "com.teamacronymcoders:ContentTweaker:1.12.2-4.9.1"
-    compile "cofh:RedstoneFlux:1.12-2.1.0.+:universal"
+    deobfCompile "cofh:RedstoneFlux:1.12-2.1.0.+:universal"
     deobfCompile "mcjty.theoneprobe:TheOneProbe-1.12:1.12-1.4.28-17"
     deobfCompile "mezz.jei:jei_1.12.2:4.16.1.302"
     deobfCompile "youyihj:zenutils:1.8.0"
