@@ -1,17 +1,26 @@
 package youyihj.herodotusutils.event;
 
+import crafttweaker.CraftTweakerAPI;
 import crafttweaker.api.data.DataInt;
 import crafttweaker.api.data.IData;
 import crafttweaker.api.minecraft.CraftTweakerMC;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.init.MobEffects;
+import net.minecraft.item.EnumAction;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.chunk.Chunk;
+import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
+import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
@@ -25,10 +34,13 @@ import youyihj.herodotusutils.block.BlockMercury;
 import youyihj.herodotusutils.computing.event.ComputingUnitChangeEvent;
 import youyihj.herodotusutils.item.RefinedBottle;
 import youyihj.herodotusutils.potion.LithiumAmalgamInfected;
+import youyihj.herodotusutils.potion.Starvation;
 import youyihj.herodotusutils.util.Util;
 import youyihj.zenutils.api.world.ZenUtilsWorld;
 import youyihj.zenutils.impl.capability.ZenWorldCapabilityHandler;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -36,6 +48,16 @@ import java.util.Optional;
  */
 @Mod.EventBusSubscriber
 public class EventHandler {
+
+    public static List<Item> lPItems = new ArrayList<Item>() {
+        {
+            add(Items.BEEF);
+            add(Items.CHICKEN);
+            add(Items.MUTTON);
+            add(Items.RABBIT);
+        }
+    };
+
     @SubscribeEvent
     public static void onEntityLivingUpdate(LivingEvent.LivingUpdateEvent event) {
         EntityLivingBase entity = event.getEntityLiving();
@@ -86,5 +108,37 @@ public class EventHandler {
     @SubscribeEvent
     public static void onComputingUnitChange(ComputingUnitChangeEvent event) {
         event.getComputingUnit().removeInvalidEntry(event.getWorld());
+    }
+
+    @SubscribeEvent
+    public static void onItemUseStart(LivingEntityUseItemEvent.Start event) {
+        if (event.getEntityLiving() instanceof EntityPlayer) {
+            EntityPlayer player = (EntityPlayer) event.getEntityLiving();
+            ItemStack item = event.getItem();
+            if ((item.getItem() instanceof ItemFood || item.getItemUseAction() == EnumAction.DRINK || item.getItemUseAction() == EnumAction.EAT)) {
+                if (!player.world.isRemote && player.isPotionActive(Starvation.INSTANCE)) {
+                    event.setDuration(event.getDuration() / 2);
+                }
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onItemUseFinish(LivingEntityUseItemEvent.Finish event) {
+        if (event.getEntityLiving() instanceof EntityPlayer) {
+            EntityPlayer player = (EntityPlayer) event.getEntityLiving();
+            ItemStack item = event.getItem();
+            if (player.isPotionActive(Starvation.INSTANCE)) {
+                if (lPItems.stream().anyMatch(item.getItem()::equals)) {
+                    CraftTweakerAPI.logError("maybe looks of error, but it's right.");
+                }
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void register(RegistryEvent.Register<Potion> event) {
+        event.getRegistry().register(Starvation.INSTANCE);
+        event.getRegistry().register(LithiumAmalgamInfected.INSTANCE);
     }
 }

@@ -3,9 +3,6 @@ package youyihj.herodotusutils.potion;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.DamageSource;
-import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 /**
  * @author youyihj
@@ -33,14 +30,6 @@ public class LithiumAmalgamInfected extends Potion {
             return duration % k == 0;
         } else {
             return true;
-        }
-    }
-
-    @Mod.EventBusSubscriber
-    public static class Registry {
-        @SubscribeEvent
-        public static void register(RegistryEvent.Register<Potion> event) {
-            event.getRegistry().register(INSTANCE);
         }
     }
 }
