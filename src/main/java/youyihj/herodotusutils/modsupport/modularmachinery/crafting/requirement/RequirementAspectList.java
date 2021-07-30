@@ -33,12 +33,9 @@ public class RequirementAspectList extends ComponentRequirement<AspectList> {
     public boolean startCrafting(MachineComponent component, RecipeCraftingContext context, ResultChance chance) {
         if (!this.canStartCrafting(component, context, Lists.newArrayList()).isSuccess()) {
             return false;
-        } else if (this.getActionType() == IOType.INPUT) {
-            TileAspectListProvider provider = (TileAspectListProvider) component.getContainerProvider();
-            return provider.takeFromContainer(this.aspect, this.amount);
-        } else {
-            return true;
         }
+        TileAspectListProvider provider = (TileAspectListProvider) component.getContainerProvider();
+        return provider.takeFromContainer(this.aspect, this.amount);
     }
 
     public boolean finishCrafting(MachineComponent component, RecipeCraftingContext context, ResultChance chance) {
@@ -79,9 +76,9 @@ public class RequirementAspectList extends ComponentRequirement<AspectList> {
 
     @Override
     public JEIComponent<AspectList> provideJEIComponent() {
-        JEIComponentAspect jeiComponentAspect = new JEIComponentAspect(null);
-        ((IMixinJEIComponentAspect) jeiComponentAspect).setRequirementAspectList(this);
-        return ((IMixinJEIComponentAspect) jeiComponentAspect).getJEIComponent();
+        IMixinJEIComponentAspect jeiComponentAspect = (IMixinJEIComponentAspect) new JEIComponentAspect(null);
+        jeiComponentAspect.setRequirementAspectList(this);
+        return jeiComponentAspect.getJEIComponent();
     }
 }
 

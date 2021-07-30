@@ -4,7 +4,10 @@ import hellfirepvp.modularmachinery.common.machine.MachineComponent;
 import hellfirepvp.modularmachinery.common.machine.MachineComponent.IOType;
 import hellfirepvp.modularmachinery.common.tiles.base.MachineComponentTile;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ITickable;
+import thaumcraft.api.ThaumcraftApiHelper;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.aspects.IAspectSource;
@@ -12,16 +15,56 @@ import thaumcraft.api.aspects.IEssentiaTransport;
 import thaumcraft.common.tiles.TileThaumcraft;
 
 import javax.annotation.Nullable;
+import java.util.Objects;
 
 /**
  * @author ikexing
  */
-public class TileAspectListProvider extends TileThaumcraft implements MachineComponentTile, IAspectSource, IEssentiaTransport {
+public class TileAspectListProvider extends TileThaumcraft implements MachineComponentTile, IAspectSource, IEssentiaTransport, ITickable {
 
     public static final int MAX_ASPECT = 6;
     public static final int MAX_AMOUNT = 250;
+    public static final int SUCTION_AMOUNT = 32; // what fuck this ???
 
-    public AspectList aspects = new AspectList();
+    private AspectList aspects = new AspectList();
+
+    private Aspect aspectCurrent = null;
+
+    @Override
+    public void update() {
+        if (!getWorld().isRemote && this.aspects.getAspects().length > 0) {
+            if (this.aspectCurrent == null) {
+                int randInt = 0;
+                Aspect[] aspects = this.aspects.getAspects();
+                if (aspects.length > 1)
+                    randInt = getWorld().rand.nextInt(aspects.length - 1);
+                aspectCurrent = this.aspects.getAspects()[randInt];
+            }
+            if (this.aspectCurrent != null && this.aspects.getAmount(aspectCurrent) > MAX_AMOUNT) {
+                aspectCurrent = null;
+            }
+            for (EnumFacing value : EnumFacing.VALUES) {
+                fill(value);
+            }
+        }
+    }
+
+    private void fill(EnumFacing face) {
+        TileEntity te = ThaumcraftApiHelper.getConnectableTile(this.world, this.pos, face);
+        if (te == null) return;
+        IEssentiaTransport ic = (IEssentiaTransport) te;
+        if (!ic.canOutputTo(face.getOpposite())) return;
+        Aspect ta = null;
+        if (this.aspectCurrent != null) {
+            ta = this.aspectCurrent;
+        } else if (ic.getEssentiaAmount(face.getOpposite()) > 0 && ic.getSuctionAmount(face.getOpposite()) < this.getSuctionAmount(face) && this.getSuctionAmount(face) >= ic.getMinimumSuction()) {
+            ta = ic.getEssentiaType(face.getOpposite());
+        }
+
+        if (ta != null && ic.getSuctionAmount(face.getOpposite()) < this.getSuctionAmount(face)) {
+            this.addToContainer(ta, ic.takeEssentia(ta, 1, face.getOpposite()));
+        }
+    }
 
     @Override
     public void readSyncNBT(NBTTagCompound nbt) {
@@ -46,8 +89,8 @@ public class TileAspectListProvider extends TileThaumcraft implements MachineCom
 
     @Override
     public boolean doesContainerAccept(Aspect tag) {
-        if (this.aspects.size() > 6) {
-            return this.aspects.getAmount(tag) > 250;
+        if (this.aspects.size() > MAX_ASPECT) {
+            return this.aspects.getAmount(tag) > MAX_AMOUNT;
         }
         return true;
     }
@@ -106,16 +149,17 @@ public class TileAspectListProvider extends TileThaumcraft implements MachineCom
 
     @Override
     public void setSuction(Aspect aspect, int amount) {
+        this.aspectCurrent = aspect;
     }
 
     @Override
     public Aspect getSuctionType(EnumFacing face) {
-        return null;
+        return this.aspectCurrent;
     }
 
     @Override
     public int getSuctionAmount(EnumFacing face) {
-        return 0;
+        return this.aspectCurrent != null ? SUCTION_AMOUNT : 0;
     }
 
     @Override
@@ -130,19 +174,18 @@ public class TileAspectListProvider extends TileThaumcraft implements MachineCom
 
     @Override
     public Aspect getEssentiaType(EnumFacing face) {
-        return null;
+        return this.aspectCurrent;
     }
 
     @Override
     public int getEssentiaAmount(EnumFacing face) {
-        return 0;
+        return Objects.nonNull(this.aspectCurrent) ? this.aspects.getAmount(this.aspectCurrent) : 0;
     }
 
     @Override
     public int getMinimumSuction() {
         return 0;
     }
-
 
     @Nullable
     public MachineComponent provideComponent() {
