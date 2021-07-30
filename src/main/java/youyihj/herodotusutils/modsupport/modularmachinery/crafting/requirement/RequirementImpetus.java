@@ -33,7 +33,7 @@ public class RequirementImpetus extends ComponentRequirement<Impetus> {
         if (!this.canStartCrafting(component, context, Lists.newArrayList()).isSuccess()) {
             return false;
         } else if (this.getActionType() == MachineComponent.IOType.INPUT) {
-            TileImpetusComponent tileComponent = (TileImpetusComponent) component.getContainerProvider();
+            TileImpetusComponent.Input tileComponent = (TileImpetusComponent.Input) component.getContainerProvider();
             tileComponent.consumeImpetus(this.impetus.getAmount());
         }
         return true;
@@ -48,7 +48,7 @@ public class RequirementImpetus extends ComponentRequirement<Impetus> {
     @Nonnull
     @Override
     public CraftCheck canStartCrafting(MachineComponent component, RecipeCraftingContext context, List<ComponentOutputRestrictor> restrictions) {
-        TileImpetusComponent tileComponent = (TileImpetusComponent) component.getContainerProvider();
+        TileImpetusComponent.Input tileComponent = (TileImpetusComponent.Input) component.getContainerProvider();
         if (tileComponent.hasEnoughImpetus(this.impetus.getAmount())) {
             return CraftCheck.success();
         } else {

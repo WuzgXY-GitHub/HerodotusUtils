@@ -8,9 +8,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraftforge.common.capabilities.Capability;
 import thecodex6824.thaumicaugmentation.ThaumicAugmentation;
-import thecodex6824.thaumicaugmentation.api.impetus.node.CapabilityImpetusNode;
-import thecodex6824.thaumicaugmentation.api.impetus.node.ConsumeResult;
-import thecodex6824.thaumicaugmentation.api.impetus.node.NodeHelper;
+import thecodex6824.thaumicaugmentation.api.impetus.node.*;
 import thecodex6824.thaumicaugmentation.api.impetus.node.prefab.SimpleImpetusConsumer;
 import thecodex6824.thaumicaugmentation.api.util.DimensionalBlockPos;
 import thecodex6824.thaumicaugmentation.common.tile.trait.IBreakCallback;
@@ -23,8 +21,12 @@ import javax.annotation.Nullable;
 public abstract class TileImpetusComponent extends TileColorableMachineComponent implements ITickable, IBreakCallback, MachineComponentTile {
     private static final int CAPACITY = 100;
     protected int impetus = 0;
-    protected final SimpleImpetusConsumer node = new SimpleImpetusConsumer(1, 0);
+    protected final IImpetusNode node;
     private boolean toSetNodePos = true;
+
+    protected TileImpetusComponent(IImpetusNode node) {
+        this.node = node;
+    }
 
     @Override
     public void readCustomNBT(NBTTagCompound compound) {
@@ -65,15 +67,6 @@ public abstract class TileImpetusComponent extends TileColorableMachineComponent
         ThaumicAugmentation.proxy.deregisterRenderableImpetusNode(this.node);
     }
 
-    public boolean hasEnoughImpetus(int amount) {
-        return impetus >= amount;
-    }
-
-    public void consumeImpetus(int amount) {
-        if (hasEnoughImpetus(amount)) {
-            impetus -= amount;
-        }
-    }
 
     private void setNodePos() {
         if (toSetNodePos) {
@@ -92,11 +85,25 @@ public abstract class TileImpetusComponent extends TileColorableMachineComponent
 
     public static class Input extends TileImpetusComponent {
 
+        public Input() {
+            super(new SimpleImpetusConsumer(1, 0));
+        }
+
+        public boolean hasEnoughImpetus(int amount) {
+            return impetus >= amount;
+        }
+
+        public void consumeImpetus(int amount) {
+            if (hasEnoughImpetus(amount)) {
+                impetus -= amount;
+            }
+        }
+
         @Override
         public void customUpdate() {
             if (world.isRemote || impetus >= CAPACITY)
                 return;
-            ConsumeResult result = node.consume(1, true);
+            ConsumeResult result = ((IImpetusConsumer) node).consume(1, false);
             if (result.energyConsumed == 1)
                 impetus++;
             this.markDirty();
