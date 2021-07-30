@@ -31,7 +31,7 @@ public class ImpetusJEIComponent extends ComponentRequirement.JEIComponent<Impet
 
     @Override
     public RecipeLayoutPart<Impetus> getLayoutPart(Point offset) {
-        return new LayoutImpetus(offset, requirementImpetus.getActionType());
+        return new LayoutImpetus(offset);
     }
 
     @Override

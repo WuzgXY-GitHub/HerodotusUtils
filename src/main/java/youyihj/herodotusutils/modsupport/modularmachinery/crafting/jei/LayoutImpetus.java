@@ -1,7 +1,6 @@
 package youyihj.herodotusutils.modsupport.modularmachinery.crafting.jei;
 
 import hellfirepvp.modularmachinery.common.integration.recipe.RecipeLayoutPart;
-import hellfirepvp.modularmachinery.common.machine.MachineComponent;
 import mezz.jei.api.ingredients.IIngredientRenderer;
 import net.minecraft.client.Minecraft;
 import youyihj.herodotusutils.modsupport.jei.render.ImpetusRender;
@@ -13,11 +12,9 @@ import java.awt.*;
  * @author youyihj
  */
 public class LayoutImpetus extends RecipeLayoutPart<Impetus> {
-    private final MachineComponent.IOType ioType;
 
-    public LayoutImpetus(Point offset, MachineComponent.IOType ioType) {
+    public LayoutImpetus(Point offset) {
         super(offset);
-        this.ioType = ioType;
     }
 
     @Override

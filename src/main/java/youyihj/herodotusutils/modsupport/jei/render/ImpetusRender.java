@@ -2,6 +2,7 @@ package youyihj.herodotusutils.modsupport.jei.render;
 
 import mezz.jei.api.ingredients.IIngredientRenderer;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemStack;
 import thecodex6824.thaumicaugmentation.api.TAItems;
@@ -23,6 +24,6 @@ public class ImpetusRender implements IIngredientRenderer<Impetus> {
 
     @Override
     public List<String> getTooltip(Minecraft minecraft, Impetus ingredient, ITooltipFlag tooltipFlag) {
-        return Collections.singletonList("Impetus: " + ingredient.getAmount());
+        return Collections.singletonList(I18n.format("hdsutils.jei.impetus", ingredient.getAmount()));
     }
 }

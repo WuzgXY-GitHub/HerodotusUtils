@@ -16,7 +16,7 @@ import youyihj.herodotusutils.block.alchemy.*;
 import youyihj.herodotusutils.block.computing.*;
 import youyihj.herodotusutils.fluid.FluidMana;
 import youyihj.herodotusutils.modsupport.modularmachinery.block.BlockAspectListProviderInput;
-import youyihj.herodotusutils.modsupport.modularmachinery.block.BlockImpetusInputHatch;
+import youyihj.herodotusutils.modsupport.modularmachinery.block.BlockImpetusHatch;
 import youyihj.herodotusutils.modsupport.modularmachinery.block.BlockMMController;
 import youyihj.herodotusutils.modsupport.modularmachinery.tile.TileAspectListProvider;
 import youyihj.herodotusutils.modsupport.modularmachinery.tile.TileImpetusComponent;
@@ -74,7 +74,7 @@ public class BlockRegistry {
                 BlockLazyAlchemyTunnel.INSTANCE,
                 BlockAlchemyCrafter.INSTANCE,
                 BlockAspectListProviderInput.INSTANCE,
-                BlockImpetusInputHatch.INSTANCE
+                BlockImpetusHatch.Input.INSTANCE
         );
         BlockMMController.CONTROLLERS.forEach(registry::register);
         BlockTransporter.getBlockMap().values().forEach(registry::register);

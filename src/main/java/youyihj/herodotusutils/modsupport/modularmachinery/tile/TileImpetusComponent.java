@@ -6,13 +6,13 @@ import hellfirepvp.modularmachinery.common.tiles.base.TileColorableMachineCompon
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
-import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.common.capabilities.Capability;
 import thecodex6824.thaumicaugmentation.ThaumicAugmentation;
 import thecodex6824.thaumicaugmentation.api.impetus.node.CapabilityImpetusNode;
 import thecodex6824.thaumicaugmentation.api.impetus.node.ConsumeResult;
 import thecodex6824.thaumicaugmentation.api.impetus.node.NodeHelper;
 import thecodex6824.thaumicaugmentation.api.impetus.node.prefab.SimpleImpetusConsumer;
+import thecodex6824.thaumicaugmentation.api.util.DimensionalBlockPos;
 import thecodex6824.thaumicaugmentation.common.tile.trait.IBreakCallback;
 
 import javax.annotation.Nullable;
@@ -23,12 +23,8 @@ import javax.annotation.Nullable;
 public abstract class TileImpetusComponent extends TileColorableMachineComponent implements ITickable, IBreakCallback, MachineComponentTile {
     private static final int CAPACITY = 100;
     protected int impetus = 0;
-    protected final SimpleImpetusConsumer node = new SimpleImpetusConsumer(1, 0) {
-        @Override
-        public Vec3d getBeamEndpoint() {
-            return new Vec3d(pos).addVector(0.5, 0.5, 0.5);
-        }
-    };
+    protected final SimpleImpetusConsumer node = new SimpleImpetusConsumer(1, 0);
+    private boolean toSetNodePos = true;
 
     @Override
     public void readCustomNBT(NBTTagCompound compound) {
@@ -79,15 +75,31 @@ public abstract class TileImpetusComponent extends TileColorableMachineComponent
         }
     }
 
+    private void setNodePos() {
+        if (toSetNodePos) {
+            node.setLocation(new DimensionalBlockPos(pos, world.provider.getDimension()));
+            toSetNodePos = false;
+        }
+    }
+
+    @Override
+    public void update() {
+        setNodePos();
+        customUpdate();
+    }
+
+    protected abstract void customUpdate();
+
     public static class Input extends TileImpetusComponent {
 
         @Override
-        public void update() {
+        public void customUpdate() {
             if (world.isRemote || impetus >= CAPACITY)
                 return;
             ConsumeResult result = node.consume(1, true);
             if (result.energyConsumed == 1)
                 impetus++;
+            this.markDirty();
         }
 
         @Nullable

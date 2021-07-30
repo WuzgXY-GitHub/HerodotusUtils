@@ -6,7 +6,9 @@ import hellfirepvp.modularmachinery.common.machine.MachineComponent.IOType;
 import stanhebben.zenscript.annotations.ZenExpansion;
 import stanhebben.zenscript.annotations.ZenMethod;
 import thaumcraft.api.aspects.Aspect;
+import youyihj.herodotusutils.modsupport.modularmachinery.crafting.ingredient.Impetus;
 import youyihj.herodotusutils.modsupport.modularmachinery.crafting.requirement.RequirementAspectList;
+import youyihj.herodotusutils.modsupport.modularmachinery.crafting.requirement.RequirementImpetus;
 import youyihj.herodotusutils.modsupport.modularmachinery.tile.TileAspectListProvider;
 
 import java.util.Map;
@@ -26,6 +28,12 @@ public class HDSUtilsPrimer {
                 else
                     CraftTweakerAPI.logError("Invalid aspect name : " + k);
             });
+        return primer;
+    }
+
+    @ZenMethod
+    public static RecipePrimer addImpetusInput(RecipePrimer primer, int amount) {
+        primer.appendComponent(new RequirementImpetus(IOType.INPUT, new Impetus(amount)));
         return primer;
     }
 }
