@@ -113,7 +113,8 @@ public class ModelRegistry {
                 BlockLazyAlchemyTunnel.ITEM_BLOCK,
                 BlockAlchemyCrafter.ITEM_BLOCK,
                 BlockAspectListProviderInput.ITEM_BLOCK,
-                BlockImpetusHatch.Input.ITEM_BLOCK
+                BlockImpetusHatch.Input.ITEM_BLOCK,
+                BlockImpetusHatch.Output.ITEM_BLOCK
         );
         BlockMMController.CONTROLLER_ITEMS.forEach(ModelRegistry::registerItemModel);
         for (BlockOreBase ore : BlockRegistry.ORES) {

@@ -74,7 +74,8 @@ public class BlockRegistry {
                 BlockLazyAlchemyTunnel.INSTANCE,
                 BlockAlchemyCrafter.INSTANCE,
                 BlockAspectListProviderInput.INSTANCE,
-                BlockImpetusHatch.Input.INSTANCE
+                BlockImpetusHatch.Input.INSTANCE,
+                BlockImpetusHatch.Output.INSTANCE
         );
         BlockMMController.CONTROLLERS.forEach(registry::register);
         BlockTransporter.getBlockMap().values().forEach(registry::register);
@@ -92,5 +93,6 @@ public class BlockRegistry {
         GameRegistry.registerTileEntity(TileAlchemyCrafter.class, HerodotusUtils.rl("alchemy_crafter"));
         GameRegistry.registerTileEntity(TileAspectListProvider.class, HerodotusUtils.rl("block_aspectlist_provider_input"));
         GameRegistry.registerTileEntity(TileImpetusComponent.Input.class, HerodotusUtils.rl("impetus_input_hatch"));
+        GameRegistry.registerTileEntity(TileImpetusComponent.Output.class, HerodotusUtils.rl("impetus_output_hatch"));
     }
 }

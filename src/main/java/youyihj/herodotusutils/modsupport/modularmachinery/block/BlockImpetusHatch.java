@@ -79,4 +79,20 @@ public abstract class BlockImpetusHatch extends BlockMachineComponent {
             return new TileImpetusComponent.Input();
         }
     }
+
+    public static class Output extends BlockImpetusHatch {
+
+        private Output() {
+            super("impetus_output_hatch");
+        }
+
+        public static final Output INSTANCE = new Output();
+        public static final Item ITEM_BLOCK = new ItemBlockMachineComponent(INSTANCE).setRegistryName("impetus_output_hatch");
+
+        @Nullable
+        @Override
+        public TileEntity createTileEntity(World world, IBlockState state) {
+            return new TileImpetusComponent.Output();
+        }
+    }
 }

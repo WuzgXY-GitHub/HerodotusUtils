@@ -41,18 +41,33 @@ public class RequirementImpetus extends ComponentRequirement<Impetus> {
 
     @Override
     public boolean finishCrafting(MachineComponent component, RecipeCraftingContext context, ResultChance chance) {
-        // TODO: output
+        if (this.getActionType() == MachineComponent.IOType.OUTPUT) {
+            TileImpetusComponent.Output tileComponent = (TileImpetusComponent.Output) component.getContainerProvider();
+            tileComponent.supplyImpetus(this.impetus.getAmount());
+        }
         return true;
     }
 
     @Nonnull
     @Override
     public CraftCheck canStartCrafting(MachineComponent component, RecipeCraftingContext context, List<ComponentOutputRestrictor> restrictions) {
-        TileImpetusComponent.Input tileComponent = (TileImpetusComponent.Input) component.getContainerProvider();
-        if (tileComponent.hasEnoughImpetus(this.impetus.getAmount())) {
-            return CraftCheck.success();
-        } else {
-            return CraftCheck.failure("hdsutils.error.less_impetus");
+        switch (this.getActionType()) {
+            case INPUT:
+                TileImpetusComponent.Input tileComponent = (TileImpetusComponent.Input) component.getContainerProvider();
+                if (tileComponent.hasEnoughImpetus(this.impetus.getAmount())) {
+                    return CraftCheck.success();
+                } else {
+                    return CraftCheck.failure("hdsutils.error.impetus.less");
+                }
+            case OUTPUT:
+                TileImpetusComponent.Output tileComponent1 = (TileImpetusComponent.Output) component.getContainerProvider();
+                if (tileComponent1.hasEnoughCapacity(this.impetus.getAmount())) {
+                    return CraftCheck.success();
+                } else {
+                    return CraftCheck.failure("hdsutils.error.impetus.space");
+                }
+            default:
+                return CraftCheck.failure("?");
         }
     }
 

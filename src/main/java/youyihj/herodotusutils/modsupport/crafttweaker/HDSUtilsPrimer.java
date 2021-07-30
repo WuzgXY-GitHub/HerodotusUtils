@@ -36,4 +36,10 @@ public class HDSUtilsPrimer {
         primer.appendComponent(new RequirementImpetus(IOType.INPUT, new Impetus(amount)));
         return primer;
     }
+
+    @ZenMethod
+    public static RecipePrimer addImpetusOutput(RecipePrimer primer, int amount) {
+        primer.appendComponent(new RequirementImpetus(IOType.OUTPUT, new Impetus(amount)));
+        return primer;
+    }
 }
