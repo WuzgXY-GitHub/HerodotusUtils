@@ -70,6 +70,20 @@ public abstract class BlockImpetusHatch extends BlockMachineComponent {
         super.breakBlock(worldIn, pos, state);
     }
 
+    @Override
+    public int getColorMultiplier(IBlockState state, @Nullable IBlockAccess worldIn, @Nullable BlockPos pos, int tintIndex) {
+        switch (tintIndex) {
+            case 0:
+                return super.getColorMultiplier(state, worldIn, pos, tintIndex);
+            case 1:
+                return getIOPresentationColor();
+            default:
+                return -1;
+        }
+    }
+
+    protected abstract int getIOPresentationColor();
+
     public static class Input extends BlockImpetusHatch {
 
         private Input() {
@@ -83,6 +97,11 @@ public abstract class BlockImpetusHatch extends BlockMachineComponent {
         @Override
         public TileEntity createTileEntity(World world, IBlockState state) {
             return new TileImpetusComponent.Input();
+        }
+
+        @Override
+        protected int getIOPresentationColor() {
+            return 0x085ca2;
         }
     }
 
@@ -99,6 +118,11 @@ public abstract class BlockImpetusHatch extends BlockMachineComponent {
         @Override
         public TileEntity createTileEntity(World world, IBlockState state) {
             return new TileImpetusComponent.Output();
+        }
+
+        @Override
+        protected int getIOPresentationColor() {
+            return 0xa14e08;
         }
     }
 }
