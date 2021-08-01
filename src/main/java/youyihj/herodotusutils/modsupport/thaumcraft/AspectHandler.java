@@ -24,6 +24,8 @@ public class AspectHandler {
                 new AspectList().add(Aspect.EARTH, 5).add(HDS, 5));
         event.register.registerObjectTag(new ItemStack(BlockRegistry.YELLOW_ORE),
                 new AspectList().add(Aspect.EARTH, 5).add(HDS, 5));
+        Aspect.FLUX.setComponents(null);
+        Aspect.mixList.remove((Aspect.ENTROPY.getTag() + Aspect.MAGIC.getTag()).hashCode());
     }
 }
 
