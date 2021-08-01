@@ -15,7 +15,11 @@ import youyihj.herodotusutils.HerodotusUtils;
 import youyihj.herodotusutils.block.alchemy.*;
 import youyihj.herodotusutils.block.computing.*;
 import youyihj.herodotusutils.fluid.FluidMana;
+import youyihj.herodotusutils.modsupport.modularmachinery.block.BlockAspectListProviderInput;
+import youyihj.herodotusutils.modsupport.modularmachinery.block.BlockImpetusHatch;
 import youyihj.herodotusutils.modsupport.modularmachinery.block.BlockMMController;
+import youyihj.herodotusutils.modsupport.modularmachinery.tile.TileAspectListProvider;
+import youyihj.herodotusutils.modsupport.modularmachinery.tile.TileImpetusComponent;
 import youyihj.herodotusutils.util.ItemDropSupplier;
 
 import java.util.List;
@@ -27,21 +31,22 @@ import static net.minecraftforge.fml.common.registry.ForgeRegistries.ITEMS;
  */
 @Mod.EventBusSubscriber
 public class BlockRegistry {
+
     public static final BlockOreBase RED_ORE = new BlockOreBase("red", 0xfc0d20);
     public static final BlockOreBase YELLOW_ORE = new BlockOreBase("yellow", 0xffd701);
     public static final BlockOreBase BLUE_ORE = new BlockOreBase("blue", 0x00a2dd);
     public static final BlockOreBase RHOMBUS_ORE = new BlockOreBase("rhombus", 0xffffff)
-            .setDropItemSupplier(
-                    ItemDropSupplier.of(() -> new ItemStack(ITEMS.getValue(new ResourceLocation("contenttweaker", "rhombus"))))
-            );
+        .setDropItemSupplier(
+            ItemDropSupplier.of(() -> new ItemStack(ITEMS.getValue(new ResourceLocation("contenttweaker", "rhombus"))))
+        );
     public static final BlockOreBase SPHERICAL_ORE = new BlockOreBase("spherical", 0xffffff)
-            .setDropItemSupplier(
-                    ItemDropSupplier.of(() -> new ItemStack(ITEMS.getValue(new ResourceLocation("contenttweaker", "spherical"))))
-            );
+        .setDropItemSupplier(
+            ItemDropSupplier.of(() -> new ItemStack(ITEMS.getValue(new ResourceLocation("contenttweaker", "spherical"))))
+        );
     public static final BlockOreBase SQUARE_ORE = new BlockOreBase("square", 0xffffff)
-            .setDropItemSupplier(
-                    ItemDropSupplier.of(() -> new ItemStack(ITEMS.getValue(new ResourceLocation("contenttweaker", "square"))))
-            );
+        .setDropItemSupplier(
+            ItemDropSupplier.of(() -> new ItemStack(ITEMS.getValue(new ResourceLocation("contenttweaker", "square"))))
+        );
     public static final List<BlockOreBase> ORES = Lists.newArrayList(RED_ORE, YELLOW_ORE, BLUE_ORE, RHOMBUS_ORE, SPHERICAL_ORE, SQUARE_ORE);
     private static final Block FLUID_MANA_BLOCK = new BlockFluidClassic(FluidMana.INSTANCE, Material.WATER).setRegistryName("fluid_mana");
 
@@ -67,7 +72,10 @@ public class BlockRegistry {
                 BlockAlchemyOutputHatch.INSTANCE,
                 BlockAlchemyRoundRobinTunnel.INSTANCE,
                 BlockLazyAlchemyTunnel.INSTANCE,
-                BlockAlchemyCrafter.INSTANCE
+                BlockAlchemyCrafter.INSTANCE,
+                BlockAspectListProviderInput.INSTANCE,
+                BlockImpetusHatch.Input.INSTANCE,
+                BlockImpetusHatch.Output.INSTANCE
         );
         BlockMMController.CONTROLLERS.forEach(registry::register);
         BlockTransporter.getBlockMap().values().forEach(registry::register);
@@ -83,5 +91,8 @@ public class BlockRegistry {
         GameRegistry.registerTileEntity(TileAlchemyRoundRobinTunnel.class, HerodotusUtils.rl("alchemy_round_robin_tunnel"));
         GameRegistry.registerTileEntity(TileAlchemyLazyTunnel.class, HerodotusUtils.rl("alchemy_lazy_tunnel"));
         GameRegistry.registerTileEntity(TileAlchemyCrafter.class, HerodotusUtils.rl("alchemy_crafter"));
+        GameRegistry.registerTileEntity(TileAspectListProvider.class, HerodotusUtils.rl("block_aspectlist_provider_input"));
+        GameRegistry.registerTileEntity(TileImpetusComponent.Input.class, HerodotusUtils.rl("impetus_input_hatch"));
+        GameRegistry.registerTileEntity(TileImpetusComponent.Output.class, HerodotusUtils.rl("impetus_output_hatch"));
     }
 }

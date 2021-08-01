@@ -6,6 +6,7 @@ import com.google.common.collect.Lists;
 import crafttweaker.api.data.DataInt;
 import crafttweaker.api.data.IData;
 import crafttweaker.api.minecraft.CraftTweakerMC;
+import hellfirepvp.modularmachinery.common.crafting.ComponentType;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -36,6 +37,8 @@ import net.minecraftforge.oredict.OreDictionary;
 import youyihj.herodotusutils.block.BlockMercury;
 import youyihj.herodotusutils.computing.event.ComputingUnitChangeEvent;
 import youyihj.herodotusutils.item.RefinedBottle;
+import youyihj.herodotusutils.modsupport.modularmachinery.crafting.component.ComponentAspectList;
+import youyihj.herodotusutils.modsupport.modularmachinery.crafting.component.ComponentImpetus;
 import youyihj.herodotusutils.potion.LithiumAmalgamInfected;
 import youyihj.herodotusutils.potion.Starvation;
 import youyihj.herodotusutils.util.Util;
@@ -109,6 +112,12 @@ public class EventHandler {
     @SubscribeEvent
     public static void onComputingUnitChange(ComputingUnitChangeEvent event) {
         event.getComputingUnit().removeInvalidEntry(event.getWorld());
+    }
+
+    @SubscribeEvent
+    public static void onRegistryModularRequirements(ComponentType.ComponentRegistryEvent event) {
+        ComponentType.Registry.register(new ComponentAspectList());
+        ComponentType.Registry.register(new ComponentImpetus());
     }
 
     @SubscribeEvent

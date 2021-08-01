@@ -13,7 +13,8 @@
     "modularmachinery.MixinMachineDeserializer",
     "modularmachinery.MixinModifierDeserializer",
     "modularmachinery.MixinRecipeCraftingContext",
-    "modularmachinery.MixinTileMachineController"
+    "modularmachinery.MixinTileMachineController",
+    "modularmagic.MixinJEIComponentAspect"
   ],
   "client": [
     "modularmachinery.MixinDynamicMachineRenderContext",
