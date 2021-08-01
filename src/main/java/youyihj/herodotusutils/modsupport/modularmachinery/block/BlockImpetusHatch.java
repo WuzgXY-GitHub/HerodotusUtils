@@ -10,6 +10,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import thecodex6824.thaumicaugmentation.common.tile.trait.IBreakCallback;
 import youyihj.herodotusutils.HerodotusUtils;
@@ -43,7 +44,12 @@ public abstract class BlockImpetusHatch extends BlockMachineComponent {
 
     @Override
     public BlockRenderLayer getBlockLayer() {
-        return BlockRenderLayer.CUTOUT;
+        return BlockRenderLayer.CUTOUT_MIPPED;
+    }
+
+    @Override
+    public int getLightValue(IBlockState state, IBlockAccess world, BlockPos pos) {
+        return 15;
     }
 
     @SuppressWarnings("deprecation")
