@@ -25,7 +25,7 @@ import javax.annotation.Nullable;
  * @author youyihj
  */
 public abstract class TileImpetusComponent extends TileColorableMachineComponent implements IBreakCallback, MachineComponentTile {
-    private static final int CAPACITY = 1000;
+    public static final int CAPACITY = 1000;
     protected int impetus = 0;
     protected ImpetusNode node;
 
@@ -133,9 +133,9 @@ public abstract class TileImpetusComponent extends TileColorableMachineComponent
         public void update() {
             if (world.isRemote || impetus >= CAPACITY)
                 return;
-            ConsumeResult result = ((IImpetusConsumer) node).consume(1, false);
-            if (result.energyConsumed == 1) {
-                impetus++;
+            ConsumeResult result = ((IImpetusConsumer) node).consume(CAPACITY - impetus, false);
+            if (result.energyConsumed > 0) {
+                impetus += result.energyConsumed;
                 this.markDirty();
             }
         }
@@ -178,10 +178,10 @@ public abstract class TileImpetusComponent extends TileColorableMachineComponent
 
             @Override
             public long provide(long energy, boolean simulate) {
-                long amount = Math.min(Output.this.impetus, energy);
+                long amount = Math.min(impetus, energy);
                 if (!simulate) {
-                    Output.this.impetus -= amount;
-                    Output.this.markDirty();
+                    impetus -= amount;
+                    markDirty();
                 }
                 return amount;
             }
