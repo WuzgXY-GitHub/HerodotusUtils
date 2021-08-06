@@ -47,6 +47,5 @@ hdsutils.error.less_impetus=元动能量不足
 hdsutils.jei.impetus=元动能量: %s
 hdsutils.add_lp_while_eating_raw_meat=
 effect.lithium_amalgam_infected=锂汞齐侵染
-effect.starvation=饥饿
 death.attack.lithium_amalgam_infected=%s因锂汞齐侵染而死
 entity.hdsutils.red_slime.name=血肉史莱姆
