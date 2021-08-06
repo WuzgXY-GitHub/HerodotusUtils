@@ -26,6 +26,7 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fml.common.Mod;
@@ -41,6 +42,8 @@ import youyihj.herodotusutils.modsupport.modularmachinery.crafting.component.Com
 import youyihj.herodotusutils.modsupport.modularmachinery.crafting.component.ComponentImpetus;
 import youyihj.herodotusutils.potion.LithiumAmalgamInfected;
 import youyihj.herodotusutils.potion.Starvation;
+import youyihj.herodotusutils.util.Capabilities;
+import youyihj.herodotusutils.util.ITaint;
 import youyihj.herodotusutils.util.Util;
 import youyihj.zenutils.api.world.ZenUtilsWorld;
 import youyihj.zenutils.impl.capability.ZenWorldCapabilityHandler;
@@ -146,6 +149,12 @@ public class EventHandler {
                 }
             }
         }
+    }
+
+    @SubscribeEvent
+    public static void onPlayerClone(PlayerEvent.Clone event) {
+        ITaint taint = event.getEntityLiving().getCapability(Capabilities.TAINT_CAPABILITY, null);
+        event.getOriginal().getCapability(Capabilities.TAINT_CAPABILITY, null).sync(taint);
     }
 
     @SubscribeEvent
