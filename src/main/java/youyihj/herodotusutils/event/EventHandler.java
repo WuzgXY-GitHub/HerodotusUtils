@@ -1,17 +1,30 @@
 package youyihj.herodotusutils.event;
 
+import WayofTime.bloodmagic.core.data.SoulTicket;
+import WayofTime.bloodmagic.util.helper.NetworkHelper;
+import com.google.common.collect.Lists;
 import crafttweaker.api.data.DataInt;
 import crafttweaker.api.data.IData;
 import crafttweaker.api.minecraft.CraftTweakerMC;
+import hellfirepvp.modularmachinery.common.crafting.ComponentType;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.init.MobEffects;
+import net.minecraft.item.EnumAction;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.chunk.Chunk;
+import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
+import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
@@ -24,11 +37,15 @@ import net.minecraftforge.oredict.OreDictionary;
 import youyihj.herodotusutils.block.BlockMercury;
 import youyihj.herodotusutils.computing.event.ComputingUnitChangeEvent;
 import youyihj.herodotusutils.item.RefinedBottle;
+import youyihj.herodotusutils.modsupport.modularmachinery.crafting.component.ComponentAspectList;
+import youyihj.herodotusutils.modsupport.modularmachinery.crafting.component.ComponentImpetus;
 import youyihj.herodotusutils.potion.LithiumAmalgamInfected;
+import youyihj.herodotusutils.potion.Starvation;
 import youyihj.herodotusutils.util.Util;
 import youyihj.zenutils.api.world.ZenUtilsWorld;
 import youyihj.zenutils.impl.capability.ZenWorldCapabilityHandler;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -36,6 +53,15 @@ import java.util.Optional;
  */
 @Mod.EventBusSubscriber
 public class EventHandler {
+
+    public static final List<Item> RAW_MEAT_LIST = Lists.newArrayList(
+            Items.BEEF,
+            Items.CHICKEN,
+            Items.MUTTON,
+            Items.RABBIT,
+            Items.PORKCHOP
+    );
+
     @SubscribeEvent
     public static void onEntityLivingUpdate(LivingEvent.LivingUpdateEvent event) {
         EntityLivingBase entity = event.getEntityLiving();
@@ -86,5 +112,45 @@ public class EventHandler {
     @SubscribeEvent
     public static void onComputingUnitChange(ComputingUnitChangeEvent event) {
         event.getComputingUnit().removeInvalidEntry(event.getWorld());
+    }
+
+    @SubscribeEvent
+    public static void onRegistryModularRequirements(ComponentType.ComponentRegistryEvent event) {
+        ComponentType.Registry.register(new ComponentAspectList());
+        ComponentType.Registry.register(new ComponentImpetus());
+    }
+
+    @SubscribeEvent
+    public static void onItemUseStart(LivingEntityUseItemEvent.Start event) {
+        if (event.getEntityLiving() instanceof EntityPlayer) {
+            EntityPlayer player = (EntityPlayer) event.getEntityLiving();
+            ItemStack item = event.getItem();
+            if ((item.getItem() instanceof ItemFood || item.getItemUseAction() == EnumAction.DRINK || item.getItemUseAction() == EnumAction.EAT)) {
+                if (!player.world.isRemote && player.isPotionActive(Starvation.INSTANCE)) {
+                    event.setDuration(event.getDuration() / 2);
+                }
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onItemUseFinish(LivingEntityUseItemEvent.Finish event) {
+        if (event.getEntityLiving() instanceof EntityPlayer) {
+            EntityPlayer player = (EntityPlayer) event.getEntityLiving();
+            ItemStack item = event.getItem();
+            if (player.isPotionActive(Starvation.INSTANCE)) {
+                if (RAW_MEAT_LIST.stream().anyMatch(item.getItem()::equals)) {
+                    NetworkHelper.getSoulNetwork(player).add(new SoulTicket(100), 1000);
+                    // TODO: lang file value
+                    player.sendMessage(new TextComponentTranslation("hdsutils.add_lp_while_eating_raw_meat"));
+                }
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void register(RegistryEvent.Register<Potion> event) {
+        event.getRegistry().register(Starvation.INSTANCE);
+        event.getRegistry().register(LithiumAmalgamInfected.INSTANCE);
     }
 }

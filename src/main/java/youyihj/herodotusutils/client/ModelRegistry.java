@@ -33,6 +33,8 @@ import youyihj.herodotusutils.entity.RenderRedSlime;
 import youyihj.herodotusutils.fluid.FluidMana;
 import youyihj.herodotusutils.fluid.FluidMercury;
 import youyihj.herodotusutils.item.*;
+import youyihj.herodotusutils.modsupport.modularmachinery.block.BlockAspectListProviderInput;
+import youyihj.herodotusutils.modsupport.modularmachinery.block.BlockImpetusHatch;
 import youyihj.herodotusutils.modsupport.modularmachinery.block.BlockMMController;
 
 import javax.annotation.Nonnull;
@@ -109,6 +111,10 @@ public class ModelRegistry {
                 BlockAlchemyOutputHatch.ITEM_BLOCK,
                 BlockAlchemyRoundRobinTunnel.ITEM_BLOCK,
                 BlockLazyAlchemyTunnel.ITEM_BLOCK,
+                BlockAlchemyCrafter.ITEM_BLOCK,
+                BlockAspectListProviderInput.ITEM_BLOCK,
+                BlockImpetusHatch.Input.ITEM_BLOCK,
+                BlockImpetusHatch.Output.ITEM_BLOCK
                 BlockAlchemyCrafter.ITEM_BLOCK,
                 BlockAlchemySeparator.ITEM_BLOCK,
                 BlockAlchemySeparatorTank.ITEM_BLOCK
