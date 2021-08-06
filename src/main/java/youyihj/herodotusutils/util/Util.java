@@ -7,10 +7,11 @@ import it.unimi.dsi.fastutil.ints.IntIterator;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidStack;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author youyihj
@@ -42,5 +43,13 @@ public final class Util {
 
     public static Optional<TileEntity> getTileEntity(World world, BlockPos pos) {
         return Optional.ofNullable(world.getTileEntity(pos));
+    }
+
+    public static List<FluidStack> getDefaultFluidStacks(Fluid[] fluid) {
+        return Arrays.stream(fluid).map(Util::getDefaultFluidStack).collect(Collectors.toList());
+    }
+
+    public static FluidStack getDefaultFluidStack(Fluid fluid) {
+        return new FluidStack(fluid, 1000);
     }
 }

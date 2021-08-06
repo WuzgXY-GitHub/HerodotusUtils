@@ -45,6 +45,7 @@ hdsutils.alchemy.controller.close=Close
 hdsutils.alchemy.fluid_info=Contains Alchemical Fluid:
 hdsutils.error.less_impetus=Not enough impetus
 hdsutils.jei.impetus=Impetus: %s
+hdsutils.jei.alchemy_craft_title=Alchemy Crafting
 hdsutils.add_lp_while_eating_raw_meat=
 effect.lithium_amalgam_infected=Lithium Amalgam Infected
 effect.starvation=Starvation

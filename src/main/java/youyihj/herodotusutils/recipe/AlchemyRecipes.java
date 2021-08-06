@@ -21,8 +21,8 @@ import java.util.stream.Collectors;
  */
 @ZenClass("mods.hdsutils.Alchemy")
 public class AlchemyRecipes {
-    private static final List<Craft> craftRecipes = new ArrayList<>();
-    private static final List<Separate> separateRecipes = new ArrayList<>();
+    public static final List<Craft> craftRecipes = new ArrayList<>();
+    public static final List<Separate> separateRecipes = new ArrayList<>();
 
     @ZenMethod
     public static void addCraftingRecipe(ILiquidStack output, ILiquidStack[] input) {
