@@ -66,6 +66,27 @@ public final class Util {
     }
 
     @SideOnly(Side.CLIENT)
+    public static void renderArrow(Minecraft minecraft, int x, int y, int direction) {
+        bindJeiTexture(minecraft);
+        switch (direction) {
+            case 0:
+                Gui.drawModalRectWithCustomSizedTexture(x, y, 36, 0, 22, 15, 256, 256);// right
+                break;
+            case 1:
+                Gui.drawModalRectWithCustomSizedTexture(x, y, 36, 16, 22, 15, 256, 256);// left
+                break;
+            case 2:
+                Gui.drawModalRectWithCustomSizedTexture(x, y, 64, 0, 15, 22, 256, 256);// up
+                break;
+            case 3:
+                Gui.drawModalRectWithCustomSizedTexture(x, y, 64, 32, 15, 22, 256, 256);// down
+                break;
+            default:
+                HerodotusUtils.logger.error("Direction is not supported and you shouldn't goto in here");
+        }
+    }
+
+    @SideOnly(Side.CLIENT)
     private static void bindJeiTexture(Minecraft minecraft) {
         GlStateManager.enableAlpha();
         minecraft.getTextureManager().bindTexture(HerodotusUtils.rl("textures/gui/jei/jei_default.png"));

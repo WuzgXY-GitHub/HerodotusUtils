@@ -31,7 +31,12 @@ public class AlchemyCraftRecipesCategory implements IRecipeCategory<AlchemyCraft
             Pair.of(0, 52),
             Pair.of(104, 52)
     );
-
+    private final List<Pair<Integer, Pair<Integer, Integer>>> arrowLayouts = Lists.newArrayList(
+            Pair.of(0, Pair.of(20, 52)),
+            Pair.of(1, Pair.of(78, 52)),
+            Pair.of(2, Pair.of(52, 78)),
+            Pair.of(3, Pair.of(52, 20))
+    );
 
     public AlchemyCraftRecipesCategory(IGuiHelper guiHelper) {
         this.icon = guiHelper.createDrawableIngredient(new ItemStack(BlockAlchemyCrafter.INSTANCE));
@@ -79,6 +84,7 @@ public class AlchemyCraftRecipesCategory implements IRecipeCategory<AlchemyCraft
     public void drawExtras(Minecraft minecraft) {
         Util.renderItem(minecraft, outputLayout.getLeft(), outputLayout.getRight(), false);
         inputLayouts.forEach(p -> Util.renderItem(minecraft, p.getLeft(), p.getValue(), true));
+        arrowLayouts.forEach(p -> Util.renderArrow(minecraft, p.getRight().getLeft(), p.getRight().getRight(), p.getLeft()));
         GlStateManager.disableAlpha();
     }
 }
