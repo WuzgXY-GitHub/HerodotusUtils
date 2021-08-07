@@ -3,6 +3,7 @@ package youyihj.herodotusutils.modsupport.crafttweaker;
 import crafttweaker.CraftTweakerAPI;
 import youyihj.herodotusutils.recipe.AlchemyRecipes;
 import youyihj.herodotusutils.recipe.ClipManager;
+import youyihj.herodotusutils.util.ITaint;
 
 public class CraftTweakerExtension {
     public static void registerAllClasses() {
@@ -17,5 +18,7 @@ public class CraftTweakerExtension {
         CraftTweakerAPI.registerClass(AlchemyRecipes.class);
         CraftTweakerAPI.registerClass(HDSUtils.class);
         CraftTweakerAPI.registerClass(HDSUtilsPrimer.class);
+        CraftTweakerAPI.registerClass(ExpandPlayer.class);
+        CraftTweakerAPI.registerClass(ITaint.class);
     }
 }
