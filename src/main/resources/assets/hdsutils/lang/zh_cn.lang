@@ -46,6 +46,7 @@ hdsutils.alchemy.fluid_info=含有炼金流体：
 hdsutils.error.less_impetus=元动能量不足
 hdsutils.jei.impetus=元动能量: %s
 hdsutils.jei.alchemy_craft.title=炼金合成
+hdsutils.jei.separate_craft.title=炼金分离
 hdsutils.add_lp_while_eating_raw_meat=
 effect.lithium_amalgam_infected=锂汞齐侵染
 effect.starvation=饥饿
