@@ -44,7 +44,7 @@ public class Capabilities {
         Entity object = event.getObject();
         if (object instanceof EntityPlayer) {
             Objects.requireNonNull(TAINT_CAPABILITY);
-            event.addCapability(TAINT_RL, new TaintCapabilityProvider());
+            event.addCapability(TAINT_RL, new TaintCapabilityProvider(((EntityPlayer) object)));
         }
     }
 

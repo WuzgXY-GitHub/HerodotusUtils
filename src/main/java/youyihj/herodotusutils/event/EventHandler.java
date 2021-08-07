@@ -31,6 +31,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
@@ -154,7 +155,12 @@ public class EventHandler {
     @SubscribeEvent
     public static void onPlayerClone(PlayerEvent.Clone event) {
         ITaint taint = event.getEntityLiving().getCapability(Capabilities.TAINT_CAPABILITY, null);
-        event.getOriginal().getCapability(Capabilities.TAINT_CAPABILITY, null).sync(taint);
+        taint.sync(event.getOriginal().getCapability(Capabilities.TAINT_CAPABILITY, null));
+    }
+
+    @SubscribeEvent
+    public static void onPlayerLoggedIn(PlayerLoggedInEvent event) {
+        event.player.getCapability(Capabilities.TAINT_CAPABILITY, null).addInfectedTaint(0); // to trigger sync message
     }
 
     @SubscribeEvent

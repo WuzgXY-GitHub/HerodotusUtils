@@ -1,5 +1,6 @@
 package youyihj.herodotusutils.util;
 
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
@@ -12,7 +13,11 @@ import javax.annotation.Nullable;
  * @author youyihj
  */
 public class TaintCapabilityProvider implements ICapabilitySerializable<NBTTagCompound> {
-    private final ITaint taint = new ITaint.Impl();
+    private final ITaint taint;
+
+    public TaintCapabilityProvider(EntityPlayer player) {
+        this.taint = new ITaint.Impl(player);
+    }
 
     @Override
     public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
@@ -42,10 +47,12 @@ public class TaintCapabilityProvider implements ICapabilitySerializable<NBTTagCo
     @Override
     public void deserializeNBT(NBTTagCompound nbt) {
         taint.clear();
+        taint.setSyncDisabled(true);
         taint.addInfectedTaint(nbt.getInteger("infected"));
         taint.addPermanentTaint(nbt.getInteger("permanent"));
-        taint.addMaxValue(nbt.getInteger("max"));
         taint.addStickyTaint(nbt.getInteger("sticky"));
         taint.setModifiedValue(nbt.getInteger("modified"));
+        taint.setMaxValue(nbt.getInteger("max"));
+        taint.setSyncDisabled(false);
     }
 }
