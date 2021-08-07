@@ -1,4 +1,4 @@
-package youyihj.herodotusutils.modsupport.jei.recipes;
+package youyihj.herodotusutils.modsupport.jei.recipes.alchemycraft;
 
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.ingredients.VanillaTypes;

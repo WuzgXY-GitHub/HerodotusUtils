@@ -1,4 +1,4 @@
-package youyihj.herodotusutils.modsupport.jei.recipes;
+package youyihj.herodotusutils.modsupport.jei.recipes.alchemycraft;
 
 import com.google.common.collect.Lists;
 import mezz.jei.api.IGuiHelper;
