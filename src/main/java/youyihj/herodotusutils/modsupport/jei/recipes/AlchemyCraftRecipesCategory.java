@@ -8,6 +8,7 @@ import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.IRecipeCategory;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.translation.I18n;
 import org.apache.commons.lang3.tuple.Pair;
@@ -23,16 +24,18 @@ public class AlchemyCraftRecipesCategory implements IRecipeCategory<AlchemyCraft
     private final IDrawable icon;
     private final IDrawable background;
 
+    private final Pair<Integer, Integer> outputLayout = Pair.of(52, 52);
     private final List<Pair<Integer, Integer>> inputLayouts = Lists.newArrayList(
-            Pair.of(72, 0),
-            Pair.of(72, 94),
-            Pair.of(22, 45),
-            Pair.of(122, 45));
-    private final Pair<Integer, Integer> outputLayout = Pair.of(72, 45);
+            Pair.of(52, 0),
+            Pair.of(52, 104),
+            Pair.of(0, 52),
+            Pair.of(104, 52)
+    );
+
 
     public AlchemyCraftRecipesCategory(IGuiHelper guiHelper) {
         this.icon = guiHelper.createDrawableIngredient(new ItemStack(BlockAlchemyCrafter.INSTANCE));
-        this.background = guiHelper.createBlankDrawable(160, 110);
+        this.background = guiHelper.createBlankDrawable(120, 120);
     }
 
     @Override
@@ -76,5 +79,6 @@ public class AlchemyCraftRecipesCategory implements IRecipeCategory<AlchemyCraft
     public void drawExtras(Minecraft minecraft) {
         Util.renderItem(minecraft, outputLayout.getLeft(), outputLayout.getRight(), false);
         inputLayouts.forEach(p -> Util.renderItem(minecraft, p.getLeft(), p.getValue(), true));
+        GlStateManager.disableAlpha();
     }
 }

@@ -58,12 +58,16 @@ public final class Util {
 
     @SideOnly(Side.CLIENT)
     public static void renderItem(Minecraft minecraft, int x, int y, boolean isInput) {
-        GlStateManager.enableAlpha();
-        minecraft.getTextureManager().bindTexture(HerodotusUtils.rl("textures/gui/jei/jei_default.png"));
+        bindJeiTexture(minecraft);
         if (isInput)
             Gui.drawModalRectWithCustomSizedTexture(x - 1, y - 1, 0, 0, 18, 18, 256, 256);
         else
             Gui.drawModalRectWithCustomSizedTexture(x - 5, y - 5, 80, 0, 27, 27, 256, 256);
-        GlStateManager.disableAlpha();
+    }
+
+    @SideOnly(Side.CLIENT)
+    private static void bindJeiTexture(Minecraft minecraft) {
+        GlStateManager.enableAlpha();
+        minecraft.getTextureManager().bindTexture(HerodotusUtils.rl("textures/gui/jei/jei_default.png"));
     }
 }
