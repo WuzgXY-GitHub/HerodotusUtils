@@ -69,4 +69,5 @@ public class HerodotusUtils {
     public void postinit(FMLPostInitializationEvent event) {
         proxy.postInit(event);
     }
+
 }

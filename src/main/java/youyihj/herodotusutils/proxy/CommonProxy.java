@@ -7,11 +7,11 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import youyihj.herodotusutils.block.BlockOreBase;
 import youyihj.herodotusutils.block.BlockRegistry;
-import youyihj.herodotusutils.computing.ComputingUnitHandler;
 import youyihj.herodotusutils.fluid.FluidMana;
 import youyihj.herodotusutils.fluid.FluidMercury;
 import youyihj.herodotusutils.modsupport.crafttweaker.CraftTweakerExtension;
 import youyihj.herodotusutils.modsupport.modularmachinery.ModularMachineryHacks;
+import youyihj.herodotusutils.util.Capabilities;
 
 import java.io.IOException;
 
@@ -27,7 +27,7 @@ public class CommonProxy implements IProxy {
         FluidRegistry.registerFluid(FluidMercury.INSTANCE);
         FluidRegistry.addBucketForFluid(FluidMana.INSTANCE);
         FluidRegistry.addBucketForFluid(FluidMercury.INSTANCE);
-        ComputingUnitHandler.register();
+        Capabilities.register();
         CraftTweakerExtension.registerAllClasses();
     }
 
