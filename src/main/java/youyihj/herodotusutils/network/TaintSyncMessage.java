@@ -25,12 +25,11 @@ public class TaintSyncMessage implements IMessage {
 
     @Override
     public void fromBytes(ByteBuf buf) {
-        this.taint = new ITaint.Impl(null);
-        taint.setSyncDisabled(true);
+        this.taint = new ITaint.Impl();
         taint.setMaxValue(buf.readInt());
-        taint.addInfectedTaint(buf.readInt());
-        taint.addStickyTaint(buf.readInt());
-        taint.addPermanentTaint(buf.readInt());
+        taint.setInfectedTaint(buf.readInt());
+        taint.setStickyTaint(buf.readInt());
+        taint.setPermanentTaint(buf.readInt());
         taint.setModifiedValue(buf.readInt());
     }
 
@@ -47,7 +46,7 @@ public class TaintSyncMessage implements IMessage {
 
         @Override
         public IMessage onMessage(TaintSyncMessage message, MessageContext ctx) {
-            ExpandPlayer.getTaint(CraftTweakerAPI.client.getPlayer()).sync(message.getTaint());
+            ExpandPlayer.getTaint(CraftTweakerAPI.client.getPlayer()).copyFrom(message.getTaint());
             return null;
         }
     }

@@ -93,6 +93,7 @@ public class ModelRegistry {
                 BlockManaLiquidizer.ITEM_BLOCK,
                 RefinedBottle.INSTANCE,
                 ItemCopperBucket.INSTANCE,
+                ItemTaintChecker.INSTANCE,
                 BlockCalculatorStructure.STRUCTURE_BLOCK_1_ITEM,
                 BlockCalculatorStructure.STRUCTURE_BLOCK_2_ITEM,
                 BlockCalculatorStructure.STRUCTURE_BLOCK_3_ITEM,

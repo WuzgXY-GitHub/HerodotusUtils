@@ -10,6 +10,7 @@ import hellfirepvp.modularmachinery.common.crafting.ComponentType;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
 import net.minecraft.init.MobEffects;
 import net.minecraft.item.EnumAction;
@@ -18,6 +19,7 @@ import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.stats.StatList;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
@@ -50,6 +52,7 @@ import youyihj.zenutils.api.world.ZenUtilsWorld;
 import youyihj.zenutils.impl.capability.ZenWorldCapabilityHandler;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -90,13 +93,22 @@ public class EventHandler {
                     }
                 }
             }
+            if (entity instanceof EntityPlayerMP) {
+                EntityPlayerMP player = (EntityPlayerMP) entity;
+                ITaint taint = Objects.requireNonNull(player.getCapability(Capabilities.TAINT_CAPABILITY, null));
+                taint.syncToClientWhenNeeded();
+                int time = player.getStatFile().readStat(StatList.PLAY_ONE_MINUTE);
+                if (time != 0 && time % 24000 == 0) {
+                    taint.addInfectedTaint(-taint.getInfectedTaint() / 2);
+                }
+            }
         }
     }
 
     @SubscribeEvent
     public static void onWorldTick(TickEvent.WorldTickEvent event) {
         World world = event.world;
-        if (world instanceof WorldServer) {
+        if (event.phase == TickEvent.Phase.END && world instanceof WorldServer) {
             for (Chunk chunk : ((WorldServer) world).getChunkProvider().getLoadedChunks()) {
                 if (world.rand.nextInt(5000) == 0) {
                     chunk.getCapability(ZenWorldCapabilityHandler.ZEN_WORLD_CAPABILITY, null).updateData(Util.createDataMap(BlockMercury.TAG_POLLUTION, new DataInt(0)));
@@ -155,7 +167,11 @@ public class EventHandler {
     @SubscribeEvent
     public static void onPlayerClone(PlayerEvent.Clone event) {
         ITaint taint = event.getEntityLiving().getCapability(Capabilities.TAINT_CAPABILITY, null);
-        taint.sync(event.getOriginal().getCapability(Capabilities.TAINT_CAPABILITY, null));
+        taint.copyFrom(event.getOriginal().getCapability(Capabilities.TAINT_CAPABILITY, null));
+        if (event.isWasDeath()) {
+            taint.addInfectedTaint(-Math.round(taint.getInfectedTaint() * 0.05f));
+        }
+        taint.markDirty();
     }
 
     @SubscribeEvent

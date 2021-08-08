@@ -46,13 +46,10 @@ public class TaintCapabilityProvider implements ICapabilitySerializable<NBTTagCo
 
     @Override
     public void deserializeNBT(NBTTagCompound nbt) {
-        taint.clear();
-        taint.setSyncDisabled(true);
-        taint.addInfectedTaint(nbt.getInteger("infected"));
-        taint.addPermanentTaint(nbt.getInteger("permanent"));
-        taint.addStickyTaint(nbt.getInteger("sticky"));
+        taint.setInfectedTaint(nbt.getInteger("infected"));
+        taint.setPermanentTaint(nbt.getInteger("permanent"));
+        taint.setStickyTaint(nbt.getInteger("sticky"));
         taint.setModifiedValue(nbt.getInteger("modified"));
         taint.setMaxValue(nbt.getInteger("max"));
-        taint.setSyncDisabled(false);
     }
 }

@@ -22,11 +22,11 @@ public interface ITaint {
     @ZenGetter("maxValue")
     int getMaxValue();
 
-    @ZenMethod
-    void addMaxValue(int value);
-
     @ZenSetter("maxValue")
     void setMaxValue(int value);
+
+    @ZenMethod
+    void addMaxValue(int value);
 
     @ZenGetter("infected")
     int getInfectedTaint();
@@ -37,7 +37,18 @@ public interface ITaint {
     @ZenGetter("sticky")
     int getStickyTaint();
 
+    @ZenSetter("infected")
+    void setInfectedTaint(int value);
+
+    @ZenSetter("permanent")
+    void setPermanentTaint(int value);
+
+    @ZenSetter("sticky")
+    void setStickyTaint(int value);
+
     int getModifiedValue();
+
+    void setModifiedValue(int modifiedValue);
 
     @ZenGetter("total")
     default int getTotalValue() {
@@ -53,14 +64,10 @@ public interface ITaint {
     @ZenMethod
     void addInfectedTaint(int value);
 
-    void sync(ITaint target);
+    void copyFrom(ITaint from);
 
     @ZenMethod
     void clear();
-
-    void setModifiedValue(int modifiedValue);
-
-    void setSyncDisabled(boolean flag);
 
     @ZenGetter("scale")
     default float getScale() {
@@ -72,15 +79,19 @@ public interface ITaint {
         return getScale() >= value;
     }
 
+    void markDirty();
+
+    void syncToClientWhenNeeded();
+
     class Impl implements ITaint {
+        private final @Nullable
+        EntityPlayer player;
         private int maxValue = ORIGIN_MAX_VALUE;
         private int infected = 0;
         private int permanent = 0;
         private int sticky = 0;
         private int modifiedValue = 0;
-        private boolean syncDisabled = false;
-        private final @Nullable
-        EntityPlayer player;
+        private boolean dirty = false;
 
         public Impl(@Nullable EntityPlayer player) {
             this.player = player;
@@ -96,14 +107,16 @@ public interface ITaint {
         }
 
         @Override
-        public void addMaxValue(int value) {
-            maxValue += value;
+        public void setMaxValue(int maxValue) {
+            this.maxValue = maxValue;
             sendClientSyncMessage();
         }
 
         @Override
-        public void setMaxValue(int maxValue) {
-            this.maxValue = maxValue;
+        public void addMaxValue(int value) {
+            double originStickyScale = ((double) sticky) / ((double) maxValue);
+            maxValue += value;
+            sticky *= originStickyScale;
             sendClientSyncMessage();
         }
 
@@ -123,8 +136,27 @@ public interface ITaint {
         }
 
         @Override
+        public void setInfectedTaint(int value) {
+            infected = value;
+        }
+
+        @Override
+        public void setPermanentTaint(int value) {
+            permanent = value;
+        }
+
+        @Override
+        public void setStickyTaint(int value) {
+            sticky = value;
+        }
+
+        @Override
         public int getModifiedValue() {
             return modifiedValue;
+        }
+
+        public void setModifiedValue(int modifiedValue) {
+            this.modifiedValue = modifiedValue;
         }
 
         @Override
@@ -148,18 +180,28 @@ public interface ITaint {
             sendClientSyncMessage();
         }
 
-        private void addModifiedValue(int value) {
-            if (value > 0) {
-                modifiedValue += value;
-            }
-            if (modifiedValue >= MODIFIED_VALUE_BOUND) {
-                maxValue += modifiedValue / MODIFIED_VALUE_BOUND * UP_MAX_VALUE_BY_MODIFYING_TAINT;
-                modifiedValue %= MODIFIED_VALUE_BOUND;
+        @Override
+        public void markDirty() {
+            dirty = true;
+        }
+
+        @Override
+        public void syncToClientWhenNeeded() {
+            if (dirty) {
+                sendClientSyncMessage();
+                dirty = false;
             }
         }
 
-        public void setModifiedValue(int modifiedValue) {
-            this.modifiedValue = modifiedValue;
+        private void addModifiedValue(int value) {
+            modifiedValue += value;
+            if (modifiedValue >= MODIFIED_VALUE_BOUND || modifiedValue <= -MODIFIED_VALUE_BOUND) {
+                maxValue += modifiedValue / MODIFIED_VALUE_BOUND * UP_MAX_VALUE_BY_MODIFYING_TAINT;
+                if (maxValue < ORIGIN_MAX_VALUE) {
+                    maxValue = ORIGIN_MAX_VALUE;
+                }
+                modifiedValue %= MODIFIED_VALUE_BOUND;
+            }
         }
 
         public void clear() {
@@ -171,17 +213,12 @@ public interface ITaint {
         }
 
         @Override
-        public void sync(ITaint from) {
+        public void copyFrom(ITaint from) {
             this.maxValue = from.getMaxValue();
             this.infected = from.getInfectedTaint();
             this.sticky = from.getStickyTaint();
             this.permanent = from.getPermanentTaint();
             this.modifiedValue = from.getModifiedValue();
-        }
-
-        @Override
-        public void setSyncDisabled(boolean flag) {
-            syncDisabled = flag;
         }
 
         private int restrictValueToMaxValue(int value) {
@@ -191,7 +228,7 @@ public interface ITaint {
         }
 
         private void sendClientSyncMessage() {
-            if (!syncDisabled && player != null && !player.world.isRemote) {
+            if (player != null && !player.world.isRemote) {
                 NetworkHandler.INSTANCE.sendMessageToPlayer(new TaintSyncMessage().setTaint(this), player);
             }
         }
