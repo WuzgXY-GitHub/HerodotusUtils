@@ -14,7 +14,8 @@
     "modularmachinery.MixinModifierDeserializer",
     "modularmachinery.MixinRecipeCraftingContext",
     "modularmachinery.MixinTileMachineController",
-    "modularmagic.MixinJEIComponentAspect"
+    "modularmagic.MixinJEIComponentAspect",
+    "thaumcraft.MixinEntityFluxRift"
   ],
   "client": [
     "modularmachinery.MixinDynamicMachineRenderContext",

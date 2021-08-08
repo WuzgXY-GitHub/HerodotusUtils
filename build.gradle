@@ -114,7 +114,7 @@ dependencies {
     deobfCompile "curse.maven:bloodmagic-224791:2822288"
     deobfCompile "curse.maven:guideapi-228832:2645992"
     deobfCompile "curse.maven:thaumic-augmentation-319441:3378111"
-    compile('org.spongepowered:mixin:0.7.11-SNAPSHOT') {
+    compile('org.spongepowered:mixin:0.8-SNAPSHOT') {
         exclude module: 'guava'
         exclude module: 'commons-io'
         exclude module: 'gson'
