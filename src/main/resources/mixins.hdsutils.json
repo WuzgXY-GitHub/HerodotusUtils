@@ -15,7 +15,8 @@
     "modularmachinery.MixinRecipeCraftingContext",
     "modularmachinery.MixinTileMachineController",
     "modularmagic.MixinJEIComponentAspect",
-    "thaumcraft.MixinEntityFluxRift"
+    "thaumcraft.MixinEntityFluxRift",
+    "thaumcraft.MixinTileCrucible"
   ],
   "client": [
     "modularmachinery.MixinDynamicMachineRenderContext",
