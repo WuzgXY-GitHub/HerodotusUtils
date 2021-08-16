@@ -9,7 +9,10 @@ import youyihj.herodotusutils.alchemy.IAlchemyModule;
 public class TileAlchemySeparatorTank extends AbstractHasAlchemyFluidTileEntity implements IAlchemyModule {
     @Override
     public void work() {
-        IAlchemyModule.transferFluid(this, world, pos, EnumFacing.DOWN);
+        EnumFacing outputSide = outputSide();
+        if (outputSide != null) {
+            IAlchemyModule.transferFluid(this, world, pos, outputSide);
+        }
     }
 
     @Override
@@ -19,6 +22,11 @@ public class TileAlchemySeparatorTank extends AbstractHasAlchemyFluidTileEntity 
 
     @Override
     public EnumFacing outputSide() {
-        return EnumFacing.DOWN;
+        for (EnumFacing facing : EnumFacing.HORIZONTALS) {
+            if (world.getTileEntity(pos.offset(facing)) instanceof TileAlchemySeparator) {
+                return facing.getOpposite();
+            }
+        }
+        return null;
     }
 }
