@@ -13,7 +13,8 @@ import net.minecraftforge.fluids.IFluidBlock;
 import youyihj.herodotusutils.HerodotusUtils;
 
 public class ItemOilAIOT extends ItemHoe {
-    private static final ToolMaterial DUMMY_TOOL_MATERIAL = EnumHelper.addToolMaterial("dummmy", 2, 1000, 6.0f, 2.0f, 12);
+    public static final int MAX_DAMAGE = 1000;
+    private static final ToolMaterial DUMMY_TOOL_MATERIAL = EnumHelper.addToolMaterial("dummmy", 2, MAX_DAMAGE, 6.0f, 2.0f, 12);
 
     private ItemOilAIOT() {
         super(DUMMY_TOOL_MATERIAL);
@@ -46,6 +47,8 @@ public class ItemOilAIOT extends ItemHoe {
 
     @Override
     public float getDestroySpeed(ItemStack stack, IBlockState state) {
+        if (stack.getItemDamage() == MAX_DAMAGE)
+            return 0.0f;
         for (String type : getToolClasses(stack)) {
             if (state.getBlock().isToolEffective(type, state))
                 return toolMaterial.getEfficiency();
@@ -55,10 +58,15 @@ public class ItemOilAIOT extends ItemHoe {
 
     @Override
     public boolean onBlockDestroyed(ItemStack stack, World worldIn, IBlockState state, BlockPos pos, EntityLivingBase entityLiving) {
-        if (!worldIn.isRemote && (double) state.getBlockHardness(worldIn, pos) != 0.0D) {
+        if (!worldIn.isRemote && state.getBlockHardness(worldIn, pos) != 0.0f && stack.getItemDamage() < MAX_DAMAGE) {
             stack.damageItem(1, entityLiving);
         }
 
         return true;
+    }
+
+    @Override
+    public boolean canHarvestBlock(IBlockState state, ItemStack stack) {
+        return super.canHarvestBlock(state, stack) && stack.getItemDamage() < MAX_DAMAGE;
     }
 }
