@@ -3,6 +3,8 @@ package youyihj.herodotusutils.mixins.mods.modularmachinery;
 import com.google.common.collect.Iterables;
 import hellfirepvp.modularmachinery.common.integration.preview.StructurePreviewWrapper;
 import hellfirepvp.modularmachinery.common.machine.DynamicMachine;
+import mezz.jei.api.ingredients.IIngredients;
+import mezz.jei.api.ingredients.VanillaTypes;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemStack;
@@ -11,7 +13,9 @@ import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import youyihj.herodotusutils.modsupport.modularmachinery.IDynamicMachinePatch;
 
 import java.util.List;
@@ -28,5 +32,10 @@ public abstract class MixinStructurePreviewWrapper {
         list.set(0, new Tuple<>(ctrl, "1x " + Iterables.getFirst(ctrl.getTooltip(Minecraft.getMinecraft().player,
                 Minecraft.getMinecraft().gameSettings.advancedItemTooltips ? ITooltipFlag.TooltipFlags.ADVANCED : ITooltipFlag.TooltipFlags.NORMAL), "")));
         return list;
+    }
+
+    @Inject(method = "getIngredients", at = @At(value = "RETURN"))
+    private void injectGetIngredients(IIngredients ingredients, CallbackInfo ci) {
+        ingredients.setInput(VanillaTypes.ITEM, new ItemStack(((IDynamicMachinePatch) machine).getController()));
     }
 }

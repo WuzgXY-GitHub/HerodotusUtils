@@ -3,10 +3,13 @@ package youyihj.herodotusutils.modsupport.modularmachinery.block;
 import hellfirepvp.modularmachinery.ModularMachinery;
 import hellfirepvp.modularmachinery.common.block.BlockController;
 import hellfirepvp.modularmachinery.common.item.ItemDynamicColor;
+import hellfirepvp.modularmachinery.common.machine.DynamicMachine;
+import hellfirepvp.modularmachinery.common.machine.MachineRegistry;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.IBlockAccess;
@@ -62,5 +65,9 @@ public class BlockMMController extends BlockController implements ItemDynamicCol
     @Override
     public int getColorFromItemstack(ItemStack stack, int tintIndex) {
         return color;
+    }
+
+    public DynamicMachine getAssociatedMachine() {
+        return MachineRegistry.getRegistry().getMachine(new ResourceLocation(ModularMachinery.MODID, machineRegistryName));
     }
 }
