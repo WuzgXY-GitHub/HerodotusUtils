@@ -109,7 +109,7 @@ public class RefinedBottle extends ItemFluidContainer {
             entityLiving.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 800, 0));
             if (entityLiving instanceof EntityPlayer) {
                 EntityPlayer player = (EntityPlayer) entityLiving;
-                player.getCapability(Capabilities.TAINT_CAPABILITY, null).addStickyTaint(3);
+                player.getCapability(Capabilities.TAINT_CAPABILITY, null).addPermanentTaint(3);
                 Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(ContentTweaker.MOD_ID, "flesh_bolus"));
                 if (item != null && NetworkHelper.getSoulNetwork(player).getCurrentEssence() >= 1000) {
                     ItemHandlerHelper.giveItemToPlayer(player, new ItemStack(item));
