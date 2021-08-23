@@ -14,7 +14,7 @@ public class Starvation extends Potion {
     public static final Starvation INSTANCE = new Starvation();
 
     protected Starvation() {
-        super(false, 5797459);
+        super(true, 5797459);
         this.setRegistryName("starvation");
         this.setPotionName("effect.starvation");
     }

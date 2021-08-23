@@ -40,7 +40,7 @@ public abstract class ItemFluidContainer extends Item implements ItemDynamicColo
     @Nullable
     @Override
     public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable NBTTagCompound nbt) {
-        return new FluidHandlerItemStack(stack, 1000);
+        return new FluidHandlerItemStack(stack, Fluid.BUCKET_VOLUME);
     }
 
     @Override
