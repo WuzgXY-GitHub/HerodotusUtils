@@ -16,9 +16,6 @@ import thaumcraft.common.entities.EntityFluxRift;
 import youyihj.herodotusutils.util.Capabilities;
 import youyihj.herodotusutils.util.ITaint;
 
-import java.nio.charset.StandardCharsets;
-import java.util.UUID;
-
 /**
  * @author youyihj
  */
@@ -31,7 +28,6 @@ public abstract class MixinEntityFluxRift extends Entity {
     }
 
     private static final DamageSource RIFT = new DamageSource("rift").setDamageBypassesArmor().setMagicDamage();
-    private static final UUID RIFT_MINUS_MAX_HEALTH_MODIFIER = UUID.nameUUIDFromBytes("rift".getBytes(StandardCharsets.UTF_8));
 
     @Redirect(method = "onUpdate", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;attackEntityFrom(Lnet/minecraft/util/DamageSource;F)Z"))
     public boolean injectOnUpdate(Entity entity, DamageSource source, float amount) {
@@ -47,13 +43,7 @@ public abstract class MixinEntityFluxRift extends Entity {
             attackResult = living.attackEntityFrom(RIFT, amount);
             if (!flag && attackResult) {
                 IAttributeInstance maxHealth = living.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH);
-                AttributeModifier modifier = maxHealth.getModifier(RIFT_MINUS_MAX_HEALTH_MODIFIER);
-                double decrease = -amount;
-                if (modifier != null) {
-                    decrease += modifier.getAmount();
-                    maxHealth.removeModifier(RIFT_MINUS_MAX_HEALTH_MODIFIER);
-                }
-                maxHealth.applyModifier(new AttributeModifier(RIFT_MINUS_MAX_HEALTH_MODIFIER, "Rift Minus", decrease, Constants.AttributeModifierOperation.ADD));
+                maxHealth.applyModifier(new AttributeModifier("Rift Minus", -amount, Constants.AttributeModifierOperation.ADD));
             }
         }
         return attackResult;
