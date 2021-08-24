@@ -28,7 +28,9 @@ import youyihj.herodotusutils.block.computing.BlockCalculatorController;
 import youyihj.herodotusutils.block.computing.BlockCalculatorStructure;
 import youyihj.herodotusutils.block.computing.BlockComputingModule;
 import youyihj.herodotusutils.block.computing.BlockTransporter;
+import youyihj.herodotusutils.entity.EntityExtraGolem;
 import youyihj.herodotusutils.entity.EntityRedSlime;
+import youyihj.herodotusutils.entity.RenderExtraGolem;
 import youyihj.herodotusutils.entity.RenderRedSlime;
 import youyihj.herodotusutils.fluid.FluidMana;
 import youyihj.herodotusutils.fluid.FluidMercury;
@@ -128,6 +130,7 @@ public class ModelRegistry {
                 new ModelResourceLocation(StarlightStorageTiny.INSTANCE.getRegistryName() + "_full", "inventory"));
         BlockTransporter.getItemBlockMap().values().forEach(ModelRegistry::registerItemModel);
         RenderingRegistry.registerEntityRenderingHandler(EntityRedSlime.class, RenderRedSlime::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityExtraGolem.class, RenderExtraGolem::new);
     }
 
     @SubscribeEvent

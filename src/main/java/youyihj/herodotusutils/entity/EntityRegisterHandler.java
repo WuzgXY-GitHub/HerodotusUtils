@@ -19,9 +19,15 @@ public class EntityRegisterHandler {
             .egg(Color.RED.getRGB(), Color.MAGENTA.getRGB())
             .build();
 
+    public static final EntityEntry ENTITY_EXTRA_GOLEM = EntityEntryBuilder.create()
+            .entity(EntityExtraGolem.class)
+            .id("alchemy_golem", 0)
+            .name(HerodotusUtils.MOD_ID + ".alchemy_golem")
+            .build();
+
 
     @SubscribeEvent
     public static void onRegistry(Register<EntityEntry> event) {
-        event.getRegistry().register(ENTITY_RED_SLIME);
+        event.getRegistry().registerAll(ENTITY_RED_SLIME, ENTITY_EXTRA_GOLEM);
     }
 }
