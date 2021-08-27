@@ -121,7 +121,9 @@ public class EventHandler {
     public static void onLivingDrops(LivingDropsEvent event) {
         EntityLivingBase entity = event.getEntityLiving();
         if (event.getSource() == LithiumAmalgamInfected.DAMAGE_SOURCE) {
-            event.getDrops().add(new EntityItem(entity.world, entity.posX, entity.posY + 0.5d, entity.posZ, OreDictionary.getOres("crystalLithium").get(0).copy()));
+            ItemStack stack = OreDictionary.getOres("crystalLithium").get(0).copy();
+            stack.setCount(2);
+            event.getDrops().add(new EntityItem(entity.world, entity.posX, entity.posY + 0.5d, entity.posZ, OreDictionary.getOres("crystalLithium").get(0)));
         }
     }
 
