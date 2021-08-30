@@ -16,6 +16,7 @@
     "modularmachinery.MixinTileMachineController",
     "modularmagic.MixinJEIComponentAspect",
     "thaumcraft.MixinEntityFluxRift",
+    "thaumcraft.MixinResearchStage",
     "thaumcraft.MixinTileCrucible"
   ],
   "client": [
