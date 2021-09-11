@@ -17,7 +17,6 @@ import youyihj.herodotusutils.block.computing.*;
 import youyihj.herodotusutils.fluid.FluidMana;
 import youyihj.herodotusutils.modsupport.modularmachinery.block.BlockAspectListProviderInput;
 import youyihj.herodotusutils.modsupport.modularmachinery.block.BlockImpetusHatch;
-import youyihj.herodotusutils.modsupport.modularmachinery.block.BlockMMController;
 import youyihj.herodotusutils.modsupport.modularmachinery.tile.TileAspectListProvider;
 import youyihj.herodotusutils.modsupport.modularmachinery.tile.TileImpetusComponent;
 import youyihj.herodotusutils.util.ItemDropSupplier;
@@ -77,7 +76,6 @@ public class BlockRegistry {
                 BlockImpetusHatch.Input.INSTANCE,
                 BlockImpetusHatch.Output.INSTANCE
         );
-        BlockMMController.CONTROLLERS.forEach(registry::register);
         BlockTransporter.getBlockMap().values().forEach(registry::register);
         ORES.forEach(registry::register);
         GameRegistry.registerTileEntity(TileManaLiquidizer.class, HerodotusUtils.rl("mana_liquidizer"));

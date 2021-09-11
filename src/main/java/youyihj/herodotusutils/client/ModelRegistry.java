@@ -35,7 +35,6 @@ import youyihj.herodotusutils.fluid.FluidMercury;
 import youyihj.herodotusutils.item.*;
 import youyihj.herodotusutils.modsupport.modularmachinery.block.BlockAspectListProviderInput;
 import youyihj.herodotusutils.modsupport.modularmachinery.block.BlockImpetusHatch;
-import youyihj.herodotusutils.modsupport.modularmachinery.block.BlockMMController;
 
 import javax.annotation.Nonnull;
 import java.util.Map;
@@ -117,7 +116,6 @@ public class ModelRegistry {
                 BlockImpetusHatch.Input.ITEM_BLOCK,
                 BlockImpetusHatch.Output.ITEM_BLOCK
         );
-        BlockMMController.CONTROLLER_ITEMS.forEach(ModelRegistry::registerItemModel);
         for (BlockOreBase ore : BlockRegistry.ORES) {
             ModelLoader.setCustomStateMapper(ore, ORE_STATE_MAPPER);
             for (int i = 0; i < BlockOreBase.Type.values().length; i++) {

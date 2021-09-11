@@ -9,19 +9,9 @@
   "mixins": [
     "agricraft.MixinAgriPlant",
     "factorytech.MixinRiverGrateRemovalAction",
-    "modularmachinery.MixinDynamicMachine",
-    "modularmachinery.MixinMachineDeserializer",
-    "modularmachinery.MixinModifierDeserializer",
-    "modularmachinery.MixinRecipeCraftingContext",
-    "modularmachinery.MixinTileMachineController",
     "modularmagic.MixinJEIComponentAspect",
     "thaumcraft.MixinEntityFluxRift",
     "thaumcraft.MixinResearchStage",
     "thaumcraft.MixinTileCrucible"
-  ],
-  "client": [
-    "modularmachinery.MixinDynamicMachineRenderContext",
-    "modularmachinery.MixinGuiScreenBlueprint",
-    "modularmachinery.MixinStructurePreviewWrapper"
   ]
 }

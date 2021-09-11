@@ -15,7 +15,6 @@ import youyihj.herodotusutils.block.computing.BlockComputingModule;
 import youyihj.herodotusutils.block.computing.BlockTransporter;
 import youyihj.herodotusutils.modsupport.modularmachinery.block.BlockAspectListProviderInput;
 import youyihj.herodotusutils.modsupport.modularmachinery.block.BlockImpetusHatch;
-import youyihj.herodotusutils.modsupport.modularmachinery.block.BlockMMController;
 
 /**
  * @author youyihj
@@ -55,8 +54,5 @@ public class ItemRegistry {
         );
         BlockRegistry.ORES.stream().map(BlockOreBase::getItem).forEach(registry::register);
         BlockTransporter.getItemBlockMap().values().forEach(registry::register);
-
-        BlockMMController.CONTROLLER_ITEMS.forEach(registry::register);
-
     }
 }
