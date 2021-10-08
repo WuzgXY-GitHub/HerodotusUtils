@@ -6,16 +6,33 @@ import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.renderer.vertex.VertexBuffer;
 import net.minecraft.client.renderer.vertex.VertexFormat;
+import net.minecraft.client.shader.Framebuffer;
+import net.minecraft.client.shader.Shader;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.client.IRenderHandler;
 import org.lwjgl.opengl.GL11;
+import youyihj.herodotusutils.HerodotusUtils;
 import youyihj.herodotusutils.client.ClientEventHandler;
 
+import java.nio.FloatBuffer;
 import java.util.Random;
 
 public class RiftSkyRenderer extends IRenderHandler {
-    private static final ResourceLocation END_SKY_TEXTURES = new ResourceLocation("textures/environment/end_sky.png");
+
+    /**
+     * SETTINGS FOR RENDERER
+     */
+    private static final int STAR_NUMBERS = 800;
+    private static final float MOVE_SPEED = 2.0F;
+    private static final float STAR_SIZE = 1.0F;
+
+    private static final float SKY_BG_RED = 0.01F;
+    private static final float SKY_BG_GREEN = 0.02F;
+    private static final float SKY_BG_BLUE = 0.04F;
+
+
+//    private static final ResourceLocation END_SKY_TEXTURES = new ResourceLocation("textures/environment/end_sky.png");
 
 
     /**
@@ -31,7 +48,7 @@ public class RiftSkyRenderer extends IRenderHandler {
     private final VertexFormat vertexBufferFormat;
 
     public RiftSkyRenderer() {
-        //长度为15的数组，渲染15层不同方向运动，不同大小的“星空”
+        //15 'Stars' Layers
         skyNoiseVBOs = new VertexBuffer[15];
         skyNoiseGLCallLists = new int[15];
         this.vboEnabled = OpenGlHelper.useVbo();
@@ -44,11 +61,11 @@ public class RiftSkyRenderer extends IRenderHandler {
 
 
     private void generateSkyNoise(int index) {
-        //初始化
+        //Initialize
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder bufferbuilder = tessellator.getBuffer();
 
-        //删除旧的渲染
+        //Remove old renders
         if (this.skyNoiseVBOs[index] != null) {
             this.skyNoiseVBOs[index].deleteGlBuffers();
         }
@@ -81,15 +98,16 @@ public class RiftSkyRenderer extends IRenderHandler {
         Random random = new Random(10842L);
         //7==GL11.GL_QUADS
 //        bufferBuilderIn.begin(7, DefaultVertexFormats.POSITION);
-        //渲染对象：四边形，顶点格式：坐标
         bufferBuilderIn.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION);
 
-        float scale = 4.5F - (index + 1) / 5.0F;
-        for (int i = 0; i < 400; ++i) {
+        //Scale is just the size of the star
+        float scale = 4.5F - (index + 1) / 4.0F;
+        //This loop generates stars in each layer, the more loop it does, the more star it shows.
+        for (int i = 0; i < STAR_NUMBERS; ++i) {
             double d0 = (double) (random.nextFloat() * 2.0F - 1.0F);
             double d1 = (double) (random.nextFloat() * 2.0F - 1.0F);
             double d2 = (double) (random.nextFloat() * 2.0F - 1.0F);
-            double d3 = (double) (0.3F + random.nextFloat() * 0.2F) * scale;
+            double d3 = (double) (0.3F + random.nextFloat() * 0.2F) * scale * STAR_SIZE;
             double ratio = random.nextFloat() * 0.25 + 0.5F;
             double d4 = d0 * d0 + d1 * d1 + d2 * d2;
 
@@ -128,6 +146,10 @@ public class RiftSkyRenderer extends IRenderHandler {
         }
     }
 
+    public static int framebufferWidth = -1;
+    public static int framebufferHeight = -1;
+
+
     private static final Random RANDOM = new Random(31100L);
 
     private float calculateAngle(float input) {
@@ -141,15 +163,34 @@ public class RiftSkyRenderer extends IRenderHandler {
         GlStateManager.enableBlend();
         GlStateManager.depthMask(false);
         renderSkyEnd();
-        RANDOM.setSeed(31100L);
 
         if (mc.mcProfiler.profilingEnabled) {
             mc.mcProfiler.startSection("riftSkyRender");
         }
+
         GlStateManager.disableLighting();
+        float ticks = ClientEventHandler.ticks + partialTicks;
         GlStateManager.blendFunc(GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE);
+        RANDOM.setSeed(31100L);
+        renderStars(ticks);
+
+        GlStateManager.disableBlend();
+        GlStateManager.enableLighting();
+        GlStateManager.enableAlpha();
+        GlStateManager.color(1f, 1f, 1f, 1f);
+        GlStateManager.depthMask(true);
+
+        if (mc.mcProfiler.profilingEnabled) {
+            mc.mcProfiler.endSection();
+        }
+
+    }
+
+    private static final float SPEED_SQRT = MathHelper.sqrt(MOVE_SPEED);
+
+    private void renderStars(float ticks) {
         for (int i = 0; i < 15; i++) {
-            //随机颜色
+            //Random color
             float f1 = 2.0F / (float) (18 - i);
             float r = (RANDOM.nextFloat() * 0.5F + 0.1F) * f1;
             float g = (RANDOM.nextFloat() * 0.5F + 0.3F) * f1;
@@ -157,13 +198,13 @@ public class RiftSkyRenderer extends IRenderHandler {
             GlStateManager.color(r, g, b, 1.0F);
 
             GlStateManager.pushMatrix();
-            //随机大小+移动
+            //Random movement
             float f2 = (float) (i + 1);
-            float ticks = ClientEventHandler.ticks + partialTicks;
             float speedMultiply = 2.0F + f2 / 1.5F;
-            float movementFast = ticks * speedMultiply / 400F;
-            float movementSlow = ticks * speedMultiply / 800F;
-            float movementShake = MathHelper.sin(ticks / 60F) * 2.5F;
+            //Change the const two line below can change the speed it moves.
+            float movementFast = ticks * speedMultiply / 300F * MOVE_SPEED;
+            float movementSlow = ticks * speedMultiply / 600F * MOVE_SPEED;
+            float movementShake = MathHelper.sin(ticks / 60F * SPEED_SQRT) * 2.5F;
 
 //            GlStateManager.translate(17.0F / f2, (2.0F + f2 / 1.5F) * movement, 0.0F);
 //            GlStateManager.scale(scale, scale, scale);
@@ -177,16 +218,6 @@ public class RiftSkyRenderer extends IRenderHandler {
             renderSkyNoisesBuf(i);
             GlStateManager.popMatrix();
         }
-
-        GlStateManager.disableBlend();
-        GlStateManager.enableLighting();
-        GlStateManager.enableAlpha();
-        GlStateManager.color(1f, 1f, 1f, 1f);
-        GlStateManager.depthMask(true);
-        if (mc.mcProfiler.profilingEnabled) {
-            mc.mcProfiler.endSection();
-        }
-
     }
 
     private void renderSkyNoisesBuf(int index) {
@@ -238,10 +269,10 @@ public class RiftSkyRenderer extends IRenderHandler {
             }
 
             bufferbuilder.begin(7, DefaultVertexFormats.POSITION_COLOR);
-            bufferbuilder.pos(-100.0D, -100.0D, -100.0D).color(0.01f, 0.04f, 0.05f, 1.0F).endVertex();
-            bufferbuilder.pos(-100.0D, -100.0D, 100.0D).color(0.01f, 0.04f, 0.05f, 1.0F).endVertex();
-            bufferbuilder.pos(100.0D, -100.0D, 100.0D).color(0.01f, 0.04f, 0.05f, 1.0F).endVertex();
-            bufferbuilder.pos(100.0D, -100.0D, -100.0D).color(0.01f, 0.04f, 0.05f, 1.0F).endVertex();
+            bufferbuilder.pos(-100.0D, -100.0D, -100.0D).color(SKY_BG_RED, SKY_BG_GREEN, SKY_BG_BLUE, 1.0F).endVertex();
+            bufferbuilder.pos(-100.0D, -100.0D, 100.0D).color(SKY_BG_RED, SKY_BG_GREEN, SKY_BG_BLUE, 1.0F).endVertex();
+            bufferbuilder.pos(100.0D, -100.0D, 100.0D).color(SKY_BG_RED, SKY_BG_GREEN, SKY_BG_BLUE, 1.0F).endVertex();
+            bufferbuilder.pos(100.0D, -100.0D, -100.0D).color(SKY_BG_RED, SKY_BG_GREEN, SKY_BG_BLUE, 1.0F).endVertex();
             tessellator.draw();
             GlStateManager.popMatrix();
         }
