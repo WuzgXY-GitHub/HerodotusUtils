@@ -146,7 +146,8 @@ jar {
                 'TweakClass': 'org.spongepowered.asm.launch.MixinTweaker',
                 "FMLCorePlugin": "youyihj.herodotusutils.core.HerodotusUtilsPlugin",
                 "FMLCorePluginContainsFMLMod": true,
-                "ForceLoadAsMod": true
+                "ForceLoadAsMod": true,
+                'FMLAT': 'hdsutils_at.cfg'
         ])
     }
 }
