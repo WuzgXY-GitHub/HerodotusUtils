@@ -5,11 +5,14 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLInterModComms;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
+import youyihj.herodotusutils.HerodotusUtils;
 import youyihj.herodotusutils.block.BlockOreBase;
 import youyihj.herodotusutils.block.BlockRegistry;
 import youyihj.herodotusutils.fluid.FluidMana;
 import youyihj.herodotusutils.fluid.FluidMercury;
 import youyihj.herodotusutils.modsupport.crafttweaker.CraftTweakerExtension;
+import youyihj.herodotusutils.network.GuiHandler;
 import youyihj.herodotusutils.util.Capabilities;
 
 public class CommonProxy implements IProxy {
@@ -21,6 +24,7 @@ public class CommonProxy implements IProxy {
         FluidRegistry.addBucketForFluid(FluidMercury.INSTANCE);
         Capabilities.register();
         CraftTweakerExtension.registerAllClasses();
+        NetworkRegistry.INSTANCE.registerGuiHandler(HerodotusUtils.MOD_ID, GuiHandler.INSTANCE);
     }
 
     @Override

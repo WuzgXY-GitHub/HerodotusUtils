@@ -74,7 +74,9 @@ public class BlockRegistry {
                 BlockAlchemyCrafter.INSTANCE,
                 BlockAspectListProviderInput.INSTANCE,
                 BlockImpetusHatch.Input.INSTANCE,
-                BlockImpetusHatch.Output.INSTANCE
+                BlockImpetusHatch.Output.INSTANCE,
+                BlockCreatureDataReEncodeInterface.INSTANCE,
+                BlockCreatureDataAnalyzer.INSTANCE
         );
         BlockTransporter.getBlockMap().values().forEach(registry::register);
         ORES.forEach(registry::register);
@@ -92,5 +94,7 @@ public class BlockRegistry {
         GameRegistry.registerTileEntity(TileAspectListProvider.class, HerodotusUtils.rl("block_aspectlist_provider_input"));
         GameRegistry.registerTileEntity(TileImpetusComponent.Input.class, HerodotusUtils.rl("impetus_input_hatch"));
         GameRegistry.registerTileEntity(TileImpetusComponent.Output.class, HerodotusUtils.rl("impetus_output_hatch"));
+        GameRegistry.registerTileEntity(TileCreatureDataAnalyzer.class, HerodotusUtils.rl("creature_data_analyzer"));
+        GameRegistry.registerTileEntity(TileCreatureDataReEncodeInterface.class, HerodotusUtils.rl("creature_encode_interface"));
     }
 }
