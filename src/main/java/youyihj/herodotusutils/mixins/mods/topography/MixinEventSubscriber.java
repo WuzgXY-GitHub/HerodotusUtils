@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.Overwrite;
 /**
  * @author youyihj
  */
-@Mixin(EventSubscriber.class)
+@Mixin(value = EventSubscriber.class, remap = false)
 public class MixinEventSubscriber {
     /**
      * @author youyihj
