@@ -12,6 +12,8 @@
     "modularmagic.MixinJEIComponentAspect",
     "thaumcraft.MixinEntityFluxRift",
     "thaumcraft.MixinResearchStage",
-    "thaumcraft.MixinTileCrucible"
+    "thaumcraft.MixinTileCrucible",
+    "topography.MixinClientEventSubscriber",
+    "topography.MixinEventSubscriber"
   ]
 }
