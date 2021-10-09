@@ -26,7 +26,7 @@ public class ClientEventHandler {
     @SubscribeEvent
     public static void onRenderSky(RenderWorldLastEvent event) {
         World world = Minecraft.getMinecraft().world;
-        if (world.provider.getDimension() == 1 && !(world.provider.getSkyRenderer() instanceof RiftSkyRenderer)) {
+        if (world.provider.getDimension() == 9 && !(world.provider.getSkyRenderer() instanceof RiftSkyRenderer)) {
             world.provider.setSkyRenderer(new RiftSkyRenderer());
         }
     }
