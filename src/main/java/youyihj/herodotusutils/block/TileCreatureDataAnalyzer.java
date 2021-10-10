@@ -133,6 +133,12 @@ public class TileCreatureDataAnalyzer extends TileEntity implements ITickable {
     }
 
     @Override
+    public void invalidate() {
+        super.invalidate();
+        toggleType(0);
+    }
+
+    @Override
     public void update() {
         if (world.getTotalWorldTime() % 20 == 0 && !world.isRemote) {
             if (timer == 0) {
