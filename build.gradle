@@ -42,8 +42,15 @@ minecraft {
     mappings = project.mcpVersion
     // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
 
-    clientJvmArgs += "-Dfml.coreMods.load=youyihj.herodotusutils.core.HerodotusUtilsPlugin"
-    serverJvmArgs += "-Dfml.coreMods.load=youyihj.herodotusutils.core.HerodotusUtilsPlugin"
+    def args = [
+            "-Dfml.coreMods.load=youyihj.herodotusutils.core.HerodotusUtilsPlugin",
+            "-Dmixin.debug.export=true",
+            '-Dmixin.hotSwap=true',
+            '-Dmixin.checks.interfaces=true'
+    ]
+
+    clientJvmArgs.addAll(args)
+    serverJvmArgs.addAll(args)
 }
 
 repositories {
