@@ -104,6 +104,7 @@ public class ModelRegistry {
                 StarlightStorageTiny.INSTANCE,
                 ItemOilAIOT.INSTANCE,
                 ItemRiftFeed.INSTANCE,
+                ItemPenumbraRing.INSTANCE,
                 BlockAlchemyController.ITEM_BLOCK,
                 BlockAlchemyInputHatch.ITEM_BLOCK,
                 BlockPlainAlchemyTunnel.RIGHT_ANGLE_ITEM,

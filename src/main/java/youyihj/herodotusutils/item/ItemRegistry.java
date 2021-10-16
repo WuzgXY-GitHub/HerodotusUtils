@@ -38,6 +38,7 @@ public class ItemRegistry {
                 StarlightStorageTiny.INSTANCE,
                 ItemOilAIOT.INSTANCE,
                 ItemRiftFeed.INSTANCE,
+                ItemPenumbraRing.INSTANCE,
                 BlockAlchemyController.ITEM_BLOCK,
                 BlockPlainAlchemyTunnel.VERTICAL_ITEM,
                 BlockPlainAlchemyTunnel.RIGHT_ANGLE_ITEM,

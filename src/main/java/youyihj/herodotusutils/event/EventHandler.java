@@ -2,6 +2,9 @@ package youyihj.herodotusutils.event;
 
 import WayofTime.bloodmagic.core.data.SoulTicket;
 import WayofTime.bloodmagic.util.helper.NetworkHelper;
+import baubles.api.BaubleType;
+import baubles.api.cap.BaublesCapabilities;
+import baubles.api.cap.IBaublesItemHandler;
 import com.google.common.collect.Lists;
 import crafttweaker.api.data.DataInt;
 import crafttweaker.api.data.IData;
@@ -40,6 +43,7 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.oredict.OreDictionary;
 import youyihj.herodotusutils.block.BlockMercury;
 import youyihj.herodotusutils.computing.event.ComputingUnitChangeEvent;
+import youyihj.herodotusutils.item.ItemPenumbraRing;
 import youyihj.herodotusutils.item.RefinedBottle;
 import youyihj.herodotusutils.modsupport.modularmachinery.crafting.component.ComponentAspectList;
 import youyihj.herodotusutils.modsupport.modularmachinery.crafting.component.ComponentImpetus;
@@ -90,6 +94,15 @@ public class EventHandler {
                     FluidStack fluidStack = FluidUtil.getFluidContained(itemStack);
                     if (fluidStack != null && fluidStack.getFluid().getName().equals("mercury")) {
                         entity.addPotionEffect(new PotionEffect(MobEffects.POISON, 100, 3));
+                    }
+                }
+            }
+            if (entity instanceof EntityPlayer) {
+                EntityPlayer player = (EntityPlayer) entity;
+                IBaublesItemHandler baubles = player.getCapability(BaublesCapabilities.CAPABILITY_BAUBLES, null);
+                for (int validSlot : BaubleType.RING.getValidSlots()) {
+                    if (baubles.getStackInSlot(validSlot).getItem() == ItemPenumbraRing.INSTANCE) {
+                        ItemPenumbraRing.INSTANCE.handlePenumbraTick(player);
                     }
                 }
             }

@@ -35,6 +35,7 @@ item.hdsutils.tiny_starlight_storage_full.name=微型星能存储器（满）
 item.hdsutils.oil_aiot.name=动力工具
 item.hdsutils.taint_checker.name=腐化检测仪
 item.hdsutils.rift_feed.name=咒波裂隙饲料
+item.hdsutils.penumbra_ring.name=逸影流形之戒
 hdsutils.empty=空
 hdsutils.computing_unit.bar=算力：%s / %s
 hdsutils.computing_unit.generate=生产 %s 算力
