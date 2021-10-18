@@ -77,6 +77,16 @@ public class EventHandler {
     public static void onEntityLivingUpdate(LivingEvent.LivingUpdateEvent event) {
         EntityLivingBase entity = event.getEntityLiving();
         World world = entity.world;
+        if (entity instanceof EntityPlayer) {
+            EntityPlayer player = (EntityPlayer) entity;
+            IBaublesItemHandler baubles = player.getCapability(BaublesCapabilities.CAPABILITY_BAUBLES, null);
+            for (int validSlot : BaubleType.RING.getValidSlots()) {
+                if (baubles.getStackInSlot(validSlot).getItem() == ItemPenumbraRing.INSTANCE) {
+                    ItemPenumbraRing.INSTANCE.handlePenumbraTick(player, world.isRemote);
+                    break;
+                }
+            }
+        }
         if (!world.isRemote) {
             IItemHandler itemHandler = entity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
             if (world.getTotalWorldTime() % 40 == 0) {
@@ -94,15 +104,6 @@ public class EventHandler {
                     FluidStack fluidStack = FluidUtil.getFluidContained(itemStack);
                     if (fluidStack != null && fluidStack.getFluid().getName().equals("mercury")) {
                         entity.addPotionEffect(new PotionEffect(MobEffects.POISON, 100, 3));
-                    }
-                }
-            }
-            if (entity instanceof EntityPlayer) {
-                EntityPlayer player = (EntityPlayer) entity;
-                IBaublesItemHandler baubles = player.getCapability(BaublesCapabilities.CAPABILITY_BAUBLES, null);
-                for (int validSlot : BaubleType.RING.getValidSlots()) {
-                    if (baubles.getStackInSlot(validSlot).getItem() == ItemPenumbraRing.INSTANCE) {
-                        ItemPenumbraRing.INSTANCE.handlePenumbraTick(player);
                     }
                 }
             }

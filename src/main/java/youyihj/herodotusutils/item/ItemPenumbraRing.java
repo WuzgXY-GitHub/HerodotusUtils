@@ -11,8 +11,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.NonNullList;
 import youyihj.herodotusutils.HerodotusUtils;
-import youyihj.herodotusutils.network.NetworkHandler;
-import youyihj.herodotusutils.network.PlayerSyncer;
 
 /**
  * @author youyihj
@@ -52,47 +50,50 @@ public class ItemPenumbraRing extends Item implements IBauble {
         entity.getEntityData().setBoolean(TAG_ALLOWED_FLYING_BY_PENUMBRA, value);
     }
 
-    public void handlePenumbraTick(EntityPlayer player) {
+    public void handlePenumbraTick(EntityPlayer player, boolean isClient) {
         NonNullList<ItemStack> inventory = player.inventory.mainInventory;
         boolean flag = false;
         for (int i = 0; i < inventory.size(); i++) {
             ItemStack stack = inventory.get(i);
             if (stack.getItem() == StarlightStorageTiny.INSTANCE) {
                 if (stack.getMetadata() == 1) {
-                    NBTTagCompound nbt = new NBTTagCompound();
-                    nbt.setInteger(StarlightStorageTiny.TAG_STARLIGHT, StarlightStorageTiny.CAPACITY - 1);
-                    ItemStack newItem = new ItemStack(StarlightStorageTiny.INSTANCE);
-                    newItem.setTagCompound(nbt);
-                    inventory.set(i, newItem);
+                    if (!isClient) {
+                        NBTTagCompound nbt = new NBTTagCompound();
+                        nbt.setInteger(StarlightStorageTiny.TAG_STARLIGHT, StarlightStorageTiny.CAPACITY - 1);
+                        ItemStack newItem = new ItemStack(StarlightStorageTiny.INSTANCE);
+                        newItem.setTagCompound(nbt);
+                        inventory.set(i, newItem);
+                    }
                     flag = true;
                 } else {
                     NBTTagCompound nbt = stack.getTagCompound();
                     if (nbt != null) {
                         int starLight = nbt.getInteger(StarlightStorageTiny.TAG_STARLIGHT);
                         if (starLight > 0) {
-                            nbt.setInteger(StarlightStorageTiny.TAG_STARLIGHT, starLight - 1);
+                            if (!isClient) {
+                                nbt.setInteger(StarlightStorageTiny.TAG_STARLIGHT, starLight - 1);
+                            }
                             flag = true;
                         }
                     }
                 }
+                break;
             }
         }
         if (flag) {
-            if (player.capabilities.allowFlying) {
+            if (!isAllowedFlyingByPenumbra(player) && player.capabilities.allowFlying) {
                 setAllowedFlyingByPenumbra(player, false);
             } else {
                 setAllowedFlyingByPenumbra(player, true);
-                NetworkHandler.INSTANCE.sendSyncMessageToPlayer(PlayerSyncer.ALLOW_FLYING, player);
+                player.capabilities.allowFlying = true;
             }
-            // FIXME: noClip field are set to false. this.noClip = this.isSpectator() in EntityPlayer#onUpdate
-            NetworkHandler.INSTANCE.sendSyncMessageToPlayer(
-                    player.capabilities.isFlying ? PlayerSyncer.SET_NO_CLIP : PlayerSyncer.SET_CLIP,
-                    player
-            );
+            player.noClip = player.capabilities.isFlying;
         } else {
-            NetworkHandler.INSTANCE.sendSyncMessageToPlayer(PlayerSyncer.SET_CLIP, player);
+            player.noClip = false;
             if (isAllowedFlyingByPenumbra(player)) {
-                NetworkHandler.INSTANCE.sendSyncMessageToPlayer(PlayerSyncer.DENY_FLYING, player);
+                setAllowedFlyingByPenumbra(player, false);
+                player.capabilities.allowFlying = false;
+                player.capabilities.isFlying = false;
             }
         }
     }
