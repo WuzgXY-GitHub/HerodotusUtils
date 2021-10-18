@@ -46,21 +46,21 @@ public class AncientVoidDimensionProvider extends WorldProvider {
     }
 
     @Override
-    public Vec3d getFogColor(float p_76562_1_, float p_76562_2_) {
-        float f = MathHelper.cos(p_76562_1_ * ((float) Math.PI * 2F)) * 2.0F + 0.5F;
+    public Vec3d getFogColor(float x, float z) {
+        float f = MathHelper.cos(x * ((float) Math.PI * 2F)) * 2.0F + 0.5F;
         f = MathHelper.clamp(f, 0.0F, 1.0F);
-        float f1 = 0.627451F;
-        float f2 = 0.5019608F;
-        float f3 = 0.627451F;
-        f1 = f1 * (f * 0.0F + 0.15F);
-        f2 = f2 * (f * 0.0F + 0.15F);
-        f3 = f3 * (f * 0.0F + 0.15F);
-        return new Vec3d(f1, f2, f3);
+        float red = 0.05859375f;
+        float green = 0.0f;
+        float blue = 0.1015625f;
+        red = red * (f * 0.94F + 0.06F);
+        green = green * (f * 0.94F + 0.06F);
+        blue = blue * (f * 0.91F + 0.09F);
+        return new Vec3d(red, green, blue);
     }
 
     @Override
     public IChunkGenerator createChunkGenerator() {
-        return new ChunkGeneratorVoid(world, 8151753964130558908L, ConfigurationManager.getInstance().getPreset().getDefinition(9));
+        return new ChunkGeneratorVoid(world, 8151753964130558908L, ConfigurationManager.getInstance().getPresets().get("ancient bricks islands").getDefinition(9));
     }
 
     @Override
