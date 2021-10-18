@@ -1,5 +1,7 @@
 package youyihj.herodotusutils.proxy;
 
+import net.minecraft.world.DimensionType;
+import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLInterModComms;
@@ -14,8 +16,11 @@ import youyihj.herodotusutils.fluid.FluidMercury;
 import youyihj.herodotusutils.modsupport.crafttweaker.CraftTweakerExtension;
 import youyihj.herodotusutils.network.GuiHandler;
 import youyihj.herodotusutils.util.Capabilities;
+import youyihj.herodotusutils.world.AncientVoidDimensionProvider;
 
 public class CommonProxy implements IProxy {
+    public static DimensionType ANCIENT_VOID_DIMENSION;
+
     @Override
     public void preInit(FMLPreInitializationEvent event) {
         FluidRegistry.registerFluid(FluidMana.INSTANCE);
@@ -25,6 +30,8 @@ public class CommonProxy implements IProxy {
         Capabilities.register();
         CraftTweakerExtension.registerAllClasses();
         NetworkRegistry.INSTANCE.registerGuiHandler(HerodotusUtils.MOD_ID, GuiHandler.INSTANCE);
+        ANCIENT_VOID_DIMENSION = DimensionType.register("ancient_void", "_dim_9", 9, AncientVoidDimensionProvider.class, false);
+        DimensionManager.registerDimension(9, ANCIENT_VOID_DIMENSION);
     }
 
     @Override
