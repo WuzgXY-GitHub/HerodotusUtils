@@ -53,6 +53,7 @@ import youyihj.herodotusutils.potion.Starvation;
 import youyihj.herodotusutils.proxy.CommonProxy;
 import youyihj.herodotusutils.util.Capabilities;
 import youyihj.herodotusutils.util.ITaint;
+import youyihj.herodotusutils.util.SharedRiftAction;
 import youyihj.herodotusutils.util.Util;
 import youyihj.herodotusutils.world.PlainTeleporter;
 import youyihj.zenutils.api.world.ZenUtilsWorld;
@@ -120,9 +121,14 @@ public class EventHandler {
                 }
             }
         }
-        if (world.provider.getDimension() == CommonProxy.ANCIENT_VOID_DIMENSION_ID && entity.posY < -24.0) {
-            entity.changeDimension(0, new PlainTeleporter(entity.posX, 324.0, entity.posY));
-            entity.getEntityData().setBoolean("DisableFallingDamage", true);
+        if (world.provider.getDimension() == CommonProxy.ANCIENT_VOID_DIMENSION_ID) {
+            if (entity.posY < -24.0f) {
+                entity.changeDimension(0, new PlainTeleporter(entity.posX, 324.0, entity.posY));
+                entity.getEntityData().setBoolean("DisableFallingDamage", true);
+            }
+            if (world.getTotalWorldTime() % 40 == 5) {
+                SharedRiftAction.attackEntity(entity, 2.0f);
+            }
         }
     }
 
