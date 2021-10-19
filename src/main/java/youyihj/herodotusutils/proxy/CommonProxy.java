@@ -20,7 +20,7 @@ import youyihj.herodotusutils.world.AncientVoidDimensionProvider;
 
 public class CommonProxy implements IProxy {
     public static DimensionType ANCIENT_VOID_DIMENSION;
-    public static int ANCIENT_VOID_DIMENSION_ID = 9;
+    public static int ANCIENT_VOID_DIMENSION_ID = 943;
 
     @Override
     public void preInit(FMLPreInitializationEvent event) {
@@ -31,7 +31,7 @@ public class CommonProxy implements IProxy {
         Capabilities.register();
         CraftTweakerExtension.registerAllClasses();
         NetworkRegistry.INSTANCE.registerGuiHandler(HerodotusUtils.MOD_ID, GuiHandler.INSTANCE);
-        ANCIENT_VOID_DIMENSION = DimensionType.register("ancient_void", "_dim_9", ANCIENT_VOID_DIMENSION_ID, AncientVoidDimensionProvider.class, false);
+        ANCIENT_VOID_DIMENSION = DimensionType.register("ancient_void", "_ancient_void", ANCIENT_VOID_DIMENSION_ID, AncientVoidDimensionProvider.class, false);
         DimensionManager.registerDimension(ANCIENT_VOID_DIMENSION_ID, ANCIENT_VOID_DIMENSION);
     }
 
