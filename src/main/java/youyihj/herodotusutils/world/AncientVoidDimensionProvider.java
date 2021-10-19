@@ -2,15 +2,15 @@ package youyihj.herodotusutils.world;
 
 import com.bloodnbonesgaming.topography.config.ConfigurationManager;
 import com.bloodnbonesgaming.topography.world.chunkgenerator.ChunkGeneratorVoid;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.DimensionType;
 import net.minecraft.world.WorldProvider;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.BiomeProvider;
 import net.minecraft.world.biome.BiomeProviderSingle;
 import net.minecraft.world.gen.IChunkGenerator;
 import net.minecraftforge.client.IRenderHandler;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import youyihj.herodotusutils.client.render.RiftSkyRenderer;
@@ -26,6 +26,12 @@ public class AncientVoidDimensionProvider extends WorldProvider {
     private IRenderHandler skyRenderer;
 
     @Override
+    protected void init() {
+        this.hasSkyLight = false;
+        this.biomeProvider = new BiomeProviderSingle(Objects.requireNonNull(ForgeRegistries.BIOMES.getValue(new ResourceLocation("biometweaker", "ancient_void"))));
+    }
+
+    @Override
     public DimensionType getDimensionType() {
         return CommonProxy.ANCIENT_VOID_DIMENSION;
     }
@@ -38,11 +44,6 @@ public class AncientVoidDimensionProvider extends WorldProvider {
             skyRenderer = new RiftSkyRenderer();
         }
         return skyRenderer;
-    }
-
-    @Override
-    public BiomeProvider getBiomeProvider() {
-        return new BiomeProviderSingle(Objects.requireNonNull(Biome.getBiome(46)));
     }
 
     @Override

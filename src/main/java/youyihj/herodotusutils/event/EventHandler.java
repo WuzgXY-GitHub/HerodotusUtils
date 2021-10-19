@@ -31,6 +31,7 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
+import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
@@ -49,9 +50,11 @@ import youyihj.herodotusutils.modsupport.modularmachinery.crafting.component.Com
 import youyihj.herodotusutils.modsupport.modularmachinery.crafting.component.ComponentImpetus;
 import youyihj.herodotusutils.potion.LithiumAmalgamInfected;
 import youyihj.herodotusutils.potion.Starvation;
+import youyihj.herodotusutils.proxy.CommonProxy;
 import youyihj.herodotusutils.util.Capabilities;
 import youyihj.herodotusutils.util.ITaint;
 import youyihj.herodotusutils.util.Util;
+import youyihj.herodotusutils.world.PlainTeleporter;
 import youyihj.zenutils.api.world.ZenUtilsWorld;
 import youyihj.zenutils.impl.capability.ZenWorldCapabilityHandler;
 
@@ -116,6 +119,10 @@ public class EventHandler {
                     taint.addInfectedTaint(-taint.getInfectedTaint() / 2);
                 }
             }
+        }
+        if (world.provider.getDimension() == CommonProxy.ANCIENT_VOID_DIMENSION_ID && entity.posY < -24.0) {
+            entity.changeDimension(0, new PlainTeleporter(entity.posX, 324.0, entity.posY));
+            entity.getEntityData().setBoolean("DisableFallingDamage", true);
         }
     }
 
@@ -193,6 +200,15 @@ public class EventHandler {
     @SubscribeEvent
     public static void onPlayerLoggedIn(PlayerLoggedInEvent event) {
         event.player.getCapability(Capabilities.TAINT_CAPABILITY, null).addInfectedTaint(0); // to trigger sync message
+    }
+
+    @SubscribeEvent
+    public static void onEntityFall(LivingFallEvent event) {
+        if (event.getEntityLiving().world.isRemote) return;
+        if (event.getEntityLiving().getEntityData().getBoolean("DisableFallingDamage")) {
+            event.setCanceled(true);
+            event.getEntityLiving().getEntityData().setBoolean("DisableFallingDamage", false);
+        }
     }
 
     @SubscribeEvent
