@@ -14,10 +14,12 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.apache.commons.lang3.ArrayUtils;
 import youyihj.herodotusutils.HerodotusUtils;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 /**
@@ -54,6 +56,17 @@ public final class Util {
 
     public static FluidStack getDefaultFluidStack(Fluid fluid) {
         return new FluidStack(fluid, 1000);
+    }
+
+    public static <T> T getCycledNextElement(T[] array, T thisElement) {
+        int index = ArrayUtils.indexOf(array, thisElement);
+        if (index == ArrayUtils.INDEX_NOT_FOUND) {
+            throw new NoSuchElementException(thisElement + " is not belong to the given array");
+        } else if (index == array.length - 1) {
+            return array[0];
+        } else {
+            return array[index + 1];
+        }
     }
 
     @SideOnly(Side.CLIENT)

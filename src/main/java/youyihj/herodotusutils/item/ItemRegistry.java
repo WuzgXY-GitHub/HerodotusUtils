@@ -29,6 +29,7 @@ public class ItemRegistry {
                 BlockManaLiquidizer.ITEM_BLOCK,
                 RefinedBottle.INSTANCE,
                 ItemCopperBucket.INSTANCE,
+                ItemAlchemyPipeWrench.INSTANCE,
                 BlockCalculatorStructure.STRUCTURE_BLOCK_1_ITEM,
                 BlockCalculatorStructure.STRUCTURE_BLOCK_2_ITEM,
                 BlockCalculatorStructure.STRUCTURE_BLOCK_3_ITEM,

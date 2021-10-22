@@ -3,16 +3,15 @@ package youyihj.herodotusutils.block.alchemy;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
+import youyihj.herodotusutils.alchemy.IAdjustableBlock;
+import youyihj.herodotusutils.util.Util;
 
 import javax.annotation.Nonnull;
 import java.util.Locale;
@@ -20,7 +19,7 @@ import java.util.Locale;
 /**
  * @author youyihj
  */
-public class BlockAlchemyController extends AbstractPipeBlock {
+public class BlockAlchemyController extends AbstractPipeBlock implements IAdjustableBlock {
     /* package-private */ static final PropertyEnum<WorkType> WORK_TYPE_PROPERTY = PropertyEnum.create("work_type", WorkType.class);
 
     private BlockAlchemyController() {
@@ -46,21 +45,22 @@ public class BlockAlchemyController extends AbstractPipeBlock {
         return getDefaultState().withProperty(WORK_TYPE_PROPERTY, WorkType.valueOf(meta));
     }
 
-    @Override
-    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-        if (!worldIn.isRemote && playerIn.isSneaking()) {
-            int meta = this.getMetaFromState(state);
-            WorkType workType = WorkType.valueOf(++meta);
-            worldIn.setBlockState(pos, this.getDefaultState().withProperty(WORK_TYPE_PROPERTY, workType));
-            playerIn.sendStatusMessage(new TextComponentTranslation("hdsutils.alchemy.controller.status").appendSibling(workType.getDisplayName()), true);
-        }
-        return true;
-    }
-
     @Nonnull
     @Override
     public AbstractPipeTileEntity createTileEntity(World world, IBlockState state) {
         return new TileAlchemyController();
+    }
+
+    @Override
+    public IBlockState getAdjustedResult(IBlockState previous) {
+        WorkType value = previous.getValue(WORK_TYPE_PROPERTY);
+        return this.getDefaultState().withProperty(WORK_TYPE_PROPERTY, Util.getCycledNextElement(WorkType.values(), value));
+    }
+
+    @Override
+    public ITextComponent getAdjustedMessage(IBlockState state) {
+        WorkType value = state.getValue(WORK_TYPE_PROPERTY);
+        return new TextComponentTranslation("hdsutils.alchemy.controller.status").appendSibling(value.getDisplayName());
     }
 
     public enum WorkType implements IStringSerializable {

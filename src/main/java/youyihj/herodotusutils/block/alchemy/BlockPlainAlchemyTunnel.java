@@ -5,16 +5,21 @@ import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
+import youyihj.herodotusutils.alchemy.IAdjustableBlock;
+import youyihj.herodotusutils.util.Util;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.Arrays;
 import java.util.Locale;
 import java.util.NoSuchElementException;
 import java.util.function.Predicate;
@@ -22,7 +27,7 @@ import java.util.function.Predicate;
 /**
  * @author youyihj
  */
-public abstract class BlockPlainAlchemyTunnel extends AbstractPipeBlock {
+public abstract class BlockPlainAlchemyTunnel extends AbstractPipeBlock implements IAdjustableBlock {
     public static final BlockPlainAlchemyTunnel STRAIGHT = new BlockPlainAlchemyTunnel("straight_tunnel") {
         @Override
         protected TunnelType getTunnelType() {
@@ -74,10 +79,22 @@ public abstract class BlockPlainAlchemyTunnel extends AbstractPipeBlock {
     }
 
     private IProperty<TransferDirection> createProperty() {
-        return PropertyEnum.create("direction", TransferDirection.class, getTunnelType().directionFilter::test);
+        return PropertyEnum.create("direction", TransferDirection.class, getTunnelType());
     }
 
     protected abstract TunnelType getTunnelType();
+
+    @Override
+    public IBlockState getAdjustedResult(IBlockState previous) {
+        TransferDirection direction = getDirection(previous);
+        return this.getDefaultState().withProperty(property, Util.getCycledNextElement(getTunnelType().getAcceptedDirections(), direction));
+    }
+
+    @Override
+    public ITextComponent getAdjustedMessage(IBlockState state) {
+        TransferDirection direction = getDirection(state);
+        return new TextComponentTranslation("hdsutils.alchemy.direction").appendSibling(new TextComponentTranslation("hdsutils.alchemy.direction." + direction.getName()));
+    }
 
     @Nonnull
     @Override
@@ -87,20 +104,6 @@ public abstract class BlockPlainAlchemyTunnel extends AbstractPipeBlock {
 
     public TransferDirection getDirection(IBlockState state) {
         return state.getValue(this.property);
-    }
-
-    @Override
-    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-        if (!playerIn.isSneaking() || !playerIn.getHeldItem(hand).isEmpty())
-            return false;
-        if (!worldIn.isRemote) {
-            int meta = this.getMetaFromState(state);
-            meta++;
-            if (meta >= this.blockState.getValidStates().size())
-                meta = 0;
-            worldIn.setBlockState(pos, this.getStateFromMeta(meta));
-        }
-        return true;
     }
 
     @SuppressWarnings("unused")
@@ -168,7 +171,7 @@ public abstract class BlockPlainAlchemyTunnel extends AbstractPipeBlock {
         }
     }
 
-    public enum TunnelType {
+    public enum TunnelType implements com.google.common.base.Predicate<TransferDirection> {
         STRAIGHT(TransferDirection::isStraight, (mainFacing, hitX, hitZ) -> {
             switch (mainFacing) {
                 case NORTH:
@@ -201,10 +204,21 @@ public abstract class BlockPlainAlchemyTunnel extends AbstractPipeBlock {
 
         private final Predicate<TransferDirection> directionFilter;
         private final IDirectionSupplierFromPlacement directionSupplierFromPlacement;
+        private final TransferDirection[] acceptedDirections;
 
         TunnelType(Predicate<TransferDirection> directionFilter, IDirectionSupplierFromPlacement directionSupplierFromPlacement) {
             this.directionFilter = directionFilter;
             this.directionSupplierFromPlacement = directionSupplierFromPlacement;
+            this.acceptedDirections = Arrays.stream(TransferDirection.values()).filter(directionFilter).toArray(TransferDirection[]::new);
+        }
+
+        public TransferDirection[] getAcceptedDirections() {
+            return acceptedDirections;
+        }
+
+        @Override
+        public boolean apply(@Nullable TransferDirection input) {
+            return directionFilter.test(input);
         }
     }
 
