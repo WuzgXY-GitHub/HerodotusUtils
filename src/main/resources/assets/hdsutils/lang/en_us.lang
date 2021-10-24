@@ -31,6 +31,7 @@ item.hdsutils.lithium_amalgam.name=Lithium Amalgam
 item.hdsutils.tiny_starlight_storage.name=Tiny Starlight Storage
 item.hdsutils.tiny_starlight_storage_full.name=Tiny Starlight Storage (Full)
 item.hdsutils.oil_aiot.name=Motive Tool
+item.hdsutils.alchemy_pipe_wrench.name=Alchemical Pipe Wrench
 hdsutils.empty=Empty
 hdsutils.computing_unit.bar=Computing Unit: %s / %s
 hdsutils.computing_unit.generate=Generating %s Computing Unit
