@@ -20,7 +20,7 @@ import youyihj.herodotusutils.world.AncientVoidDimensionProvider;
 
 public class CommonProxy implements IProxy {
     public static DimensionType ANCIENT_VOID_DIMENSION;
-    public static int ANCIENT_VOID_DIMENSION_ID = 943;
+    public static final int ANCIENT_VOID_DIMENSION_ID = 943;
 
     @Override
     public void preInit(FMLPreInitializationEvent event) {
