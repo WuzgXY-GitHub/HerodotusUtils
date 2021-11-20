@@ -1,7 +1,9 @@
 package youyihj.herodotusutils.block.alchemy;
 
+import crafttweaker.api.util.Position3f;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
+import youyihj.herodotusutils.alchemy.IAdjustableTileEntity;
 import youyihj.herodotusutils.alchemy.IAlchemyModule;
 import youyihj.herodotusutils.alchemy.IHasAlchemyFluidModule;
 
@@ -11,7 +13,7 @@ import java.util.Objects;
 /**
  * @author youyihj
  */
-public class TileAlchemyRoundRobinTunnel extends AbstractHasAlchemyFluidTileEntity implements IHasAlchemyFluidModule {
+public class TileAlchemyRoundRobinTunnel extends AbstractHasAlchemyFluidTileEntity implements IHasAlchemyFluidModule, IAdjustableTileEntity {
     /* package-private */ final EnumFacing[] facingQuery = new EnumFacing[]{null, null, null, null};
     private byte nextIndex = 0;
 
@@ -86,5 +88,21 @@ public class TileAlchemyRoundRobinTunnel extends AbstractHasAlchemyFluidTileEnti
         if (next)
             nextIndex++;
         return result;
+    }
+
+    @Override
+    public void adjust(EnumFacing facing, Position3f hitPosition) {
+        float hitX = hitPosition.getX();
+        float hitZ = hitPosition.getZ();
+        EnumFacing toSet;
+        if (facing.getAxis().getPlane() == EnumFacing.Plane.HORIZONTAL) {
+            toSet = facing;
+        } else {
+            toSet = (hitX + hitZ < 1.0f) ?
+                    (hitX > hitZ) ? EnumFacing.NORTH : EnumFacing.WEST
+                    :
+                    (hitX > hitZ) ? EnumFacing.EAST : EnumFacing.SOUTH;
+        }
+        putFacing(toSet);
     }
 }

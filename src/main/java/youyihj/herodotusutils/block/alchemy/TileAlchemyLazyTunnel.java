@@ -1,11 +1,14 @@
 package youyihj.herodotusutils.block.alchemy;
 
+import crafttweaker.api.util.Position3f;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumFacing;
+import youyihj.herodotusutils.alchemy.IAdjustableTileEntity;
 
 /**
  * @author youyihj
  */
-public class TileAlchemyLazyTunnel extends TileAlchemyTunnel {
+public class TileAlchemyLazyTunnel extends TileAlchemyTunnel implements IAdjustableTileEntity {
     private static final int MAX_BOUND = 8;
     private static final int MIN_BOUND = 1;
     private int bound;
@@ -50,5 +53,10 @@ public class TileAlchemyLazyTunnel extends TileAlchemyTunnel {
 
     public int getCounter() {
         return counter;
+    }
+
+    @Override
+    public void adjust(EnumFacing facing, Position3f hitPosition) {
+        updateBound();
     }
 }

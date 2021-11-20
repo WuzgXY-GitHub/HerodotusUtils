@@ -1,5 +1,6 @@
 package youyihj.herodotusutils.item;
 
+import crafttweaker.mc1120.util.MCPosition3f;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -11,6 +12,10 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import youyihj.herodotusutils.HerodotusUtils;
 import youyihj.herodotusutils.alchemy.IAdjustableBlock;
+import youyihj.herodotusutils.alchemy.IAdjustableTileEntity;
+import youyihj.herodotusutils.util.Util;
+
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * @author youyihj
@@ -30,15 +35,22 @@ public class ItemAlchemyPipeWrench extends Item {
         World world = player.world;
         IBlockState blockState = world.getBlockState(pos);
         Block block = blockState.getBlock();
+        AtomicBoolean adjusted = new AtomicBoolean(false);
         if (block instanceof IAdjustableBlock) {
             IAdjustableBlock adjustableBlock = (IAdjustableBlock) block;
             IBlockState result = adjustableBlock.getAdjustedResult(blockState);
-            world.setBlockState(pos, result);
-            if (!world.isRemote) {
-                player.sendStatusMessage(adjustableBlock.getAdjustedMessage(result), true);
+            if (result != blockState) {
+                world.setBlockState(pos, result);
+                if (!world.isRemote) {
+                    player.sendStatusMessage(adjustableBlock.getAdjustedMessage(result), true);
+                }
+                adjusted.set(true);
             }
-            return EnumActionResult.SUCCESS;
         }
-        return EnumActionResult.PASS;
+        Util.getTileEntity(world, pos, IAdjustableTileEntity.class).ifPresent(te -> {
+            te.adjust(facing, new MCPosition3f(hitX, hitY, hitZ));
+            adjusted.set(true);
+        });
+        return adjusted.get() ? EnumActionResult.SUCCESS : EnumActionResult.PASS;
     }
 }
