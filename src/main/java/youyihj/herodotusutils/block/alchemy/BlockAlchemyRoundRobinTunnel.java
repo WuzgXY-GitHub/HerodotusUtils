@@ -9,8 +9,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import youyihj.herodotusutils.util.Util;
 
@@ -31,21 +29,6 @@ public class BlockAlchemyRoundRobinTunnel extends AbstractPipeBlock implements I
     @Override
     public AbstractPipeTileEntity createTileEntity(World world, IBlockState state) {
         return new TileAlchemyRoundRobinTunnel();
-    }
-
-    @Override
-    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-        EnumFacing toSet;
-        if (facing.getAxis().getPlane() == EnumFacing.Plane.HORIZONTAL) {
-            toSet = facing;
-        } else {
-            toSet = (hitX + hitZ < 1.0f) ?
-                    (hitX > hitZ) ? EnumFacing.NORTH : EnumFacing.WEST
-                    :
-                    (hitX > hitZ) ? EnumFacing.EAST : EnumFacing.SOUTH;
-        }
-        Util.getTileEntity(worldIn, pos, TileAlchemyRoundRobinTunnel.class).ifPresent(te -> te.putFacing(toSet));
-        return true;
     }
 
     @Override
