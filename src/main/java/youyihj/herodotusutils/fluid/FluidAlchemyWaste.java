@@ -10,7 +10,7 @@ import java.awt.*;
  */
 public class FluidAlchemyWaste extends Fluid {
     private FluidAlchemyWaste() {
-        super("fluid_mana", HerodotusUtils.rl("fluids/liquid"), HerodotusUtils.rl("fluids/liquid_flow"), new Color(0x444444));
+        super("fluid_alchemy_waste", HerodotusUtils.rl("fluids/liquid"), HerodotusUtils.rl("fluids/liquid_flow"), new Color(0x444444));
     }
 
     public static final FluidAlchemyWaste INSTANCE = new FluidAlchemyWaste();

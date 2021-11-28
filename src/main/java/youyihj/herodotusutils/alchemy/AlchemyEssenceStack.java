@@ -23,6 +23,9 @@ public class AlchemyEssenceStack implements Comparable<AlchemyEssenceStack> {
     }
 
     public String getDisplayName() {
+        if (count == 1) {
+            return String.valueOf(essence.getSymbol());
+        }
         return essence.getSymbol() + String.valueOf(count);
     }
 
