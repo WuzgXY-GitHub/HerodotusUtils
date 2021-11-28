@@ -3,12 +3,13 @@ package youyihj.herodotusutils.block.alchemy;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
+import youyihj.herodotusutils.alchemy.AlchemyFluid;
 import youyihj.herodotusutils.alchemy.IAlchemyExternalHatch;
 import youyihj.herodotusutils.alchemy.IAlchemyModule;
+import youyihj.herodotusutils.recipe.AlchemyRecipes;
 
 import javax.annotation.Nullable;
 import java.util.Optional;
@@ -56,15 +57,16 @@ public class TileAlchemyInputHatch extends AbstractPipeTileEntity implements IAl
 
     @Override
     @Nullable
-    public Fluid getContainedFluid() {
+    public AlchemyFluid getContainedFluid() {
         return Optional.ofNullable(tank.getFluid())
                 .filter(IAlchemyExternalHatch::isEnoughAmount)
                 .map(FluidStack::getFluid)
+                .map(AlchemyRecipes::normalToAlchemy)
                 .orElse(null);
     }
 
     @Override
-    public boolean handleInput(Fluid input, EnumFacing inputSide) {
+    public boolean handleInput(AlchemyFluid input, EnumFacing inputSide) {
         return false;
     }
 

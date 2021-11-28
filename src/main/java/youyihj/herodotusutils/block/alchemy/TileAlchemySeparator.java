@@ -3,10 +3,9 @@ package youyihj.herodotusutils.block.alchemy;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.fluids.Fluid;
+import youyihj.herodotusutils.alchemy.AlchemyFluid;
 import youyihj.herodotusutils.alchemy.IAlchemyModule;
 import youyihj.herodotusutils.alchemy.IHasAlchemyFluid;
-import youyihj.herodotusutils.recipe.AlchemyRecipes;
 import youyihj.herodotusutils.util.Util;
 
 /**
@@ -15,29 +14,35 @@ import youyihj.herodotusutils.util.Util;
 public class TileAlchemySeparator extends AbstractHasAlchemyFluidTileEntity implements IAlchemyModule {
     @Override
     public void work() {
-        Fluid[] output = AlchemyRecipes.getSeparatingOutputFor(content);
-        if (output != null) {
-            EnumFacing[] tankFacings = new EnumFacing[output.length];
-            for (int i = 0; i < output.length; i++) {
-                for (EnumFacing enumFacing : EnumFacing.Plane.HORIZONTAL) {
-                    switch (checkNearbyTank(i, enumFacing)) {
-                        case SUCCESS:
-                            tankFacings[i] = enumFacing;
-                            break;
-                        case FILLED_TANK:
-                            return;
-                    }
+        EnumFacing[] tankFacings = new EnumFacing[4];
+        for (int i = 0; i < 4; i++) {
+            for (EnumFacing enumFacing : EnumFacing.Plane.HORIZONTAL) {
+                switch (checkNearbyTank(i, enumFacing)) {
+                    case SUCCESS:
+                        tankFacings[i] = enumFacing;
+                        break;
+                    case FILLED_TANK:
+                        return;
                 }
             }
-            emptyFluid();
-            for (int i = 0; i < tankFacings.length; i++) {
-                EnumFacing facing = tankFacings[i];
-                final int finalI = i;
-                Util.getTileEntity(world, pos.offset(facing), TileAlchemySeparatorTank.class)
-                        .ifPresent(te -> te.handleInput(output[finalI], null));
-            }
+        }
+        int validTanks = 0;
+        for (EnumFacing tankFacing : tankFacings) {
+            if (tankFacing != null) {
+                validTanks++;
+            } else break;
+        }
+        if (validTanks == 0) return;
+        AlchemyFluid[] outputs = content.separate(validTanks);
+        emptyFluid();
+        for (int i = 0; i < outputs.length; i++) {
+            EnumFacing facing = tankFacings[i];
+            int finalI = i;
+            Util.getTileEntity(world, pos.offset(facing), TileAlchemySeparatorTank.class)
+                    .ifPresent(te -> te.handleInput(outputs[finalI], null));
         }
     }
+
 
     @Override
     public EnumFacing inputSide() {

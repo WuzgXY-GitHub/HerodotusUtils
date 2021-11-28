@@ -86,8 +86,8 @@ public class AlchemyFluid implements INBTSerializable<NBTTagList> {
         NBTTagList list = new NBTTagList();
         for (AlchemyEssenceStack essenceStack : essenceStacks) {
             NBTTagCompound nbtTagCompound = new NBTTagCompound();
-            nbtTagCompound.setInteger("type", essenceStack.getEssence().getIndex());
-            nbtTagCompound.setInteger("count", essenceStack.getEssence().getIndex());
+            nbtTagCompound.setInteger("essence", essenceStack.getEssence().getIndex());
+            nbtTagCompound.setInteger("count", essenceStack.getCount());
             list.appendTag(nbtTagCompound);
         }
         return list;
@@ -97,7 +97,7 @@ public class AlchemyFluid implements INBTSerializable<NBTTagList> {
     public void deserializeNBT(NBTTagList nbt) {
         for (NBTBase nbtBase : nbt) {
             NBTTagCompound compound = (NBTTagCompound) nbtBase;
-            essenceStacks.add(new AlchemyEssenceStack(AlchemyEssence.indexOf(compound.getInteger("type")), compound.getInteger("count")));
+            essenceStacks.add(new AlchemyEssenceStack(AlchemyEssence.indexOf(compound.getInteger("essence")), compound.getInteger("count")));
         }
     }
 }

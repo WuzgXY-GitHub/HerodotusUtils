@@ -2,10 +2,9 @@ package youyihj.herodotusutils.block.alchemy;
 
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.fluids.Fluid;
+import youyihj.herodotusutils.alchemy.AlchemyFluid;
 import youyihj.herodotusutils.alchemy.IAlchemyModule;
 import youyihj.herodotusutils.alchemy.IHasAlchemyFluid;
-import youyihj.herodotusutils.recipe.AlchemyRecipes;
 import youyihj.herodotusutils.util.Util;
 
 import java.util.ArrayList;
@@ -30,15 +29,14 @@ public class TileAlchemyCrafter extends AbstractPipeTileEntity implements IAlche
                 }
             }
         }
-        Fluid[] input = nearPipes.stream()
+        nearPipes.stream()
                 .map(IHasAlchemyFluid::getContainedFluid)
                 .filter(Objects::nonNull)
-                .toArray(Fluid[]::new);
-        Fluid output = AlchemyRecipes.getCraftingOutputFor(input);
-        if (output != null) {
-            Util.getTileEntity(world, pos.down(), IHasAlchemyFluid.class)
-                    .ifPresent(pipe -> pipe.handleInput(output, EnumFacing.UP));
-        }
+                .reduce(AlchemyFluid::add)
+                .ifPresent(output -> {
+                    Util.getTileEntity(world, pos.down(), IHasAlchemyFluid.class)
+                            .ifPresent(pipe -> pipe.handleInput(output, EnumFacing.UP));
+                });
         nearPipes.forEach(IHasAlchemyFluid::emptyFluid);
     }
 }

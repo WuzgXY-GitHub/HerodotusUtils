@@ -2,8 +2,8 @@ package youyihj.herodotusutils.block.alchemy;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.common.util.Constants;
+import youyihj.herodotusutils.alchemy.AlchemyFluid;
 import youyihj.herodotusutils.alchemy.IHasAlchemyFluid;
 
 import javax.annotation.Nullable;
@@ -12,30 +12,35 @@ import javax.annotation.Nullable;
  * @author youyihj
  */
 public abstract class AbstractHasAlchemyFluidTileEntity extends AbstractPipeTileEntity implements IHasAlchemyFluid {
-    protected Fluid content;
-    private Fluid cachedContent;
+    protected AlchemyFluid content;
+    private AlchemyFluid cachedContent;
 
     @Override
     public void readFromNBT(NBTTagCompound compound) {
         super.readFromNBT(compound);
-        content = FluidRegistry.getFluid(compound.getString("fluid"));
+        if (compound.hasKey("fluid")) {
+            content = new AlchemyFluid();
+            content.deserializeNBT(compound.getTagList("fluid", Constants.NBT.TAG_COMPOUND));
+        }
     }
 
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound compound) {
         super.writeToNBT(compound);
-        compound.setString("fluid", content == null ? "empty" : content.getName());
+        if (content != null) {
+            compound.setTag("fluid", content.serializeNBT());
+        }
         return compound;
     }
 
     @Override
     @Nullable
-    public Fluid getContainedFluid() {
+    public AlchemyFluid getContainedFluid() {
         return content;
     }
 
     @Override
-    public boolean handleInput(Fluid input, EnumFacing inputSide) {
+    public boolean handleInput(AlchemyFluid input, EnumFacing inputSide) {
         if (content == null && inputSide == inputSide()) {
             cachedContent = input;
             return true;
