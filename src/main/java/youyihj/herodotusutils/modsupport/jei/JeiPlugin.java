@@ -3,11 +3,21 @@ package youyihj.herodotusutils.modsupport.jei;
 import mezz.jei.api.*;
 import mezz.jei.api.ingredients.IModIngredientRegistration;
 import mezz.jei.api.recipe.IRecipeCategoryRegistration;
+import net.minecraft.item.ItemStack;
+import youyihj.herodotusutils.alchemy.AlchemyEssence;
+import youyihj.herodotusutils.alchemy.AlchemyEssenceStack;
+import youyihj.herodotusutils.block.alchemy.BlockAlchemyController;
+import youyihj.herodotusutils.modsupport.jei.helper.AlchemyEssenceHelper;
 import youyihj.herodotusutils.modsupport.jei.helper.ImpetusHelper;
+import youyihj.herodotusutils.modsupport.jei.recipes.AlchemyFluidRecipeCategory;
+import youyihj.herodotusutils.modsupport.jei.recipes.AlchemyFluidRecipeWrapper;
+import youyihj.herodotusutils.modsupport.jei.render.AlchemyEssenceRender;
 import youyihj.herodotusutils.modsupport.jei.render.ImpetusRender;
-import youyihj.herodotusutils.modsupport.modularmachinery.crafting.ingredient.Impetus;
+import youyihj.herodotusutils.recipe.AlchemyRecipes;
 
 import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author youyihj
@@ -19,6 +29,11 @@ public class JeiPlugin implements IModPlugin {
     @Override
     public void register(IModRegistry registry) {
         JEI_HELPER = registry.getJeiHelpers();
+        registry.addRecipeCatalyst(new ItemStack(BlockAlchemyController.ITEM_BLOCK), "alchemy_fluid");
+        List<AlchemyFluidRecipeWrapper> wrappers = AlchemyRecipes.getNormalFluidToAlchemyMap().keySet().stream()
+                .map(AlchemyFluidRecipeWrapper::new)
+                .collect(Collectors.toList());
+        registry.addRecipes(wrappers, "alchemy_fluid");
     }
 
     @Override
@@ -27,10 +42,13 @@ public class JeiPlugin implements IModPlugin {
 
     @Override
     public void registerCategories(IRecipeCategoryRegistration registry) {
+        registry.addRecipeCategories(new AlchemyFluidRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
     }
 
     @Override
     public void registerIngredients(IModIngredientRegistration registry) {
-        registry.register(() -> Impetus.class, Collections.emptyList(), new ImpetusHelper(), new ImpetusRender());
+        registry.register(ModIngredientTypes.IMPETUS, Collections.emptyList(), new ImpetusHelper(), new ImpetusRender());
+        List<AlchemyEssenceStack> essenceStacks = AlchemyEssence.getUsedEssences().stream().map(it -> new AlchemyEssenceStack(it, 1)).collect(Collectors.toList());
+        registry.register(ModIngredientTypes.ALCHEMY_ESSENCE, essenceStacks, new AlchemyEssenceHelper(), new AlchemyEssenceRender());
     }
 }

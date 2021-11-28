@@ -100,4 +100,9 @@ public class AlchemyFluid implements INBTSerializable<NBTTagList> {
             essenceStacks.add(new AlchemyEssenceStack(AlchemyEssence.indexOf(compound.getInteger("essence")), compound.getInteger("count")));
         }
     }
+
+    @Override
+    public String toString() {
+        return getDisplayName();
+    }
 }

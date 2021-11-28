@@ -1,6 +1,9 @@
 package youyihj.herodotusutils.alchemy;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * @author youyihj
@@ -8,6 +11,7 @@ import java.util.Objects;
 public class AlchemyEssence implements Comparable<AlchemyEssence> {
     private final int index;
     private final char symbol;
+    private boolean used;
     private static final int TOTAL_COUNT = 89;
     private static final AlchemyEssence[] ESSENCES = new AlchemyEssence[TOTAL_COUNT];
 
@@ -18,6 +22,10 @@ public class AlchemyEssence implements Comparable<AlchemyEssence> {
 
     public static AlchemyEssence indexOf(int index) {
         return ESSENCES[index];
+    }
+
+    public static List<AlchemyEssence> getUsedEssences() {
+        return Arrays.stream(ESSENCES).filter(AlchemyEssence::isUsed).collect(Collectors.toList());
     }
 
     static {
@@ -34,12 +42,30 @@ public class AlchemyEssence implements Comparable<AlchemyEssence> {
         return symbol;
     }
 
+    public boolean isUsed() {
+        return used;
+    }
+
+    public void setUsed(boolean used) {
+        this.used = used;
+    }
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AlchemyEssence that = (AlchemyEssence) o;
         return index == that.index && symbol == that.symbol;
+    }
+
+    @Override
+    public String toString() {
+        return "AlchemyEssence{" +
+                "index=" + index +
+                ", symbol=" + symbol +
+                ", used=" + used +
+                '}';
     }
 
     @Override

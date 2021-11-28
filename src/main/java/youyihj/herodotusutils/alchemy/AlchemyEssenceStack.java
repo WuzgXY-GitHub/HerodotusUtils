@@ -10,6 +10,7 @@ public class AlchemyEssenceStack implements Comparable<AlchemyEssenceStack> {
     private final int count;
 
     public AlchemyEssenceStack(AlchemyEssence essence, int count) {
+        essence.setUsed(true);
         this.essence = essence;
         this.count = count;
     }
@@ -29,12 +30,21 @@ public class AlchemyEssenceStack implements Comparable<AlchemyEssenceStack> {
         return essence.getSymbol() + String.valueOf(count);
     }
 
+    public AlchemyEssenceStack copy() {
+        return new AlchemyEssenceStack(this.getEssence(), this.getCount());
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AlchemyEssenceStack that = (AlchemyEssenceStack) o;
         return count == that.count && Objects.equals(essence, that.essence);
+    }
+
+    @Override
+    public String toString() {
+        return getDisplayName();
     }
 
     @Override
