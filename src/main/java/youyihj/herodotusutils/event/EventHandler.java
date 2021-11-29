@@ -18,6 +18,7 @@ import crafttweaker.mc1120.events.ActionApplyEvent;
 import crafttweaker.mc1120.item.MCItemStack;
 import crafttweaker.util.ArrayUtil;
 import hellfirepvp.modularmachinery.common.crafting.ComponentType;
+import hellfirepvp.modularmachinery.common.crafting.requirement.type.RequirementType;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -58,6 +59,8 @@ import youyihj.herodotusutils.item.ItemPenumbraRing;
 import youyihj.herodotusutils.item.RefinedBottle;
 import youyihj.herodotusutils.modsupport.modularmachinery.crafting.component.ComponentAspectList;
 import youyihj.herodotusutils.modsupport.modularmachinery.crafting.component.ComponentImpetus;
+import youyihj.herodotusutils.modsupport.modularmachinery.crafting.requirement.RequirementAspectList;
+import youyihj.herodotusutils.modsupport.modularmachinery.crafting.requirement.RequirementImpetus;
 import youyihj.herodotusutils.potion.LithiumAmalgamInfected;
 import youyihj.herodotusutils.potion.Starvation;
 import youyihj.herodotusutils.proxy.CommonProxy;
@@ -170,9 +173,13 @@ public class EventHandler {
     }
 
     @SubscribeEvent
-    public static void onRegistryModularRequirements(ComponentType.ComponentRegistryEvent event) {
-        ComponentType.Registry.register(new ComponentAspectList());
-        ComponentType.Registry.register(new ComponentImpetus());
+    public static void registerComponentTypes(RegistryEvent.Register<ComponentType> event) {
+        event.getRegistry().registerAll(ComponentImpetus.INSTANCE, ComponentAspectList.INSTANCE);
+    }
+
+    @SubscribeEvent
+    public static void registerRequirementTypes(RegistryEvent.Register<RequirementType<?, ?>> event) {
+        event.getRegistry().registerAll(RequirementImpetus.Type.INSTANCE, RequirementAspectList.Type.INSTANCE);
     }
 
     @SubscribeEvent

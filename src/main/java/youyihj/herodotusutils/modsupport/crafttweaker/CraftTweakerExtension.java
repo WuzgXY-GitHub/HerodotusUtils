@@ -12,7 +12,6 @@ public class CraftTweakerExtension {
         CraftTweakerAPI.registerClass(CrTXPUtil.class);
         CraftTweakerAPI.registerClass(MaterialPartOreExpansion.class);
         CraftTweakerAPI.registerClass(ClipManager.ClipInfoWriter.class);
-        CraftTweakerAPI.registerClass(MagicPrimer.class);
         CraftTweakerAPI.registerClass(ExpandDisassembler.class);
         CraftTweakerAPI.registerClass(AlchemyRecipes.class);
         CraftTweakerAPI.registerClass(HDSUtils.class);
