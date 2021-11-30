@@ -1,5 +1,6 @@
 package youyihj.herodotusutils.modsupport.modularmachinery.tile;
 
+import hellfirepvp.modularmachinery.common.machine.IOType;
 import hellfirepvp.modularmachinery.common.machine.MachineComponent;
 import hellfirepvp.modularmachinery.common.tiles.base.MachineComponentTile;
 import hellfirepvp.modularmachinery.common.tiles.base.TileColorableMachineComponent;
@@ -143,7 +144,7 @@ public abstract class TileImpetusComponent extends TileColorableMachineComponent
         @Nullable
         @Override
         public MachineComponent<?> provideComponent() {
-            return new MachineComponentImpetus(MachineComponent.IOType.INPUT, this);
+            return new MachineComponentImpetus(IOType.INPUT, this);
         }
     }
 
@@ -167,7 +168,7 @@ public abstract class TileImpetusComponent extends TileColorableMachineComponent
         @Nullable
         @Override
         public MachineComponent<?> provideComponent() {
-            return new MachineComponentImpetus(MachineComponent.IOType.OUTPUT, this);
+            return new MachineComponentImpetus(IOType.OUTPUT, this);
         }
 
         private class CustomImpetusProvider extends ImpetusNode implements IImpetusProvider {

@@ -5,9 +5,7 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.registries.IForgeRegistry;
-import youyihj.herodotusutils.block.BlockManaLiquidizer;
-import youyihj.herodotusutils.block.BlockOreBase;
-import youyihj.herodotusutils.block.BlockRegistry;
+import youyihj.herodotusutils.block.*;
 import youyihj.herodotusutils.block.alchemy.*;
 import youyihj.herodotusutils.block.computing.BlockCalculatorController;
 import youyihj.herodotusutils.block.computing.BlockCalculatorStructure;
@@ -15,7 +13,6 @@ import youyihj.herodotusutils.block.computing.BlockComputingModule;
 import youyihj.herodotusutils.block.computing.BlockTransporter;
 import youyihj.herodotusutils.modsupport.modularmachinery.block.BlockAspectListProviderInput;
 import youyihj.herodotusutils.modsupport.modularmachinery.block.BlockImpetusHatch;
-import youyihj.herodotusutils.modsupport.modularmachinery.block.BlockMMController;
 
 /**
  * @author youyihj
@@ -40,6 +37,8 @@ public class ItemRegistry {
                 ItemLithiumAmalgam.INSTANCE,
                 StarlightStorageTiny.INSTANCE,
                 ItemOilAIOT.INSTANCE,
+                ItemRiftFeed.INSTANCE,
+                ItemPenumbraRing.INSTANCE,
                 BlockAlchemyController.ITEM_BLOCK,
                 BlockPlainAlchemyTunnel.VERTICAL_ITEM,
                 BlockPlainAlchemyTunnel.RIGHT_ANGLE_ITEM,
@@ -51,12 +50,11 @@ public class ItemRegistry {
                 BlockAlchemyCrafter.ITEM_BLOCK,
                 BlockAspectListProviderInput.ITEM_BLOCK,
                 BlockImpetusHatch.Input.ITEM_BLOCK,
-                BlockImpetusHatch.Output.ITEM_BLOCK
+                BlockImpetusHatch.Output.ITEM_BLOCK,
+                BlockCreatureDataAnalyzer.ITEM_BLOCK,
+                BlockCreatureDataReEncodeInterface.ITEM_BLOCK
         );
         BlockRegistry.ORES.stream().map(BlockOreBase::getItem).forEach(registry::register);
         BlockTransporter.getItemBlockMap().values().forEach(registry::register);
-
-        BlockMMController.CONTROLLER_ITEMS.forEach(registry::register);
-
     }
 }

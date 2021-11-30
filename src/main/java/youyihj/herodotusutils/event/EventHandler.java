@@ -2,11 +2,23 @@ package youyihj.herodotusutils.event;
 
 import WayofTime.bloodmagic.core.data.SoulTicket;
 import WayofTime.bloodmagic.util.helper.NetworkHelper;
+import baubles.api.BaubleType;
+import baubles.api.cap.BaublesCapabilities;
+import baubles.api.cap.IBaublesItemHandler;
 import com.google.common.collect.Lists;
+import crafttweaker.CraftTweakerAPI;
 import crafttweaker.api.data.DataInt;
 import crafttweaker.api.data.IData;
+import crafttweaker.api.item.IIngredient;
+import crafttweaker.api.item.IItemStack;
+import crafttweaker.api.item.IngredientAnyAdvanced;
 import crafttweaker.api.minecraft.CraftTweakerMC;
+import crafttweaker.api.recipes.IRecipeFunction;
+import crafttweaker.mc1120.events.ActionApplyEvent;
+import crafttweaker.mc1120.item.MCItemStack;
+import crafttweaker.util.ArrayUtil;
 import hellfirepvp.modularmachinery.common.crafting.ComponentType;
+import hellfirepvp.modularmachinery.common.crafting.requirement.type.RequirementType;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -28,6 +40,7 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
+import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
@@ -38,16 +51,24 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.oredict.OreDictionary;
+import youyihj.herodotusutils.block.BlockCreatureDataAnalyzer;
+import youyihj.herodotusutils.block.BlockCreatureDataReEncodeInterface;
 import youyihj.herodotusutils.block.BlockMercury;
 import youyihj.herodotusutils.computing.event.ComputingUnitChangeEvent;
+import youyihj.herodotusutils.item.ItemPenumbraRing;
 import youyihj.herodotusutils.item.RefinedBottle;
 import youyihj.herodotusutils.modsupport.modularmachinery.crafting.component.ComponentAspectList;
 import youyihj.herodotusutils.modsupport.modularmachinery.crafting.component.ComponentImpetus;
+import youyihj.herodotusutils.modsupport.modularmachinery.crafting.requirement.RequirementAspectList;
+import youyihj.herodotusutils.modsupport.modularmachinery.crafting.requirement.RequirementImpetus;
 import youyihj.herodotusutils.potion.LithiumAmalgamInfected;
 import youyihj.herodotusutils.potion.Starvation;
+import youyihj.herodotusutils.proxy.CommonProxy;
 import youyihj.herodotusutils.util.Capabilities;
 import youyihj.herodotusutils.util.ITaint;
+import youyihj.herodotusutils.util.SharedRiftAction;
 import youyihj.herodotusutils.util.Util;
+import youyihj.herodotusutils.world.PlainTeleporter;
 import youyihj.zenutils.api.world.ZenUtilsWorld;
 import youyihj.zenutils.impl.capability.ZenWorldCapabilityHandler;
 
@@ -73,6 +94,16 @@ public class EventHandler {
     public static void onEntityLivingUpdate(LivingEvent.LivingUpdateEvent event) {
         EntityLivingBase entity = event.getEntityLiving();
         World world = entity.world;
+        if (entity instanceof EntityPlayer) {
+            EntityPlayer player = (EntityPlayer) entity;
+            IBaublesItemHandler baubles = player.getCapability(BaublesCapabilities.CAPABILITY_BAUBLES, null);
+            for (int validSlot : BaubleType.RING.getValidSlots()) {
+                if (baubles.getStackInSlot(validSlot).getItem() == ItemPenumbraRing.INSTANCE) {
+                    ItemPenumbraRing.INSTANCE.handlePenumbraTick(player, world.isRemote);
+                    break;
+                }
+            }
+        }
         if (!world.isRemote) {
             IItemHandler itemHandler = entity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
             if (world.getTotalWorldTime() % 40 == 0) {
@@ -103,6 +134,15 @@ public class EventHandler {
                 }
             }
         }
+        if (world.provider.getDimension() == CommonProxy.ANCIENT_VOID_DIMENSION_ID) {
+            if (entity.posY < -24.0f) {
+                entity.changeDimension(0, new PlainTeleporter(entity.posX, 324.0, entity.posY));
+                entity.getEntityData().setBoolean("DisableFallingDamage", true);
+            }
+            if (world.getTotalWorldTime() % 40 == 5) {
+                SharedRiftAction.attackEntity(entity, 2.0f);
+            }
+        }
     }
 
     @SubscribeEvent
@@ -121,7 +161,9 @@ public class EventHandler {
     public static void onLivingDrops(LivingDropsEvent event) {
         EntityLivingBase entity = event.getEntityLiving();
         if (event.getSource() == LithiumAmalgamInfected.DAMAGE_SOURCE) {
-            event.getDrops().add(new EntityItem(entity.world, entity.posX, entity.posY + 0.5d, entity.posZ, OreDictionary.getOres("crystalLithium").get(0).copy()));
+            ItemStack stack = OreDictionary.getOres("crystalLithium").get(0).copy();
+            stack.setCount(2);
+            event.getDrops().add(new EntityItem(entity.world, entity.posX, entity.posY + 0.5d, entity.posZ, stack));
         }
     }
 
@@ -131,9 +173,13 @@ public class EventHandler {
     }
 
     @SubscribeEvent
-    public static void onRegistryModularRequirements(ComponentType.ComponentRegistryEvent event) {
-        ComponentType.Registry.register(new ComponentAspectList());
-        ComponentType.Registry.register(new ComponentImpetus());
+    public static void registerComponentTypes(RegistryEvent.Register<ComponentType> event) {
+        event.getRegistry().registerAll(ComponentImpetus.INSTANCE, ComponentAspectList.INSTANCE);
+    }
+
+    @SubscribeEvent
+    public static void registerRequirementTypes(RegistryEvent.Register<RequirementType<?, ?>> event) {
+        event.getRegistry().registerAll(RequirementImpetus.Type.INSTANCE, RequirementAspectList.Type.INSTANCE);
     }
 
     @SubscribeEvent
@@ -180,8 +226,42 @@ public class EventHandler {
     }
 
     @SubscribeEvent
+    public static void onEntityFall(LivingFallEvent event) {
+        if (event.getEntityLiving().world.isRemote) return;
+        if (event.getEntityLiving().getEntityData().getBoolean("DisableFallingDamage")) {
+            event.setCanceled(true);
+            event.getEntityLiving().getEntityData().setBoolean("DisableFallingDamage", false);
+        }
+    }
+
+    @SubscribeEvent
     public static void register(RegistryEvent.Register<Potion> event) {
         event.getRegistry().register(Starvation.INSTANCE);
         event.getRegistry().register(LithiumAmalgamInfected.INSTANCE);
+    }
+
+    @SubscribeEvent
+    public static void registerCreatureDataChannelRecipes(ActionApplyEvent.Pre event) {
+        IRecipeFunction recipeFunction = ((output, inputs, craftingInfo) -> {
+            ItemStack item = CraftTweakerMC.getItemStack(inputs.get("item"));
+            return output.withTag(Util.createDataMap("channel", new DataInt(Objects.hash(item.getItem().getRegistryName(), item.getMetadata()))), true);
+        });
+        IItemStack analyzer = new MCItemStack(new ItemStack(BlockCreatureDataAnalyzer.ITEM_BLOCK));
+        IItemStack encodeInterface = new MCItemStack(new ItemStack(BlockCreatureDataReEncodeInterface.ITEM_BLOCK));
+        class IngredientAnyExcept extends IngredientAnyAdvanced {
+            final IIngredient except;
+
+            public IngredientAnyExcept(IIngredient except) {
+                super("item", ArrayUtil.EMPTY_CONDITIONS, ArrayUtil.EMPTY_TRANSFORMERS, ArrayUtil.EMPTY_TRANSFORMERS_NEW);
+                this.except = except;
+            }
+
+            @Override
+            public boolean matches(IItemStack item) {
+                return !except.matches(item);
+            }
+        }
+        CraftTweakerAPI.recipes.addHiddenShapeless("creature_data_analyzer_channel", analyzer, new IIngredient[]{analyzer, new IngredientAnyExcept(analyzer)}, recipeFunction, null);
+        CraftTweakerAPI.recipes.addHiddenShapeless("creature_data_encode_interface_channel", encodeInterface, new IIngredient[]{encodeInterface, new IngredientAnyExcept(encodeInterface)}, recipeFunction, null);
     }
 }

@@ -8,7 +8,7 @@ import java.util.function.Supplier;
  * @author youyihj
  */
 public class ItemDropSupplier implements Supplier<ItemStack> {
-    private final Supplier<ItemStack> supplier;
+    private Supplier<ItemStack> supplier;
     private ItemStack cachedStack;
 
     private ItemDropSupplier(Supplier<ItemStack> supplier) {
@@ -21,10 +21,11 @@ public class ItemDropSupplier implements Supplier<ItemStack> {
 
     @Override
     public ItemStack get() {
-        if (cachedStack == null) {
+        if (cachedStack == null || cachedStack.isEmpty()) {
             cachedStack = supplier.get();
             return cachedStack;
         } else {
+            supplier = null;
             return cachedStack.copy();
         }
     }
