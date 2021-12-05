@@ -1,4 +1,4 @@
-package youyihj.herodotusutils.entity;
+package youyihj.herodotusutils.entity.golem;
 
 import net.minecraft.client.renderer.entity.RenderIronGolem;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -11,14 +11,14 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  * @author youyihj
  */
 @SideOnly(Side.CLIENT)
-public class RenderExtraGolem extends RenderIronGolem {
-    public RenderExtraGolem(RenderManager renderManagerIn) {
+public class RenderExtraIronGolem extends RenderIronGolem {
+    public RenderExtraIronGolem(RenderManager renderManagerIn) {
         super(renderManagerIn);
     }
 
     @Override
     protected ResourceLocation getEntityTexture(EntityIronGolem entity) {
-        EntityExtraGolem golem = (EntityExtraGolem) entity;
-        return golem.getInfo().getEntityTexture(golem);
+        // TODO: texture
+        return super.getEntityTexture(entity);
     }
 }

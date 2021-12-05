@@ -35,6 +35,7 @@ public class ItemRegistry {
                 BlockCalculatorController.ITEM_BLOCK_3,
                 BlockComputingModule.ITEM_BLOCK,
                 ItemLithiumAmalgam.INSTANCE,
+                ItemRiftSword.INSTANCE,
                 StarlightStorageTiny.INSTANCE,
                 ItemOilAIOT.INSTANCE,
                 ItemRiftFeed.INSTANCE,
@@ -52,7 +53,8 @@ public class ItemRegistry {
                 BlockImpetusHatch.Input.ITEM_BLOCK,
                 BlockImpetusHatch.Output.ITEM_BLOCK,
                 BlockCreatureDataAnalyzer.ITEM_BLOCK,
-                BlockCreatureDataReEncodeInterface.ITEM_BLOCK
+                BlockCreatureDataReEncodeInterface.ITEM_BLOCK,
+                BlockGolemCore.ITEM_BLOCK
         );
         BlockRegistry.ORES.stream().map(BlockOreBase::getItem).forEach(registry::register);
         BlockTransporter.getItemBlockMap().values().forEach(registry::register);

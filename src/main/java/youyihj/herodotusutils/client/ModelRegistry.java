@@ -20,6 +20,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.relauncher.Side;
 import youyihj.herodotusutils.HerodotusUtils;
+import youyihj.herodotusutils.block.BlockGolemCore;
 import youyihj.herodotusutils.block.BlockManaLiquidizer;
 import youyihj.herodotusutils.block.BlockOreBase;
 import youyihj.herodotusutils.block.BlockRegistry;
@@ -28,10 +29,12 @@ import youyihj.herodotusutils.block.computing.BlockCalculatorController;
 import youyihj.herodotusutils.block.computing.BlockCalculatorStructure;
 import youyihj.herodotusutils.block.computing.BlockComputingModule;
 import youyihj.herodotusutils.block.computing.BlockTransporter;
-import youyihj.herodotusutils.entity.EntityExtraGolem;
 import youyihj.herodotusutils.entity.EntityRedSlime;
-import youyihj.herodotusutils.entity.RenderExtraGolem;
 import youyihj.herodotusutils.entity.RenderRedSlime;
+import youyihj.herodotusutils.entity.golem.EntityExtraIronGolem;
+import youyihj.herodotusutils.entity.golem.EntityExtraSnowman;
+import youyihj.herodotusutils.entity.golem.RenderExtraIronGolem;
+import youyihj.herodotusutils.entity.golem.RenderExtraSnowman;
 import youyihj.herodotusutils.fluid.FluidMana;
 import youyihj.herodotusutils.fluid.FluidMercury;
 import youyihj.herodotusutils.item.*;
@@ -107,6 +110,7 @@ public class ModelRegistry {
                 ItemOilAIOT.INSTANCE,
                 ItemRiftFeed.INSTANCE,
                 ItemPenumbraRing.INSTANCE,
+                ItemRiftSword.INSTANCE,
                 BlockAlchemyController.ITEM_BLOCK,
                 BlockAlchemyInputHatch.ITEM_BLOCK,
                 BlockPlainAlchemyTunnel.RIGHT_ANGLE_ITEM,
@@ -118,7 +122,8 @@ public class ModelRegistry {
                 BlockAlchemyCrafter.ITEM_BLOCK,
                 BlockAspectListProviderInput.ITEM_BLOCK,
                 BlockImpetusHatch.Input.ITEM_BLOCK,
-                BlockImpetusHatch.Output.ITEM_BLOCK
+                BlockImpetusHatch.Output.ITEM_BLOCK,
+                BlockGolemCore.ITEM_BLOCK
         );
         for (BlockOreBase ore : BlockRegistry.ORES) {
             ModelLoader.setCustomStateMapper(ore, ORE_STATE_MAPPER);
@@ -130,7 +135,8 @@ public class ModelRegistry {
                 new ModelResourceLocation(StarlightStorageTiny.INSTANCE.getRegistryName() + "_full", "inventory"));
         BlockTransporter.getItemBlockMap().values().forEach(ModelRegistry::registerItemModel);
         RenderingRegistry.registerEntityRenderingHandler(EntityRedSlime.class, RenderRedSlime::new);
-        RenderingRegistry.registerEntityRenderingHandler(EntityExtraGolem.class, RenderExtraGolem::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityExtraIronGolem.class, RenderExtraIronGolem::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityExtraSnowman.class, RenderExtraSnowman::new);
     }
 
     @SubscribeEvent

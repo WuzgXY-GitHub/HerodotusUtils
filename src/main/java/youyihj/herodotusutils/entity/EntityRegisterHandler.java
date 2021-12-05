@@ -6,6 +6,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.EntityEntry;
 import net.minecraftforge.fml.common.registry.EntityEntryBuilder;
 import youyihj.herodotusutils.HerodotusUtils;
+import youyihj.herodotusutils.entity.golem.EntityExtraIronGolem;
+import youyihj.herodotusutils.entity.golem.EntityExtraSnowman;
 
 import java.awt.*;
 
@@ -20,14 +22,22 @@ public class EntityRegisterHandler {
             .build();
 
     public static final EntityEntry ENTITY_EXTRA_GOLEM = EntityEntryBuilder.create()
-            .entity(EntityExtraGolem.class)
-            .id("alchemy_golem", 0)
+            .entity(EntityExtraIronGolem.class)
+            .id("alchemy_golem", 1)
+            .tracker(80, 3, true)
             .name(HerodotusUtils.MOD_ID + ".alchemy_golem")
+            .build();
+
+    public static final EntityEntry ENTITY_EXTRA_SNOW_MAN = EntityEntryBuilder.create()
+            .entity(EntityExtraSnowman.class)
+            .id("alchemy_snow_man", 2)
+            .tracker(80, 3, true)
+            .name(HerodotusUtils.MOD_ID + ".alchemy_snow_golem")
             .build();
 
 
     @SubscribeEvent
     public static void onRegistry(Register<EntityEntry> event) {
-        event.getRegistry().registerAll(ENTITY_RED_SLIME, ENTITY_EXTRA_GOLEM);
+        event.getRegistry().registerAll(ENTITY_RED_SLIME, ENTITY_EXTRA_GOLEM, ENTITY_EXTRA_SNOW_MAN);
     }
 }

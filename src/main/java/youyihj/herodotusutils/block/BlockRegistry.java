@@ -76,7 +76,8 @@ public class BlockRegistry {
                 BlockImpetusHatch.Input.INSTANCE,
                 BlockImpetusHatch.Output.INSTANCE,
                 BlockCreatureDataReEncodeInterface.INSTANCE,
-                BlockCreatureDataAnalyzer.INSTANCE
+                BlockCreatureDataAnalyzer.INSTANCE,
+                BlockGolemCore.INSTANCE
         );
         BlockTransporter.getBlockMap().values().forEach(registry::register);
         ORES.forEach(registry::register);
