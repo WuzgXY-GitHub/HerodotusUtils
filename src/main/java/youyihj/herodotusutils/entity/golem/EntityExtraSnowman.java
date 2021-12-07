@@ -1,5 +1,6 @@
 package youyihj.herodotusutils.entity.golem;
 
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
@@ -26,10 +27,59 @@ import java.util.Locale;
 /**
  * @author youyihj
  */
-public class EntityExtraSnowman extends EntityGolem {
+public class EntityExtraSnowman extends EntityGolem implements IGolem {
     private static final DataParameter<Color> COLOR = EntityDataManager.createKey(EntityExtraSnowman.class, DataSerializerEnum.of(Color.class));
     private static final DataParameter<Shape> SHAPE = EntityDataManager.createKey(EntityExtraSnowman.class, DataSerializerEnum.of(Shape.class));
     private static final DataParameter<Integer> LEVEL = EntityDataManager.createKey(EntityExtraSnowman.class, DataSerializers.VARINT);
+
+    public EntityExtraSnowman(World worldIn) {
+        super(worldIn);
+    }
+
+    @Override
+    public Color getColor() {
+        return dataManager.get(COLOR);
+    }
+
+    @Override
+    public void setColor(Color color) {
+        dataManager.set(COLOR, color);
+    }
+
+    @Override
+    public Shape getShape() {
+        return dataManager.get(SHAPE);
+    }
+
+    @Override
+    public void setShape(Shape shape) {
+        dataManager.set(SHAPE, shape);
+    }
+
+    @Override
+    public int getLevel() {
+        return dataManager.get(LEVEL);
+    }
+
+    @Override
+    public void setLevel(int level) {
+        dataManager.set(LEVEL, level);
+    }
+
+    @Override
+    public EntityLivingBase getEntity() {
+        return this;
+    }
+
+    @Override
+    public IGolem copy() {
+        EntityExtraSnowman entity = new EntityExtraSnowman(world);
+        entity.setLevel(getLevel());
+        entity.setShape(getShape());
+        entity.setColor(getColor());
+        entity.setPositionAndRotation(posX, posY, posZ, rotationYaw, rotationPitch);
+        return entity;
+    }
 
     @Override
     protected void entityInit() {
@@ -38,35 +88,6 @@ public class EntityExtraSnowman extends EntityGolem {
         this.dataManager.register(SHAPE, Shape.UNSET);
         this.dataManager.register(LEVEL, 0);
     }
-
-    public EntityExtraSnowman(World worldIn) {
-        super(worldIn);
-    }
-
-    public Color getColor() {
-        return dataManager.get(COLOR);
-    }
-
-    public void setColor(Color color) {
-        dataManager.set(COLOR, color);
-    }
-
-    public Shape getShape() {
-        return dataManager.get(SHAPE);
-    }
-
-    public void setShape(Shape shape) {
-        dataManager.set(SHAPE, shape);
-    }
-
-    public int getLevel() {
-        return dataManager.get(LEVEL);
-    }
-
-    public void setLevel(int level) {
-        dataManager.set(LEVEL, level);
-    }
-
 
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound compound) {

@@ -11,6 +11,7 @@ import youyihj.herodotusutils.block.computing.BlockCalculatorController;
 import youyihj.herodotusutils.block.computing.BlockCalculatorStructure;
 import youyihj.herodotusutils.block.computing.BlockComputingModule;
 import youyihj.herodotusutils.block.computing.BlockTransporter;
+import youyihj.herodotusutils.entity.golem.GolemDownerSword;
 import youyihj.herodotusutils.modsupport.modularmachinery.block.BlockAspectListProviderInput;
 import youyihj.herodotusutils.modsupport.modularmachinery.block.BlockImpetusHatch;
 
@@ -40,6 +41,8 @@ public class ItemRegistry {
                 ItemOilAIOT.INSTANCE,
                 ItemRiftFeed.INSTANCE,
                 ItemPenumbraRing.INSTANCE,
+                GolemUpperSword.INSTANCE,
+                GolemDownerSword.INSTANCE,
                 BlockAlchemyController.ITEM_BLOCK,
                 BlockPlainAlchemyTunnel.VERTICAL_ITEM,
                 BlockPlainAlchemyTunnel.RIGHT_ANGLE_ITEM,

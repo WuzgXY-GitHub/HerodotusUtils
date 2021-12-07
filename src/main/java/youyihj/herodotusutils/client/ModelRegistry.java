@@ -31,10 +31,7 @@ import youyihj.herodotusutils.block.computing.BlockComputingModule;
 import youyihj.herodotusutils.block.computing.BlockTransporter;
 import youyihj.herodotusutils.entity.EntityRedSlime;
 import youyihj.herodotusutils.entity.RenderRedSlime;
-import youyihj.herodotusutils.entity.golem.EntityExtraIronGolem;
-import youyihj.herodotusutils.entity.golem.EntityExtraSnowman;
-import youyihj.herodotusutils.entity.golem.RenderExtraIronGolem;
-import youyihj.herodotusutils.entity.golem.RenderExtraSnowman;
+import youyihj.herodotusutils.entity.golem.*;
 import youyihj.herodotusutils.fluid.FluidMana;
 import youyihj.herodotusutils.fluid.FluidMercury;
 import youyihj.herodotusutils.item.*;
@@ -111,6 +108,8 @@ public class ModelRegistry {
                 ItemRiftFeed.INSTANCE,
                 ItemPenumbraRing.INSTANCE,
                 ItemRiftSword.INSTANCE,
+                GolemUpperSword.INSTANCE,
+                GolemDownerSword.INSTANCE,
                 BlockAlchemyController.ITEM_BLOCK,
                 BlockAlchemyInputHatch.ITEM_BLOCK,
                 BlockPlainAlchemyTunnel.RIGHT_ANGLE_ITEM,

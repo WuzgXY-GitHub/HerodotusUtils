@@ -7,7 +7,6 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.block.state.pattern.BlockMaterialMatcher;
 import net.minecraft.block.state.pattern.BlockPattern;
 import net.minecraft.block.state.pattern.FactoryBlockPattern;
-import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -65,23 +64,19 @@ public class BlockGolemCore extends PlainBlock {
                 }
             }
             BlockPos pos1 = match.translateOffset(0, 2, 0).getPos();
-            Entity golem;
+            IGolem golem;
             if (shape == Shape.RHOMBUS) {
-                EntityExtraSnowman snowman = new EntityExtraSnowman(worldIn);
-                snowman.setColor(color);
-                snowman.setShape(shape);
-                snowman.setLevel(2);
-                golem = snowman;
+                golem = new EntityExtraSnowman(worldIn);
             } else {
                 EntityExtraIronGolem ironGolem = new EntityExtraIronGolem(worldIn);
                 ironGolem.setPlayerCreated(true);
-                ironGolem.setColor(color);
-                ironGolem.setShape(shape);
-                ironGolem.setLevel(2);
                 golem = ironGolem;
             }
-            golem.setLocationAndAngles((double) pos1.getX() + 0.5D, (double) pos1.getY() + 0.05D, (double) pos1.getZ() + 0.5D, 0.0F, 0.0F);
-            worldIn.spawnEntity(golem);
+            golem.setColor(color);
+            golem.setShape(shape);
+            golem.setLevel(2);
+            golem.getEntity().setLocationAndAngles((double) pos1.getX() + 0.5D, (double) pos1.getY() + 0.05D, (double) pos1.getZ() + 0.5D, 0.0F, 0.0F);
+            worldIn.spawnEntity(golem.getEntity());
         }
     }
 

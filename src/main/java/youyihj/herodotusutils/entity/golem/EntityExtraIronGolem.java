@@ -1,5 +1,6 @@
 package youyihj.herodotusutils.entity.golem;
 
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityIronGolem;
@@ -22,11 +23,15 @@ import java.util.Locale;
 /**
  * @author youyihj
  */
-public class EntityExtraIronGolem extends EntityIronGolem {
+public class EntityExtraIronGolem extends EntityIronGolem implements IGolem {
 
     private static final DataParameter<Color> COLOR = EntityDataManager.createKey(EntityExtraIronGolem.class, DataSerializerEnum.of(Color.class));
     private static final DataParameter<Shape> SHAPE = EntityDataManager.createKey(EntityExtraIronGolem.class, DataSerializerEnum.of(Shape.class));
     private static final DataParameter<Integer> LEVEL = EntityDataManager.createKey(EntityExtraIronGolem.class, DataSerializers.VARINT);
+
+    public EntityExtraIronGolem(World worldIn) {
+        super(worldIn);
+    }
 
     @Override
     protected void entityInit() {
@@ -36,34 +41,50 @@ public class EntityExtraIronGolem extends EntityIronGolem {
         this.dataManager.register(LEVEL, 0);
     }
 
-    public EntityExtraIronGolem(World worldIn) {
-        super(worldIn);
-    }
-
+    @Override
     public Color getColor() {
         return dataManager.get(COLOR);
     }
 
+    @Override
     public void setColor(Color color) {
         dataManager.set(COLOR, color);
     }
 
+    @Override
     public Shape getShape() {
         return dataManager.get(SHAPE);
     }
 
+    @Override
     public void setShape(Shape shape) {
         dataManager.set(SHAPE, shape);
     }
 
+    @Override
     public int getLevel() {
         return dataManager.get(LEVEL);
     }
 
+    @Override
     public void setLevel(int level) {
         dataManager.set(LEVEL, level);
     }
 
+    @Override
+    public EntityLivingBase getEntity() {
+        return this;
+    }
+
+    @Override
+    public IGolem copy() {
+        EntityExtraIronGolem entity = new EntityExtraIronGolem(world);
+        entity.setLevel(getLevel());
+        entity.setShape(getShape());
+        entity.setColor(getColor());
+        entity.setPositionAndRotation(posX, posY, posZ, rotationYaw, rotationPitch);
+        return entity;
+    }
 
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound compound) {
