@@ -21,4 +21,12 @@ public class RenderExtraIronGolem extends RenderIronGolem {
         // TODO: texture
         return super.getEntityTexture(entity);
     }
+
+    @Override
+    public void doRender(EntityIronGolem entity, double x, double y, double z, float entityYaw, float partialTicks) {
+        EntityExtraIronGolem ironGolem = (EntityExtraIronGolem) entity;
+        ironGolem.getColor().applyToRenderSystem();
+        super.doRender(entity, x, y, z, entityYaw, partialTicks);
+        Color.UNSET.applyToRenderSystem();
+    }
 }

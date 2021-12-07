@@ -67,3 +67,4 @@ effect.lithium_amalgam_infected=Lithium Amalgam Infected
 death.attack.lithium_amalgam_infected=%s dies due to infection of lithium amalgam
 death.attack.rift=%s accidentally entered the rift of space
 entity.hdsutils.red_slime.name=Flesh Slime
+entity.hdsutils.golem.name=%s %s Golem (Tier %s)

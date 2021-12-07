@@ -67,3 +67,4 @@ effect.lithium_amalgam_infected=锂汞齐侵染
 death.attack.lithium_amalgam_infected=%s因锂汞齐侵染而死
 death.attack.rift=%s误入空间裂缝
 entity.hdsutils.red_slime.name=血肉史莱姆
+entity.hdsutils.golem.name=%s%s傀儡（等级 %s）

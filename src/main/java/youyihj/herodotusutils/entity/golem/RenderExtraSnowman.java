@@ -22,4 +22,11 @@ public class RenderExtraSnowman extends RenderLiving<EntityExtraSnowman> {
     protected ResourceLocation getEntityTexture(EntityExtraSnowman entity) {
         return TEXTURE;
     }
+
+    @Override
+    public void doRender(EntityExtraSnowman entity, double x, double y, double z, float entityYaw, float partialTicks) {
+        entity.getColor().applyToRenderSystem();
+        super.doRender(entity, x, y, z, entityYaw, partialTicks);
+        Color.UNSET.applyToRenderSystem();
+    }
 }
