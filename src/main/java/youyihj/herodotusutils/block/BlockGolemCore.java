@@ -1,90 +1,94 @@
 package youyihj.herodotusutils.block;
 
+import com.google.common.base.Predicate;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.BlockWorldState;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.item.Item;
+import net.minecraft.block.state.pattern.BlockMaterialMatcher;
+import net.minecraft.block.state.pattern.BlockPattern;
+import net.minecraft.block.state.pattern.FactoryBlockPattern;
+import net.minecraft.entity.Entity;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;
-import org.apache.commons.lang3.tuple.Pair;
 import youyihj.herodotusutils.entity.golem.*;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Objects;
 
 /**
  * @author youyihj
  */
 public class BlockGolemCore extends PlainBlock {
     public static final String NAME = "golem_core";
-    public static final BlockGolemCore INSTANCE = new BlockGolemCore();
-    public static final Item ITEM_BLOCK = new ItemBlock(INSTANCE).setRegistryName(NAME);
+    public static final List<BlockGolemCore> BLOCKS = new ArrayList<>(9);
+    public static final List<ItemBlock> ITEM_BLOCKS = new ArrayList<>(9);
 
-    private BlockGolemCore() {
-        super(Material.IRON, NAME);
-    }
-
-    @Override
-    public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state) {
-        if (worldIn.isRemote) return;
-        BlockPos down = pos.down();
-        BlockPos down2 = down.down();
-        IBlockState stateDown = worldIn.getBlockState(down);
-        IBlockState stateDown2 = worldIn.getBlockState(down2);
-        if (stateDown == stateDown2) {
-            String name = getMetalBlockName(stateDown, worldIn, down);
-            Pair<Color, Shape> coloredShape = GolemDrops.getColoredShape(name);
-            int flag = 0; // 0 -> snowman 1 -> iron golem 2 -> fail
-            if (coloredShape != null) {
-                Color color = coloredShape.getLeft();
-                Shape shape = coloredShape.getRight();
-                if (shape != Shape.RHOMBUS) {
-                    IBlockState east = worldIn.getBlockState(down.east());
-                    IBlockState west = worldIn.getBlockState(down.west());
-                    IBlockState north = worldIn.getBlockState(down.north());
-                    IBlockState south = worldIn.getBlockState(down.south());
-                    if (east == stateDown && west == stateDown) {
-                        flag = 1;
-                        worldIn.setBlockToAir(down.east());
-                        worldIn.setBlockToAir(down.west());
-                    } else if (north == stateDown && south == stateDown) {
-                        flag = 1;
-                        worldIn.setBlockToAir(down.south());
-                        worldIn.setBlockToAir(down.north());
-                    } else {
-                        flag = 2;
-                    }
-                }
-                if (flag != 2) {
-                    worldIn.setBlockToAir(pos);
-                    worldIn.setBlockToAir(down);
-                    worldIn.setBlockToAir(down2);
-                }
-                switch (flag) {
-                    case 0:
-                        EntityExtraSnowman entity = new EntityExtraSnowman(worldIn);
-                        entity.setLevel(2);
-                        entity.setColor(color);
-                        entity.setShape(shape);
-                        entity.setPosition(down2.getX(), down2.getY(), down2.getZ());
-                        worldIn.spawnEntity(entity);
-                        break;
-                    case 1:
-                        EntityExtraIronGolem ironGolem = new EntityExtraIronGolem(worldIn);
-                        ironGolem.setLevel(2);
-                        ironGolem.setColor(color);
-                        ironGolem.setShape(shape);
-                        ironGolem.setPlayerCreated(true);
-                        ironGolem.setPosition(down2.getX(), down2.getY(), down2.getZ());
-                        worldIn.spawnEntity(ironGolem);
-                        break;
+    static {
+        for (Color color : Color.values()) {
+            for (Shape shape : Shape.values()) {
+                if (color != Color.UNSET && shape != Shape.UNSET) {
+                    BlockGolemCore block = new BlockGolemCore(color, shape);
+                    BLOCKS.add(block);
+                    ItemBlock itemBlock = new ItemBlock(block);
+                    itemBlock.setRegistryName(Objects.requireNonNull(block.getRegistryName()));
+                    ITEM_BLOCKS.add(itemBlock);
                 }
             }
         }
     }
 
-    private String getMetalBlockName(IBlockState state, World world, BlockPos pos) {
+    private final Color color;
+    private final Shape shape;
+    private BlockPattern golemPattern;
+
+    private BlockGolemCore(Color color, Shape shape) {
+        super(Material.IRON, NAME + "_" + color.name().toLowerCase(Locale.ENGLISH) + "_" + shape.name().toLowerCase(Locale.ENGLISH));
+        this.color = color;
+        this.shape = shape;
+    }
+
+    @Override
+    public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state) {
+        super.onBlockAdded(worldIn, pos, state);
+        if (worldIn.isRemote) return;
+        BlockPattern.PatternHelper match = getGolemPattern().match(worldIn, pos);
+        if (match != null) {
+            for (int j = 0; j < this.getGolemPattern().getPalmLength(); ++j) {
+                for (int k = 0; k < this.getGolemPattern().getThumbLength(); ++k) {
+                    worldIn.setBlockState(match.translateOffset(j, k, 0).getPos(), Blocks.AIR.getDefaultState(), 2);
+                }
+            }
+            BlockPos pos1 = match.translateOffset(0, 2, 0).getPos();
+            Entity golem;
+            if (shape == Shape.RHOMBUS) {
+                EntityExtraSnowman snowman = new EntityExtraSnowman(worldIn);
+                snowman.setColor(color);
+                snowman.setShape(shape);
+                snowman.setLevel(2);
+                golem = snowman;
+            } else {
+                EntityExtraIronGolem ironGolem = new EntityExtraIronGolem(worldIn);
+                ironGolem.setPlayerCreated(true);
+                ironGolem.setColor(color);
+                ironGolem.setShape(shape);
+                ironGolem.setLevel(2);
+                golem = ironGolem;
+            }
+            golem.setLocationAndAngles((double) pos1.getX() + 0.5D, (double) pos1.getY() + 0.05D, (double) pos1.getZ() + 0.5D, 0.0F, 0.0F);
+            worldIn.spawnEntity(golem);
+        }
+    }
+
+    private String getMetalBlockName(BlockWorldState worldState) {
         //noinspection deprecation
-        ItemStack item = state.getBlock().getItem(world, pos, state);
+        ItemStack item = worldState.getBlockState().getBlock().getItem(worldState.world, worldState.getPos(), worldState.getBlockState());
+        if (item.isEmpty()) return "";
         int[] oreIDs = OreDictionary.getOreIDs(item);
         if (oreIDs.length == 1) {
             String oreName = OreDictionary.getOreName(oreIDs[0]);
@@ -93,5 +97,26 @@ public class BlockGolemCore extends PlainBlock {
             }
         }
         return "";
+    }
+
+    public BlockPattern getGolemPattern() {
+        if (this.golemPattern == null) {
+            Predicate<BlockWorldState> thisCore = (state) -> state.getBlockState().getBlock() == this;
+            Predicate<BlockWorldState> metalBlock = (state) -> getMetalBlockName(state).equals(GolemDrops.getColoredShape(color, shape));
+            if (shape == Shape.RHOMBUS) {
+                this.golemPattern = FactoryBlockPattern.start().aisle("^", "#", "#")
+                        .where('^', thisCore)
+                        .where('#', metalBlock)
+                        .build();
+            } else {
+                this.golemPattern = FactoryBlockPattern.start().aisle("~^~", "###", "~#~")
+                        .where('~', BlockWorldState.hasState(BlockMaterialMatcher.forMaterial(Material.AIR)))
+                        .where('^', thisCore)
+                        .where('#', metalBlock)
+                        .build();
+            }
+        }
+
+        return this.golemPattern;
     }
 }

@@ -21,7 +21,7 @@ import static youyihj.herodotusutils.entity.golem.Shape.*;
  */
 public class GolemDrops {
     private static final Map<Pair<Color, Shape>, DropFunction[]> drops = new HashMap<>();
-    private static final Map<String, Pair<Color, Shape>> metalMap = new HashMap<>();
+    private static final Map<Pair<Color, Shape>, String> metalMap = new HashMap<>();
 
     static {
         DropFunction coal = new DropFunction("Coal", "nugget", ItemDropSupplier.ofItem(Items.COAL));
@@ -69,7 +69,7 @@ public class GolemDrops {
     public static void addDrop(Color color, Shape shape, int level, DropFunction dropFunction) {
         Pair<Color, Shape> pair = Pair.of(color, shape);
         if (level == 2) {
-            metalMap.put(dropFunction.name, pair);
+            metalMap.put(pair, dropFunction.name);
         }
         drops.putIfAbsent(pair, new DropFunction[3]);
         drops.get(pair)[--level] = dropFunction;
@@ -79,8 +79,8 @@ public class GolemDrops {
         return drops.get(Pair.of(color, shape))[--level].get(random, attackType);
     }
 
-    public static Pair<Color, Shape> getColoredShape(String metalName) {
-        return metalMap.get(metalName);
+    public static String getColoredShape(Color color, Shape shape) {
+        return metalMap.get(Pair.of(color, shape));
     }
 
     public static class DropFunction {

@@ -76,10 +76,10 @@ public class BlockRegistry {
                 BlockImpetusHatch.Input.INSTANCE,
                 BlockImpetusHatch.Output.INSTANCE,
                 BlockCreatureDataReEncodeInterface.INSTANCE,
-                BlockCreatureDataAnalyzer.INSTANCE,
-                BlockGolemCore.INSTANCE
+                BlockCreatureDataAnalyzer.INSTANCE
         );
         BlockTransporter.getBlockMap().values().forEach(registry::register);
+        BlockGolemCore.BLOCKS.forEach(registry::register);
         ORES.forEach(registry::register);
         GameRegistry.registerTileEntity(TileManaLiquidizer.class, HerodotusUtils.rl("mana_liquidizer"));
         GameRegistry.registerTileEntity(TileCalculatorController.class, HerodotusUtils.rl("calculator_controller"));
