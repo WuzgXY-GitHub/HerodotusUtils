@@ -119,6 +119,7 @@ public class GolemDrops {
         public ItemStack get(Random random, AttackType attackType) {
             int i = MathHelper.floor(modifier);
             ItemStack itemStack = stacks.get(attackType).get();
+            itemStack.setCount(i);
             if (random.nextDouble() < modifier % 1.0f) {
                 itemStack.grow(1);
             }
