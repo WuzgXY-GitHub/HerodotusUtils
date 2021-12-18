@@ -52,7 +52,8 @@ public class ItemRegistry {
                 BlockImpetusHatch.Input.ITEM_BLOCK,
                 BlockImpetusHatch.Output.ITEM_BLOCK,
                 BlockCreatureDataAnalyzer.ITEM_BLOCK,
-                BlockCreatureDataReEncodeInterface.ITEM_BLOCK
+                BlockCreatureDataReEncodeInterface.ITEM_BLOCK,
+                BlockCatalyzedAltar.ITEM_BLOCK
         );
         BlockRegistry.ORES.stream().map(BlockOreBase::getItem).forEach(registry::register);
         BlockTransporter.getItemBlockMap().values().forEach(registry::register);

@@ -26,6 +26,7 @@ tile.hdsutils.block_aspectlist_provider_input.name=高级源质输入仓
 tile.hdsutils.impetus_input_hatch.name=元动输入仓
 tile.hdsutils.impetus_output_hatch.name=元动输出仓
 tile.hdsutils.creature_data_analyzer.name=生物数据分析仪
+tile.hdsutils.catalyzed_altar.name=催化祭坛
 tile.hdsutils.creature_data_re_encode_interface.0.name=生物数据重编码接口
 item.hdsutils.refined_bottle.name=强化玻璃瓶（%s）
 item.hdsutils.copper_bucket.name=%s铜桶

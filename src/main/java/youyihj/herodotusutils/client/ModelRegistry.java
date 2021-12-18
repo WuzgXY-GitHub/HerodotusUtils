@@ -20,6 +20,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.relauncher.Side;
 import youyihj.herodotusutils.HerodotusUtils;
+import youyihj.herodotusutils.block.BlockCatalyzedAltar;
 import youyihj.herodotusutils.block.BlockManaLiquidizer;
 import youyihj.herodotusutils.block.BlockOreBase;
 import youyihj.herodotusutils.block.BlockRegistry;
@@ -116,7 +117,8 @@ public class ModelRegistry {
                 BlockAlchemyCrafter.ITEM_BLOCK,
                 BlockAspectListProviderInput.ITEM_BLOCK,
                 BlockImpetusHatch.Input.ITEM_BLOCK,
-                BlockImpetusHatch.Output.ITEM_BLOCK
+                BlockImpetusHatch.Output.ITEM_BLOCK,
+                BlockCatalyzedAltar.ITEM_BLOCK
         );
         for (BlockOreBase ore : BlockRegistry.ORES) {
             ModelLoader.setCustomStateMapper(ore, ORE_STATE_MAPPER);
