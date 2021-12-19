@@ -9,6 +9,7 @@
   "mixins": [
     "agricraft.MixinAgriPlant",
     "agricraft.MixinTileEntityCrop",
+    "agricraft.MixinTileEntitySeedAnalyzer",
     "factorytech.MixinRiverGrateRemovalAction",
     "modularmagic.MixinJEIComponentAspect",
     "thaumcraft.MixinEntityFluxRift",
