@@ -11,6 +11,7 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.Constants;
 
 import java.util.Locale;
 
@@ -31,14 +32,15 @@ public class BlockCatalyzedAltar extends PlainBlock {
         return new BlockStateContainer(this, TYPE);
     }
 
+    @Override
+    public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state) {
+        toggleTypeViaRedstone(state, worldIn, pos);
+    }
+
     @SuppressWarnings("deprecation")
     @Override
     public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
-        if (worldIn.getStrongPower(pos) == 0 && state.getValue(TYPE) != Type.TRANSFORM) {
-            worldIn.setBlockState(pos, getDefaultState().withProperty(TYPE, Type.TRANSFORM));
-        } else if (worldIn.getStrongPower(pos) > 0 || state.getValue(TYPE) != Type.GROW) {
-            worldIn.setBlockState(pos, getDefaultState().withProperty(TYPE, Type.GROW));
-        }
+        toggleTypeViaRedstone(state, worldIn, pos);
         // TODO
     }
 
@@ -50,6 +52,16 @@ public class BlockCatalyzedAltar extends PlainBlock {
     @Override
     public int getMetaFromState(IBlockState state) {
         return state.getValue(TYPE).ordinal();
+    }
+
+    private void toggleTypeViaRedstone(IBlockState state, World world, BlockPos pos) {
+        if (world.isRemote) return;
+        boolean powered = world.isBlockPowered(pos);
+        if (!powered && state.getValue(TYPE) != Type.TRANSFORM) {
+            world.setBlockState(pos, getDefaultState().withProperty(TYPE, Type.TRANSFORM), Constants.BlockFlags.SEND_TO_CLIENTS);
+        } else if (powered && state.getValue(TYPE) != Type.GROW) {
+            world.setBlockState(pos, getDefaultState().withProperty(TYPE, Type.GROW), Constants.BlockFlags.SEND_TO_CLIENTS);
+        }
     }
 
     public enum Type implements IStringSerializable {
