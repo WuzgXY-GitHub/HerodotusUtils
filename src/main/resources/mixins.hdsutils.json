@@ -8,8 +8,8 @@
   "refmap": "mixins.hdsutils.refmap.json",
   "mixins": [
     "agricraft.MixinAgriPlant",
+    "agricraft.MixinJsonPlant",
     "agricraft.MixinTileEntityCrop",
-    "agricraft.MixinTileEntitySeedAnalyzer",
     "factorytech.MixinRiverGrateRemovalAction",
     "modularmagic.MixinJEIComponentAspect",
     "thaumcraft.MixinEntityFluxRift",
