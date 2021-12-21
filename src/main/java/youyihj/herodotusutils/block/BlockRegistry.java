@@ -77,7 +77,8 @@ public class BlockRegistry {
                 BlockImpetusHatch.Output.INSTANCE,
                 BlockCreatureDataReEncodeInterface.INSTANCE,
                 BlockCreatureDataAnalyzer.INSTANCE,
-                BlockCatalyzedAltar.INSTANCE
+                BlockCatalyzedAltar.INSTANCE,
+                BlockPrimordialCharger.INSTANCE
         );
         BlockTransporter.getBlockMap().values().forEach(registry::register);
         ORES.forEach(registry::register);
@@ -97,5 +98,6 @@ public class BlockRegistry {
         GameRegistry.registerTileEntity(TileImpetusComponent.Output.class, HerodotusUtils.rl("impetus_output_hatch"));
         GameRegistry.registerTileEntity(TileCreatureDataAnalyzer.class, HerodotusUtils.rl("creature_data_analyzer"));
         GameRegistry.registerTileEntity(TileCreatureDataReEncodeInterface.class, HerodotusUtils.rl("creature_encode_interface"));
+        GameRegistry.registerTileEntity(TilePrimordialCharger.class, HerodotusUtils.rl("primordial_changer"));
     }
 }
