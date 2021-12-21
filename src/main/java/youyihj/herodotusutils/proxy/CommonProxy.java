@@ -14,6 +14,7 @@ import youyihj.herodotusutils.block.BlockRegistry;
 import youyihj.herodotusutils.fluid.FluidMana;
 import youyihj.herodotusutils.fluid.FluidMercury;
 import youyihj.herodotusutils.modsupport.crafttweaker.CraftTweakerExtension;
+import youyihj.herodotusutils.modsupport.thaumcraft.AspectHandler;
 import youyihj.herodotusutils.network.GuiHandler;
 import youyihj.herodotusutils.util.Capabilities;
 import youyihj.herodotusutils.world.AncientVoidDimensionProvider;
@@ -33,6 +34,7 @@ public class CommonProxy implements IProxy {
         NetworkRegistry.INSTANCE.registerGuiHandler(HerodotusUtils.MOD_ID, GuiHandler.INSTANCE);
         ANCIENT_VOID_DIMENSION = DimensionType.register("ancient_void", "_ancient_void", ANCIENT_VOID_DIMENSION_ID, AncientVoidDimensionProvider.class, false);
         DimensionManager.registerDimension(ANCIENT_VOID_DIMENSION_ID, ANCIENT_VOID_DIMENSION);
+        AspectHandler.initAspects();
     }
 
     @Override

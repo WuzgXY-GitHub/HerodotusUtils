@@ -1,5 +1,6 @@
 package youyihj.herodotusutils.block;
 
+import com.google.common.collect.ImmutableMap;
 import com.infinityraider.agricraft.api.v1.AgriApi;
 import com.infinityraider.agricraft.api.v1.plant.IAgriPlant;
 import com.infinityraider.agricraft.api.v1.seed.AgriSeed;
@@ -23,6 +24,9 @@ import youyihj.herodotusutils.util.Util;
 
 import java.util.*;
 
+import static thaumcraft.api.aspects.Aspect.*;
+import static youyihj.herodotusutils.modsupport.thaumcraft.AspectHandler.*;
+
 /**
  * @author youyihj
  */
@@ -33,8 +37,16 @@ public class BlockCatalyzedAltar extends PlainBlock {
     public static final Map<Aspect, TransformRule> TRANSFORM_RULES;
 
     static {
-        TRANSFORM_RULES = Collections.emptyMap();
-        // TODO RULES
+        TRANSFORM_RULES = ImmutableMap.<Aspect, TransformRule>builder()
+                .put(WRATH, new TransformRule(WRATH, ORDER, ENTROPY, AIR, EARTH, WATER, FIRE, PLANT, VOID))
+                .put(GLUTTONY, new TransformRule(GLUTTONY, AIR, ORDER, ENTROPY, WATER, EARTH, VOID, PLANT, FIRE))
+                .put(ENVY, new TransformRule(ENVY, ENTROPY, AIR, VOID, EARTH, ORDER, FIRE, WATER, PLANT))
+                .put(NETHER, new TransformRule(NETHER, FIRE, PLANT, VOID, ORDER, AIR, EARTH, ENTROPY, WATER))
+                .put(SLOTH, new TransformRule(SLOTH, FIRE, WATER, PLANT, AIR, EARTH, ENTROPY, VOID, ORDER))
+                .put(PRIDE, new TransformRule(PRIDE, EARTH, ENTROPY, WATER, AIR, ORDER, WATER, FIRE, VOID))
+                .put(LUST, new TransformRule(LUST, WATER, FIRE, ENTROPY, ORDER, EARTH, VOID, PLANT, AIR))
+                .put(INSPIRATION, new TransformRule(INSPIRATION, ENTROPY, VOID, ORDER, EARTH, WATER, AIR, PLANT, VOID))
+                .build();
     }
 
     private BlockCatalyzedAltar(Material materialIn, String name) {
