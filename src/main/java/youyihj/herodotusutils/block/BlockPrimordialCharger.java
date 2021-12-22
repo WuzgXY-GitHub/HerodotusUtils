@@ -1,5 +1,7 @@
 package youyihj.herodotusutils.block;
 
+import com.infinityraider.agricraft.api.v1.seed.AgriSeed;
+import com.infinityraider.agricraft.tiles.TileEntityCrop;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -115,6 +117,15 @@ public class BlockPrimordialCharger extends PlainBlock {
                             }
                         }
                     });
+            for (int i = 0; i < 3; i++) {
+                for (int j = 0; j < 3; j++) {
+                    BlockPos offset = pos.add(ints[i], 0, ints[j]);
+                    Util.getTileEntity(worldIn, offset, TileEntityCrop.class)
+                            .ifPresent(te -> {
+                                te.setSeed(new AgriSeed(BlockCatalyzedAltar.BASIC_VIS_PLANT.get(), te.getSeed().getStat()));
+                            });
+                }
+            }
         }
     }
 

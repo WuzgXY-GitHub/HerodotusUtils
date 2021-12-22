@@ -2,17 +2,16 @@ package youyihj.herodotusutils.util;
 
 import net.minecraft.item.ItemStack;
 
+import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 /**
  * @author youyihj
  */
-public class ItemDropSupplier implements Supplier<ItemStack> {
-    private Supplier<ItemStack> supplier;
-    private ItemStack cachedStack;
+public class ItemDropSupplier extends Lazy<ItemStack, ItemStack> {
 
     private ItemDropSupplier(Supplier<ItemStack> supplier) {
-        this.supplier = supplier;
+        super(supplier, ((Predicate<ItemStack>) ItemStack::isEmpty).negate(), ItemStack::copy);
     }
 
     public static ItemDropSupplier of(Supplier<ItemStack> supplier) {
@@ -21,12 +20,6 @@ public class ItemDropSupplier implements Supplier<ItemStack> {
 
     @Override
     public ItemStack get() {
-        if (cachedStack == null || cachedStack.isEmpty()) {
-            cachedStack = supplier.get();
-            return cachedStack;
-        } else {
-            supplier = null;
-            return cachedStack.copy();
-        }
+        return getOptional().orElse(ItemStack.EMPTY);
     }
 }

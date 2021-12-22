@@ -20,9 +20,11 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.apache.commons.lang3.tuple.Pair;
 import thaumcraft.api.aspects.Aspect;
+import youyihj.herodotusutils.util.Lazy;
 import youyihj.herodotusutils.util.Util;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import static thaumcraft.api.aspects.Aspect.*;
 import static youyihj.herodotusutils.modsupport.thaumcraft.AspectHandler.*;
@@ -35,6 +37,7 @@ public class BlockCatalyzedAltar extends PlainBlock {
     public static final BlockCatalyzedAltar INSTANCE = new BlockCatalyzedAltar(Material.IRON, "catalyzed_altar");
     public static final Item ITEM_BLOCK = new ItemBlock(INSTANCE).setRegistryName("catalyzed_altar");
     public static final Map<Aspect, TransformRule> TRANSFORM_RULES;
+    public static final Lazy<IAgriPlant, IAgriPlant> BASIC_VIS_PLANT;
 
     static {
         TRANSFORM_RULES = ImmutableMap.<Aspect, TransformRule>builder()
@@ -47,6 +50,7 @@ public class BlockCatalyzedAltar extends PlainBlock {
                 .put(LUST, new TransformRule(LUST, WATER, FIRE, ENTROPY, ORDER, EARTH, VOID, PLANT, AIR))
                 .put(INSPIRATION, new TransformRule(INSPIRATION, ENTROPY, VOID, ORDER, EARTH, WATER, AIR, PLANT, VOID))
                 .build();
+        BASIC_VIS_PLANT = Lazy.createOptional(() -> AgriApi.getPlantRegistry().get("basic_vis_plant"));
     }
 
     private BlockCatalyzedAltar(Material materialIn, String name) {
@@ -79,13 +83,17 @@ public class BlockCatalyzedAltar extends PlainBlock {
     public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
         IBlockState currentState = toggleTypeViaRedstone(state, worldIn, pos);
         if (worldIn.isRemote) return;
+        AtomicBoolean flag = new AtomicBoolean();
         if (currentState.getValue(TYPE) == Type.TRANSFORM) {
             for (TransformRule transformRule : TRANSFORM_RULES.values()) {
                 if (transformRule.matches(worldIn, pos)) {
                     Optional<IAgriPlant> plant = AgriApi.getPlantRegistry().get(transformRule.getResult().getTag() + "_vis_plant");
                     Optional<TileEntityCrop> crop = Util.getTileEntity(worldIn, pos.up(), TileEntityCrop.class);
-                    crop.filter(TileEntityCrop::hasSeed).ifPresent(te ->
-                            plant.map(pl -> new AgriSeed(pl, te.getSeed().getStat())).ifPresent(te::setSeed)
+                    crop.filter(te -> Optional.ofNullable(te.getSeed()).map(AgriSeed::getPlant).filter(it -> it.equals(BASIC_VIS_PLANT.get())).isPresent()).ifPresent(te ->
+                            plant.map(pl -> new AgriSeed(pl, te.getSeed().getStat())).ifPresent(seed -> {
+                                te.setSeed(seed);
+                                flag.set(true);
+                            })
                     );
                 }
             }
@@ -94,7 +102,17 @@ public class BlockCatalyzedAltar extends PlainBlock {
                     .map(TRANSFORM_RULES::get)
                     .filter(rule -> rule.matches(worldIn, pos))
                     .flatMap(rule -> Util.getTileEntity(worldIn, pos.up(), TileEntityCrop.class))
-                    .ifPresent(TileEntityCrop::applyGrowthTick);
+                    .ifPresent(crop -> {
+                        crop.applyGrowthTick();
+                        flag.set(true);
+                    });
+        }
+        if (flag.get()) {
+            for (BlockPos offset : BlockPos.getAllInBox(pos.add(-1, 0, 1), pos.add(1, 0, 1))) {
+                if (!offset.equals(pos)) {
+                    Util.getTileEntity(worldIn, offset, TileEntityCrop.class).ifPresent(te -> te.setGrowthStage(0));
+                }
+            }
         }
     }
 
