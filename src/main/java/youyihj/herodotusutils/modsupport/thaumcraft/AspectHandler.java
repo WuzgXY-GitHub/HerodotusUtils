@@ -21,8 +21,7 @@ public class AspectHandler {
         ENVY = new Aspect("invidia", 0x00ba00, new Aspect[]{Aspect.SENSES, Aspect.DESIRE}, HerodotusUtils.rl("textures/aspects/invidia.png"), 1);
         SLOTH = new Aspect("desidia", 0x6e6e6e, new Aspect[]{Aspect.TRAP, Aspect.SOUL}, HerodotusUtils.rl("textures/aspects/desidia.png"), 771);
         WRATH = new Aspect("ira", 0x870404, new Aspect[]{Aspect.AVERSION, Aspect.FIRE}, HerodotusUtils.rl("textures/aspects/ira.png"), 771);
-        // TODO the texture and color of this aspect
-        INSPIRATION = new Aspect("revelatio", 0xffff00, new Aspect[]{Aspect.MIND, Aspect.VOID}, HerodotusUtils.rl("textures/aspects/revelatio.png"), 771);
+        INSPIRATION = new Aspect("revelatio", 0xff8c00, new Aspect[]{Aspect.MIND, Aspect.VOID}, HerodotusUtils.rl("textures/aspects/revelatio.png"), 771);
     }
 
 }
