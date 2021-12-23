@@ -16,6 +16,7 @@ import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Predicate;
 
 /**
  * @author youyihj
@@ -37,6 +38,10 @@ public final class Util {
             s += iterator.nextInt();
         }
         return s;
+    }
+
+    public static <T> Predicate<T> not(Predicate<T> predicate) {
+        return predicate.negate();
     }
 
     public static <T> Optional<T> getTileEntity(World world, BlockPos pos, Class<T> tileEntityClass) {

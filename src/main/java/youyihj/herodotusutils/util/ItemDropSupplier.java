@@ -2,7 +2,6 @@ package youyihj.herodotusutils.util;
 
 import net.minecraft.item.ItemStack;
 
-import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 /**
@@ -11,7 +10,7 @@ import java.util.function.Supplier;
 public class ItemDropSupplier extends Lazy<ItemStack, ItemStack> {
 
     private ItemDropSupplier(Supplier<ItemStack> supplier) {
-        super(supplier, ((Predicate<ItemStack>) ItemStack::isEmpty).negate(), ItemStack::copy);
+        super(supplier, Util.not(ItemStack::isEmpty), ItemStack::copy);
     }
 
     public static ItemDropSupplier of(Supplier<ItemStack> supplier) {
