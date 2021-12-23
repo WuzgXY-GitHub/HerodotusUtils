@@ -12,7 +12,9 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
@@ -31,11 +33,17 @@ import java.util.Set;
 public class BlockPrimordialCharger extends PlainBlock {
     public static final BlockPrimordialCharger INSTANCE = new BlockPrimordialCharger(Material.IRON, "primordial_charger");
     public static final Item ITEM_BLOCK = new ItemBlock(INSTANCE).setRegistryName("primordial_charger");
+    private static final AxisAlignedBB BOUNDING_BOX = new AxisAlignedBB(0.125, 0, 0.125, 0.875, 1.125, 0.875);
 
     private BlockPrimordialCharger(Material materialIn, String name) {
         super(materialIn, name);
         this.fullBlock = false;
         this.needsRandomTick = true;
+    }
+
+    @Override
+    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
+        return BOUNDING_BOX;
     }
 
     @Override
