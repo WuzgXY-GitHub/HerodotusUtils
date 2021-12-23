@@ -14,7 +14,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import thaumcraft.api.aspects.Aspect;
@@ -50,16 +49,14 @@ public class BlockPrimordialCharger extends PlainBlock {
                 if (!extractItem.isEmpty()) {
                     if (!worldIn.isRemote) {
                         playerIn.setHeldItem(hand, inventory.extractItem(0, 1, false));
-                        worldIn.notifyBlockUpdate(pos, state, state, Constants.BlockFlags.SEND_TO_CLIENTS);
                     }
                     return true;
                 }
-            } else {
+            } else if (inventory.isItemValid(0, heldItem)) {
                 ItemStack itemStack = inventory.insertItem(0, heldItem, true);
                 if (itemStack.getCount() != heldItem.getCount()) {
                     if (!worldIn.isRemote) {
-                        inventory.insertItem(0, heldItem, false);
-                        worldIn.notifyBlockUpdate(pos, state, state, Constants.BlockFlags.SEND_TO_CLIENTS);
+                        playerIn.setHeldItem(hand, inventory.insertItem(0, heldItem, false));
                     }
                     return true;
                 }

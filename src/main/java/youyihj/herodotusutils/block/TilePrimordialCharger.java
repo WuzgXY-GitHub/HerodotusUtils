@@ -2,9 +2,12 @@ package youyihj.herodotusutils.block;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import thaumcraft.api.items.ItemsTC;
@@ -30,6 +33,9 @@ public class TilePrimordialCharger extends TileEntity {
         @Override
         protected void onContentsChanged(int slot) {
             markDirty();
+            if (!world.isRemote) {
+                world.notifyBlockUpdate(pos, BlockPrimordialCharger.INSTANCE.getDefaultState(), BlockPrimordialCharger.INSTANCE.getDefaultState(), Constants.BlockFlags.SEND_TO_CLIENTS);
+            }
         }
     };
 
@@ -54,6 +60,21 @@ public class TilePrimordialCharger extends TileEntity {
     @Override
     public void handleUpdateTag(NBTTagCompound tag) {
         readFromNBT(tag);
+    }
+
+    public ItemStack getContent() {
+        return inventory.getStackInSlot(0);
+    }
+
+    @Nullable
+    @Override
+    public SPacketUpdateTileEntity getUpdatePacket() {
+        return new SPacketUpdateTileEntity(this.pos, 1, serializeNBT());
+    }
+
+    @Override
+    public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {
+        readFromNBT(pkt.getNbtCompound());
     }
 
     @Nullable
