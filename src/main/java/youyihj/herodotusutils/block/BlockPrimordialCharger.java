@@ -107,7 +107,7 @@ public class BlockPrimordialCharger extends PlainBlock {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 BlockPos offset = pos.add(ints[i], 0, ints[j]);
-                BlockCatalyzedAltar.getAspectPlant(worldIn, offset).filter(advanceAspects::contains).ifPresent(foundAspects::add);
+                BlockCatalyzedAltar.getAspectPlant(worldIn, offset, true).filter(advanceAspects::contains).ifPresent(foundAspects::add);
             }
         }
         if (foundAspects.size() == 8) {

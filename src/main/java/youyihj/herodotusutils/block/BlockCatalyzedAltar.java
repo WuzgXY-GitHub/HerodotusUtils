@@ -41,25 +41,26 @@ public class BlockCatalyzedAltar extends PlainBlock {
 
     static {
         TRANSFORM_RULES = ImmutableMap.<Aspect, TransformRule>builder()
-                .put(WRATH, new TransformRule(WRATH, ORDER, ENTROPY, AIR, EARTH, WATER, FIRE, PLANT, VOID))
-                .put(GLUTTONY, new TransformRule(GLUTTONY, AIR, ORDER, ENTROPY, WATER, EARTH, VOID, PLANT, FIRE))
-                .put(ENVY, new TransformRule(ENVY, ENTROPY, AIR, VOID, EARTH, ORDER, FIRE, WATER, PLANT))
-                .put(NETHER, new TransformRule(NETHER, FIRE, PLANT, VOID, ORDER, AIR, EARTH, ENTROPY, WATER))
-                .put(SLOTH, new TransformRule(SLOTH, FIRE, WATER, PLANT, AIR, EARTH, ENTROPY, VOID, ORDER))
-                .put(PRIDE, new TransformRule(PRIDE, EARTH, ENTROPY, WATER, AIR, ORDER, WATER, FIRE, VOID))
-                .put(LUST, new TransformRule(LUST, WATER, FIRE, ENTROPY, ORDER, EARTH, VOID, PLANT, AIR))
-                .put(INSPIRATION, new TransformRule(INSPIRATION, ENTROPY, VOID, ORDER, EARTH, WATER, AIR, PLANT, VOID))
+                .put(WRATH, new TransformRule(WRATH, ORDER, ENTROPY, AIR, EARTH, WATER, FIRE, PLANT, ELDRITCH))
+                .put(GLUTTONY, new TransformRule(GLUTTONY, AIR, ORDER, ENTROPY, WATER, EARTH, ELDRITCH, PLANT, FIRE))
+                .put(ENVY, new TransformRule(ENVY, ENTROPY, AIR, ELDRITCH, EARTH, ORDER, FIRE, WATER, PLANT))
+                .put(NETHER, new TransformRule(NETHER, FIRE, PLANT, ELDRITCH, ORDER, AIR, EARTH, ENTROPY, WATER))
+                .put(SLOTH, new TransformRule(SLOTH, FIRE, WATER, PLANT, AIR, EARTH, ENTROPY, ELDRITCH, ORDER))
+                .put(PRIDE, new TransformRule(PRIDE, EARTH, ENTROPY, WATER, AIR, ORDER, WATER, FIRE, ELDRITCH))
+                .put(LUST, new TransformRule(LUST, WATER, FIRE, ENTROPY, ORDER, EARTH, ELDRITCH, PLANT, AIR))
+                .put(INSPIRATION, new TransformRule(INSPIRATION, ENTROPY, ELDRITCH, ORDER, EARTH, WATER, AIR, PLANT, FIRE))
                 .build();
-        BASIC_VIS_PLANT = Lazy.createOptional(() -> AgriApi.getPlantRegistry().get("basic_vis_plant"));
+        BASIC_VIS_PLANT = Lazy.createOptional(() -> AgriApi.getPlantRegistry().get("herodotus_basic_vis_plant"));
     }
 
     private BlockCatalyzedAltar(Material materialIn, String name) {
         super(materialIn, name);
+        this.needsRandomTick = true;
     }
 
-    public static Optional<Aspect> getAspectPlant(World world, BlockPos pos) {
+    public static Optional<Aspect> getAspectPlant(World world, BlockPos pos, boolean mature) {
         return Util.getTileEntity(world, pos, TileEntityCrop.class)
-                .filter(TileEntityCrop::canBeHarvested)
+                .filter(mature ? TileEntityCrop::canBeHarvested : Util.not(TileEntityCrop::canBeHarvested))
                 .map(TileEntityCrop::getSeed)
                 .map(AgriSeed::getPlant)
                 .map(IAgriPlant::getId)
@@ -78,13 +79,12 @@ public class BlockCatalyzedAltar extends PlainBlock {
         toggleTypeViaRedstone(state, worldIn, pos);
     }
 
-    @SuppressWarnings("deprecation")
     @Override
-    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
-        IBlockState currentState = toggleTypeViaRedstone(state, worldIn, pos);
+    public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
+
         if (worldIn.isRemote) return;
         AtomicBoolean flag = new AtomicBoolean();
-        if (currentState.getValue(TYPE) == Type.TRANSFORM) {
+        if (state.getValue(TYPE) == Type.TRANSFORM) {
             for (TransformRule transformRule : TRANSFORM_RULES.values()) {
                 if (transformRule.matches(worldIn, pos)) {
                     Optional<IAgriPlant> plant = AgriApi.getPlantRegistry().get(transformRule.getResult().getTag() + "_vis_plant");
@@ -98,7 +98,7 @@ public class BlockCatalyzedAltar extends PlainBlock {
                 }
             }
         } else {
-            getAspectPlant(worldIn, pos.up())
+            getAspectPlant(worldIn, pos.up(), false)
                     .map(TRANSFORM_RULES::get)
                     .filter(rule -> rule.matches(worldIn, pos))
                     .flatMap(rule -> Util.getTileEntity(worldIn, pos.up(), TileEntityCrop.class))
@@ -108,12 +108,18 @@ public class BlockCatalyzedAltar extends PlainBlock {
                     });
         }
         if (flag.get()) {
-            for (BlockPos offset : BlockPos.getAllInBox(pos.add(-1, 0, 1), pos.add(1, 0, 1))) {
+            for (BlockPos offset : BlockPos.getAllInBox(pos.add(-1, 0, -1), pos.add(1, 0, 1))) {
                 if (!offset.equals(pos)) {
                     Util.getTileEntity(worldIn, offset, TileEntityCrop.class).ifPresent(te -> te.setGrowthStage(0));
                 }
             }
         }
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
+        toggleTypeViaRedstone(state, worldIn, pos);
     }
 
     @Override
@@ -127,16 +133,13 @@ public class BlockCatalyzedAltar extends PlainBlock {
         return state.getValue(TYPE).ordinal();
     }
 
-    private IBlockState toggleTypeViaRedstone(IBlockState state, World world, BlockPos pos) {
-        if (world.isRemote) return state;
+    private void toggleTypeViaRedstone(IBlockState state, World world, BlockPos pos) {
+        if (world.isRemote) return;
         boolean powered = world.isBlockPowered(pos);
-        IBlockState newState = state;
-        if (!powered && state.getValue(TYPE) != Type.TRANSFORM) {
-            newState = state.withProperty(TYPE, Type.TRANSFORM);
-        } else if (powered && state.getValue(TYPE) != Type.GROW) {
-            newState = state.withProperty(TYPE, Type.GROW);
+        IBlockState newState = powered ? state.withProperty(TYPE, Type.GROW) : state.withProperty(TYPE, Type.TRANSFORM);
+        if (newState != state) {
+            world.setBlockState(pos, newState);
         }
-        return newState;
     }
 
     public enum Type implements IStringSerializable {
@@ -173,7 +176,7 @@ public class BlockCatalyzedAltar extends PlainBlock {
                 for (int i = 0; i < 8; i++) {
                     Pair<BlockPos, Aspect> pair = in.get(i);
                     BlockPos offset = pos.add(MiscUtils.rotateYCCWNorthUntil(pair.getLeft(), facing));
-                    boolean matches = getAspectPlant(world, offset).filter(pair.getValue()::equals).isPresent();
+                    boolean matches = getAspectPlant(world, offset, true).filter(pair.getValue()::equals).isPresent();
                     bitSet.set(i, matches);
                 }
                 if (bitSet.cardinality() == bitSet.length()) {
