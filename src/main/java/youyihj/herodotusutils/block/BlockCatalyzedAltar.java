@@ -172,14 +172,14 @@ public class BlockCatalyzedAltar extends PlainBlock {
         public boolean matches(World world, BlockPos pos) {
             EnumFacing facing = EnumFacing.NORTH;
             do {
-                BitSet bitSet = new BitSet(8);
+                int flags = 0;
                 for (int i = 0; i < 8; i++) {
                     Pair<BlockPos, Aspect> pair = in.get(i);
                     BlockPos offset = pos.add(MiscUtils.rotateYCCWNorthUntil(pair.getLeft(), facing));
                     boolean matches = getAspectPlant(world, offset, true).filter(pair.getValue()::equals).isPresent();
-                    bitSet.set(i, matches);
+                    flags |= (matches ? 1 : 0) << i;
                 }
-                if (bitSet.cardinality() == bitSet.length()) {
+                if (flags == 0xff) {
                     return true;
                 }
                 facing = facing.rotateYCCW();
