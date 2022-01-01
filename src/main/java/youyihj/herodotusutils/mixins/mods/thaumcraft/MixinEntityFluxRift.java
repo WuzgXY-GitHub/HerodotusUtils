@@ -22,7 +22,6 @@ import youyihj.herodotusutils.util.SharedRiftAction;
 @Mixin(EntityFluxRift.class)
 public abstract class MixinEntityFluxRift extends Entity {
 
-    private static final DamageSource RIFT = new DamageSource("rift").setDamageBypassesArmor().setMagicDamage();
     @Shadow(remap = false)
     int maxSize;
 

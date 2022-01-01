@@ -22,6 +22,8 @@ public class AspectHandler {
         SLOTH = new Aspect("desidia", 0x6e6e6e, new Aspect[]{Aspect.TRAP, Aspect.SOUL}, HerodotusUtils.rl("textures/aspects/desidia.png"), 771);
         WRATH = new Aspect("ira", 0x870404, new Aspect[]{Aspect.AVERSION, Aspect.FIRE}, HerodotusUtils.rl("textures/aspects/ira.png"), 771);
         INSPIRATION = new Aspect("revelatio", 0xff8c00, new Aspect[]{Aspect.MIND, Aspect.ELDRITCH}, HerodotusUtils.rl("textures/aspects/revelatio.png"), 771);
+        Aspect.FLUX.setComponents(null);
+        Aspect.mixList.remove((Aspect.ENTROPY.getTag() + Aspect.MAGIC.getTag()).hashCode());
     }
 
 }
