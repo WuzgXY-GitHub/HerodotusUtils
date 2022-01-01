@@ -63,7 +63,7 @@ public final class Util {
                 .ifPresent(itemHandler -> {
                     int slots = itemHandler.getSlots();
                     for (int i = 0; i < slots; i++) {
-                        InventoryHelper.spawnItemStack(worldIn, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, itemHandler.getStackInSlot(slots).copy());
+                        InventoryHelper.spawnItemStack(worldIn, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, itemHandler.getStackInSlot(i).copy());
                     }
                 });
     }
